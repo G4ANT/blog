@@ -1,13 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="assets/font/fontawesome-6.2.0/css/all.css">
+    <link rel="stylesheet" href="assets/font/fontawesome-6.2.0/css/sharp-solid.css">
+    <title>Blog</title>
 </head>
+
 <body>
-    <h1 class="text-bg-dark">Hello</h1>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar Menu -->
+            <nav class="col-3 bg-light p-3">
+                <h4>Menu</h4>
+                <ul class="nav flex-column">
+                    <li class="nav-item"><a class="nav-link active" href="#">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Settings</a></li>
+                </ul>
+            </nav>
+
+            <!-- Main Content / Render Data -->
+            <main class="col-9 p-3">
+                <h2>Dashboard Content</h2>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Card 1</h5>
+                                <p class="card-text">Some data or widget here.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Card 2</h5>
+                                <p class="card-text">More data or widget here.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Add more cards/widgets here -->
+                </div>
+            </main>
+        </div>
+    </div>
     <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
