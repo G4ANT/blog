@@ -1,0 +1,9 @@
+.nav .nav-item .nav-link{
+    color: black;
+    transition: 0.3s;
+}
+
+.nav .nav-item .nav-link:hover{
+    background-color: oklch(42.4% 0.199 265.638);
+    color: white;
+}
