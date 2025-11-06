@@ -7,12 +7,323 @@
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="assets/font/fontawesome-6.2.0/css/all.css">
     <link rel="stylesheet" href="assets/font/fontawesome-6.2.0/css/sharp-solid.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
     <link rel="stylesheet" href="css/style.css">
     <title>Blog</title>
 </head>
 
 <body>
+        <header>
+        <div class="fw-bold fs-3">
+        Blog Post
+        </div>
+        <div class="profile-info d-flex">
+                <div class="mx-2 mt-2">
+                    <span class="text-end"><b>Mao Sovath</b></span>
+                    <p>maosovath12@gmail.com</p>
+                </div>
+                <div class="profile-user">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6Q82WISxpWPp5dHBTWHypFOZbRTvc0ST0xQ&s" alt="">
+                </div>
+            </div>
+    </header>
+    <!-- Sidebar -->
+    <aside class="sidebar d-flex flex-column p-3">
+
+        <ul class="nav nav-pills flex-column mb-auto pt-5 mt-5">
+        <li class="nav-item">
+            <a  class="nav-link  text-black active" data-bs-target="#homeTab" data-bs-toggle="tab" href="#">
+            <i class="bi bi-speedometer2"></i>
+            <span>Dashboard</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link " data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            <i class="bi bi-journal-text"></i>
+            <span>My Articles</span>
+            </a>
+        <div class="collapse" id="collapseExample">
+            <div class="card card-body border-0 text-dark">
+                <ul class="navbar-nav ps-4">
+                    <li><a class="nav-link" data-bs-target="#createTab" data-bs-toggle="tab" href="#">All Articles</a></li>
+                    <li><a class="nav-link" data-bs-target="#categotyTab" data-bs-toggle="tab" href="#">Create Article</a></li>
+                </ul>
+            </div>
+        </div>
+        </li>
+
+        <li class="nav-item">
+            <a href="#" class="nav-link text-black" data-bs-target="#categotyTab" data-bs-toggle="tab">
+            <i class="bi bi-grid-3x3-gap"></i>
+            <span>Category</span>
+            </a>
+        </li>
+        </ul>
+
     
+  </aside>
+  <main class="main-content py-5 ">
+    <div class="tab-content mt-5">
+
+    <div class="tab-pane fade show active " id="homeTab">
+        <div class=" align-items-center mb-4 mt-5">
+            <h1 class="page-title fw-bold">All Articles</h1>
+            <span class="fs-6 ">Browse all published articles</span>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="card article-card">
+                    <img src="https://picsum.photos/seed/article1/400/160.jpg" class="article-thumbnail" alt="Article thumbnail">
+                    <div class="card-body">
+                        <h5 class="card-title">2 - 1</h5>
+                        <div>
+                            <span>..... </span>
+                        </div>
+                        <div class="article-author">
+                            <div class="author-avatar">NZ</div>
+                            <div class="article-meta">Nex Zin</div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="card article-card">
+                    <div class="article-placeholder">
+                        <i class="bi bi-image fs-1"></i>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">A good</h5>
+                        <div>
+                            <span>js </span>
+                        </div>
+                        <div class="article-author">
+                            <div class="author-avatar">SM</div>
+                            <div class="article-meta">Sun Mary</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="card article-card">
+                    <img src="https://picsum.photos/seed/article3/400/160.jpg" class="article-thumbnail" alt="Article thumbnail">
+                    <div class="card-body">
+                        <h5 class="card-title">A Title of your article dana 5</h5>
+                        <div>
+                            <span>.....</span>
+                        </div>
+                        <div class="article-author">
+                            <div class="author-avatar">JD</div>
+                            <div class="article-meta">John Doe</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="card article-card">
+                    <div class="article-placeholder">
+                        <i class="bi bi-image fs-1"></i>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Getting Started with Bootstrap</h5>
+                        <div>
+                            <span>HTML</span>
+                        </div>
+                        <div class="article-author">
+                            <div class="author-avatar">AS</div>
+                            <div class="article-meta">Alex Smith</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="card article-card">
+                    <img src="https://picsum.photos/seed/article5/400/160.jpg" class="article-thumbnail" alt="Article thumbnail">
+                    <div class="card-body">
+                        <h5 class="card-title">Web Design Trends 2023</h5>
+                        <div>
+                            <span>Hello</span>
+                        </div>
+                        <div class="article-author">
+                            <div class="author-avatar">MJ</div>
+                            <div class="article-meta">Michael Johnson</div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="card article-card">
+                    <img src="https://picsum.photos/seed/article6/400/160.jpg" class="article-thumbnail" alt="Article thumbnail">
+                    <div class="card-body">
+                        <h5 class="card-title">JavaScript Best Practices</h5>
+                        <div>
+                            <span>..... </span>
+                        </div>
+                        <div class="article-author">
+                            <div class="author-avatar">EB</div>
+                            <div class="article-meta">Emily Brown</div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="card article-card">
+                    <img src="https://picsum.photos/seed/article6/400/160.jpg" class="article-thumbnail" alt="Article thumbnail">
+                    <div class="card-body">
+                        <h5 class="card-title">JavaScript Best Practices</h5>
+                        <div>
+                            <span>..... </span>
+                        </div>
+                        <div class="article-author">
+                            <div class="author-avatar">EB</div>
+                            <div class="article-meta">Emily Brown</div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="card article-card">
+                    <img src="https://picsum.photos/seed/article6/400/160.jpg" class="article-thumbnail" alt="Article thumbnail">
+                    <div class="card-body">
+                        <h5 class="card-title">JavaScript Best Practices</h5>
+                        <div>
+                            <span>title</span>
+                        </div>
+                        <div class="article-author">
+                            <div class="author-avatar">EB</div>
+                            <div class="article-meta">Emily Brown</div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+
+    <div class="tab-pane fade" id="articlesTab">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h5>My Articles</h5>
+          <div>
+            <div class="btn-group" role="group">
+              <button class="btn btn-outline-primary btn-sm" id="filterAll">All</button>
+              <button class="btn btn-outline-secondary btn-sm" id="filterDraft">Draft</button>
+              <button class="btn btn-outline-secondary btn-sm" id="filterPublished">Published</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-3" id="articlesList">
+        </div>
+
+        <nav class="mt-3" aria-label="Articles pagination">
+          <ul class="pagination">
+            <li class="page-item disabled"><a class="page-link">Previous</a></li>
+            <li class="page-item active"><a class="page-link">1</a></li>
+            <li class="page-item"><a class="page-link">2</a></li>
+            <li class="page-item"><a class="page-link">3</a></li>
+            <li class="page-item"><a class="page-link">Next</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="tab-pane fade" id="createTab">
+        <div class="card">
+          <div class="card-body">
+            <h5>Create Article</h5>
+            <form id="createArticleForm">
+              <div class="mb-3">
+                <label class="form-label">Title</label>
+                <input class="form-control" id="articleTitle" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Category</label>
+                <select class="form-select" id="articleCategory">
+                  <option>News</option>
+                  <option>Tutorial</option>
+                  <option>Opinion</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Content</label>
+                <textarea class="form-control" id="articleContent" rows="6" required></textarea>
+              </div>
+              <button class="btn btn-primary">Publish</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="categotyTab">
+        <div class="col-12">
+            <div class="card">
+                    <div class="card-header">
+                        <h2 class="mb-0">Create Article</h2>
+                        <p class="text-muted mb-0 mt-2">Compose a new article and publish it to your platform.</p>
+                    </div>
+                    <div class="card-body">
+                        <form id="articleForm">
+                            <!-- Title Field -->
+                            <div class="mb-4">
+                                <label for="title" class="form-label required">Title</label>
+                                <input type="text" class="form-control" id="title" placeholder="Enter article title" required>
+                            </div>
+                            
+                            <!-- Category Field -->
+                            <div class="mb-4">
+                                <label for="category" class="form-label required">Category</label>
+                                <select class="form-select" id="category" required>
+                                    <option value="" selected disabled>Select a category</option>
+                                    <option value="technology">Technology</option>
+                                    <option value="lifestyle">Lifestyle</option>
+                                    <option value="travel">Travel</option>
+                                    <option value="food">Food</option>
+                                    <option value="health">Health</option>
+                                    <option value="business">Business</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Thumbnail Field -->
+                            <div class="mb-4">
+                                <label for="thumbnail" class="form-label required">Thumbnail</label>
+                                <input type="file" class="form-control" id="thumbnail" accept="image/*">
+                                <div class="thumbnail-preview" id="thumbnailPreview">
+                                    <span class="text-muted">No image selected</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Content Field -->
+                            <div class="mb-4">
+                                <label for="content" class="form-label required">Content</label>
+                                <textarea class="form-control content-editor" id="content" rows="10" placeholder="Write content here..." required></textarea>
+                            
+                            </div>
+                            
+                            <!-- Footer Buttons -->
+                            <div class="footer-buttons d-flex justify-content-between">
+                                <button type="button" class="btn btn-back" onclick="location.href='my-articles.html'">
+                                    <i class="bi bi-arrow-left me-2"></i> Back to Articles
+                                </button>
+                                <button type="submit" class="btn btn-publish">
+                                    <i class="bi bi-check-circle me-2"></i> Publish Now
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </main>
     <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
 </body>
 
