@@ -2,15 +2,20 @@ const password = document.getElementById('password');
 const confirmPassword = document.getElementById('confirmPassword');
 const strengthFill = document.getElementById('strengthFill');
 const togglePwd = document.getElementById('togglePwd');
+const toggleIcon = togglePwd.querySelector('i');
 const form = document.getElementById('signupForm');
 const successToast = new bootstrap.Toast(document.getElementById('successToast'));
+const errorToast = new bootstrap.Toast(document.getElementById('errorToast'));
+
+let errorBoxMessage = document.querySelector("#errorToast .toast-body");
 
 // For when click the toggle password hide/show
 togglePwd.addEventListener('click', () => {
   const type = password.type === 'password' ? 'text' : 'password';
   password.type = type;
+  toggleIcon.classList.toggle('fa-eye');
+  toggleIcon.classList.toggle('fa-eye-slash');
   confirmPassword.type = type;
-  togglePwd.textContent = type === 'password' ? 'Show' : 'Hide';
 });
 
 password.addEventListener('input', () => {
@@ -32,7 +37,7 @@ password.addEventListener('input', () => {
 const API = "http://blogs.csm.linkpc.net/api/v1/auth/register";
 
 // Form submission handler
-async function onClickCreate() {
+function onClickCreate() {
   let isValid = true;
   const passwordValue = password.value.trim();
   const confirmValue = confirmPassword.value.trim();
@@ -75,16 +80,21 @@ async function onClickCreate() {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(userData)
     })
-    .then((res) => res.json())
-    .then((data) =>{
-        console.log(data);
-        if(data.ok){
+    .then((res) => res.json().then((data) => ({ ok: res.ok, body: data })))
+    .then((result) =>{
+        console.log(result.body);
+        if(result.ok){
+            successToast.show();
             form.reset();
             form.classList.remove('was-validated');
-            successToast.show();
         }else{
-            alert(data.message || "Registration failed. Please try again."); 
+            errorBoxMessage.textContent = result.body.message || "Registration failed.";
+            errorToast.show();
         }   
     })
-    .catch((error) => {console.error("Error", error.message)})
+    .catch((error) => {
+      console.error("Error", error.message);
+      errorBoxMessage.textContent = "Network error, Please try again later";
+      errorToast.show();
+    })
 }
