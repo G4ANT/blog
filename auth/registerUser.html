@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign up</title>
+  <link href="/css/bootstrap.css" rel="stylesheet">
+  <!-- Link Style register -->
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/bootstrap/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <div class="card p-4">
+          <div class="card-body">
+            <h3 class="card-title mb-3 text-center">Create account</h3>
+            <p class="text-center text-muted small">Quickly create your account — secure and responsive</p>
+
+            <form id="signupForm" class="needs-validation" novalidate>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="firstName" class="form-label">First name <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="firstName" name="firstName" required minlength="2" placeholder="John">
+                  <div class="invalid-feedback">Please enter your first name (min 2 characters).</div>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="lastName" class="form-label">Last name <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="lastName" name="lastName" required minlength="2" placeholder="Doe">
+                  <div class="invalid-feedback">Please enter your last name (min 2 characters).</div>
+                </div>
+
+                <div class="col-12">
+                  <label for="email" class="form-label">Email address <span class="text-danger">*</span></label>
+                  <input type="email" class="form-control" id="email" name="email" required placeholder="name@example.com">
+                  <div class="invalid-feedback">Please provide a valid email address.</div>
+                </div>
+
+                <div class="col-md-6 position-relative">
+                  <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
+                  <div class="input-group">
+                    <input type="password" class="form-control" id="password" name="password" required minlength="8" placeholder="At least 8 characters">
+                    <span class="input-group-text password-toggle" id="togglePwd">Show</span>
+                  </div>
+                  <div class="form-text">Use at least 8 characters and include a special symbol (e.g. @, #, $, %).</div>
+                  <div class="mt-2 strength-bar"><i id="strengthFill"></i></div>
+                  <div class="invalid-feedback" id="passwordFeedback">Password must be at least 8 characters and include a special character.</div>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="confirmPassword" class="form-label">Confirm password <span class="text-danger">*</span></label>
+                  <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required placeholder="Repeat password">
+                  <div class="invalid-feedback" id="confirmFeedback">Passwords must match.</div>
+                </div>
+
+                <div class="col-12 d-grid">
+                  <button class="btn btn-primary" type="button" onclick="onClickCreate()">Sign up</button>
+                </div>
+
+                <div class="col-12 text-center">
+                  <small class="text-muted">By signing up you agree to our <a href="#">terms</a>.</small>
+                </div>
+              </div>
+            </form>
+
+          </div>
+        </div>
+        <p class="text-center small text-muted mt-3">Already have an account? <a href="#">Sign in</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container position-fixed p-3">
+    <div id="successToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body">
+            Account created successfully!
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+<script src="../js/auth/register.js"></script>
+</body>
+</html>
