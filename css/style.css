@@ -1,6 +1,10 @@
 :root {
    --sidebar-width: 250px;
    /* --header-height: 60px; */
+
+   /* Custom color */
+   --color-porple: #312986;
+   --color-white: #ffffff;
 }
 body {
     min-height: 100vh;
@@ -176,7 +180,21 @@ header .profile-info .name{
 .strength-medium { background: #ffb86b; }
 .strength-strong { background: #6be29a; }
 
-/* Toast container bottom right */
+
+/*  button register/login */
+.btn-primary-color{
+    background-color: var(--color-porple) !important;
+    color: var(--color-white) !important;
+}
+.text-color{
+    color: var(--color-porple) !important;
+}
+.btn-hover-primary-color:hover{
+    background-color: #262361 !important;
+    color: var(--color-white) !important;
+}
+
+/* Toast container bottom right for when show success/fail */
 #toastContainer {
     position: fixed;
     bottom: 1rem;
@@ -191,5 +209,11 @@ header .profile-info .name{
 }
 .form-control:focus {
     box-shadow: 0 0 0 0.15rem rgba(99,102,241,0.12);
+}
+.box-center-auth{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
