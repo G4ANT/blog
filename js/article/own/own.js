@@ -1,7 +1,6 @@
 const API = "http://blogs.csm.linkpc.net/api/v1";
 const endPointCreateArticle = "articles";
 const endPointCategory = "categories?_page=1&_per_page=20&sortBy=name&sortDir=ASC";
-const endPointThumbnail = "articles/1/thumbnail";
 
 const getToken = localStorage.getItem("authToken");
 getCategoryData()
@@ -53,21 +52,17 @@ function getCategoryData() {
 
 
 function onClickSubmit(){
-    let title = document.getElementById("title").value;
-    let content = document.getElementById("content").value;
-    let category = document.getElementById("category").value;
+    let title = document.getElementById("title");
+    let content = document.getElementById("content");
+    let category = document.getElementById("category");
+    let thumbnailFile = document.getElementById("thumbnail").files[0];
     
-
     try {
-        // const formData = new FormData();
-        // formData.append("title", title);
-        // formData.append("content", content);
-        // formData.append("categoryId", Number(category));
 
         const articleData ={
             title: title.value.trim(),
             content: content.value.trim(),
-            categoryId: Number(category)
+            categoryId: Number(category.value)
         }
 
         fetch(`${API}/${endPointCreateArticle}`,{
@@ -79,18 +74,40 @@ function onClickSubmit(){
             body: JSON.stringify(articleData)
         })
         .then((res) => res.json())
-        .then((data) =>{
-            console.log(data);
-            if(data.result){
-                title.value = ""
-                content.value = ""
-                category.selectedIndex = 0
-            }else{
-                alert("Failed", data.message);
-            }
+        .then((dataArticle) =>{
+            if (!dataArticle.result || !dataArticle.data.id) {
+          console.error("Article creation failed:", dataArticle.message);
+          return;
+        }
+            const articleId = dataArticle.data.id;
+
+            let formData = new FormData();
+            formData.append("thumbnail", thumbnailFile);
+
+            return fetch(`${API}/articles/${articleId}/thumbnail`, {
+                method: "POST",
+                headers: {"Authorization": `Bearer ${getToken}`},
+                body: formData
+            })
+            .then(res => res.json())
+            .then(dataThumbnail =>{
+                if(!dataThumbnail) return;
+                 console.log("Thumbnail uploaded:", dataThumbnail);
+                 if(dataThumbnail.result){
+                    alert("sucess");
+                    title.value = ""
+                    content.value = ""
+                    category.selectedIndex = 0
+                   document.getElementById("thumbnail").value = "";
+                 }else{
+                    console.log("Create aricle is fail");
+                    
+                 }
+            })
         })
     } catch (error) {
         console.error({error: "Data error"});
         
     }
 }
+
