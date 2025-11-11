@@ -6,10 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Profile</title>
     <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../../css/alert.css">
     <link rel="stylesheet" href="../../css/bootstrap.css">
 </head>
 
-<body>
+<body">
+
+    <div class="alert-system">
+        <!-- Alert container -->
+        <div id="alertContainer" class="alert-container"></div>
+    </div>
     <!-- Card -->
     <div class="container my-5">
         <div class="row justify-content-center">
@@ -33,8 +39,10 @@
                                 <input type="email" class="form-control" id="updateEmail" required>
                             </div>
                             <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-                                <button type="button" class="btn btn-success btn-sm flex-fill me-md-2" onclick="updateInformation()">Confirm Update</button>
-                                <button type="button" class="btn btn-light btn-sm flex-fill" onclick="location.href='viewProfile.html'">Cancel</button>
+                                <button type="button" class="btn btn-success btn-sm flex-fill me-md-2"
+                                    onclick="updateInformation()">Confirm Update</button>
+                                <button type="button" class="btn btn-light btn-sm flex-fill"
+                                    onclick="location.href='viewProfile.html'">Cancel</button>
                             </div>
                         </form>
                     </div>
@@ -61,7 +69,7 @@
             method: "GET",
             headers: {
                 'content-type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
             },
         })
             .then(res => res.json())
@@ -83,7 +91,7 @@
                 method: "PUT",
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
                 },
                 body: JSON.stringify({
                     firstName: updateFirstName.value,
@@ -91,14 +99,23 @@
                     email: updateEmail.value
                 })
             })
-            .then(res => res.json())
-            .then(data => {
-                location.href = 'viewProfile.html'
-            })
-            .catch(err=>console.log(err))
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.result) {
+                        showAlert('error', 'Failed', `${data.message}`);
+                        return;
+                    }
+                    showAlert('success', 'Updated', 'Profile updated successfully.');
+                    setTimeout(() => {
+                        location.href = 'viewProfile.html';
+                    }, 1500);
+
+                })
+                .catch(err => console.log(err))
         }
 
     </script>
+    <script src="../alert/alert.js"></script>
 
 </body>
 

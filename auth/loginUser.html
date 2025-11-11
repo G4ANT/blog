@@ -1,70 +1,126 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Login</title>
-  <link href="/css/bootstrap.css" rel="stylesheet">
-  <link rel="stylesheet" href="../css/style.css">
-  <link rel="stylesheet" href="/assets/font/fontawesome-6.2.0/css/all.css">
-  <script src="/js/bootstrap/bootstrap.bundle.min.js"></script>
-</head>
-<body class="auth-service">
-  <div class="container ">
-    <div class="row justify-content-center box-center-auth">
-      <div class="col-md-6 col-lg-5">
-        <div class="card p-4">
-          <div class="card-body">
-            <h3 class="card-title mb-3 text-center fw-bold text-color">Login</h3>
-            <p class="text-center text-muted small">Sign in to your account</p>
-
-            <form id="loginForm" class="needs-validation" novalidate>
-              <div class="mb-3">
-                <label for="email" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="email" placeholder="Enter email" required>
-                <div class="invalid-feedback">Please enter a valid email.</div>
-              </div>
-
-              <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <div class="input-group">
-                  <input type="password" class="form-control" id="password" placeholder="Enter password" required>
-                  <span class="input-group-text" id="toggleLoginPwd" style="cursor:pointer;">
-                    <i class="fa-thin fa-eye"></i>
-                  </span>
-                </div>
-                <div class="invalid-feedback">Please enter your password.</div>
-              </div>
-
-              <div class="d-grid">
-                <button type="button" class="btn btn-primary-color btn-hover-primary-color" onclick="onClickLogin()">Login</button>
-              </div>
-
-              <p class="text-center mt-3 small text-muted">
-                Don’t have an account? <a href="registerUser.html"><span class="text-color text-decoration-underline">Sign up</span></a>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login</title>
+    <link href="../css/bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="../assets/font/fontawesome-6.2.0/css/all.css"
+    />
+    <script src="../js/bootstrap/bootstrap.bundle.min.js"></script>
+  </head>
+  <body class="auth-service">
+    <div class="container">
+      <div class="row justify-content-center box-center-auth">
+        <div class="col-md-6 col-lg-5">
+          <div class="card p-4">
+            <div class="card-body">
+              <h3 class="card-title mb-3 text-center fw-bold text-color">
+                Login
+              </h3>
+              <p class="text-center text-muted small">
+                Sign in to your account
               </p>
-            </form>
+
+              <form id="loginForm" class="needs-validation" novalidate>
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email address</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    placeholder="Enter email"
+                    required
+                  />
+                  <div class="invalid-feedback">
+                    Please enter a valid email.
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="password" class="form-label">Password</label>
+                  <div class="input-group">
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="password"
+                      placeholder="Enter password"
+                      required
+                    />
+                    <span
+                      class="input-group-text"
+                      id="toggleLoginPwd"
+                      style="cursor: pointer"
+                    >
+                      <i class="fa-thin fa-eye"></i>
+                    </span>
+                  </div>
+                  <div class="invalid-feedback">
+                    Please enter your password.
+                  </div>
+                </div>
+
+                <div class="d-grid">
+                  <button
+                    type="button"
+                    class="btn btn-primary-color btn-hover-primary-color"
+                    onclick="onClickLogin()"
+                  >
+                    Login
+                  </button>
+                </div>
+
+                <p class="text-center mt-3 small text-muted">
+                  Don’t have an account?
+                  <a href="registerUser.html"
+                    ><span class="text-color text-decoration-underline"
+                      >Sign up</span
+                    ></a
+                  >
+                </p>
+              </form>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <!-- Toast Container -->
-  <div id="toastContainer">
-    <div id="successToast" class="toast align-items-center text-bg-success border-0" role="alert">
-      <div class="d-flex">
-        <div class="toast-body">Login successful!</div>
-        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    <!-- Toast Container -->
+    <div id="toastContainer">
+      <div
+        id="successToast"
+        class="toast align-items-center text-bg-success border-0"
+        role="alert"
+      >
+        <div class="d-flex">
+          <div class="toast-body">Login successful!</div>
+          <button
+            type="button"
+            class="btn-close btn-close-white me-2 m-auto"
+            data-bs-dismiss="toast"
+          ></button>
+        </div>
       </div>
-    </div>  
 
-    <div id="errorToast" class="toast align-items-center text-bg-danger border-0" role="alert">
-      <div class="d-flex">
-        <div class="toast-body">Login failed. Please check your credentials.</div>
-        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+      <div
+        id="errorToast"
+        class="toast align-items-center text-bg-danger border-0"
+        role="alert"
+      >
+        <div class="d-flex">
+          <div class="toast-body">
+            Login failed. Please check your credentials.
+          </div>
+          <button
+            type="button"
+            class="btn-close btn-close-white me-2 m-auto"
+            data-bs-dismiss="toast"
+          ></button>
+        </div>
       </div>
     </div>
-  </div>
-<script src="/js/auth/login.js"></script>
-</body>
+    <script src="../js/auth/login.js"></script>
+  </body>
 </html>

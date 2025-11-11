@@ -3,7 +3,9 @@ const endPointCreateArticle = "articles";
 const endPointCategory = "categories?_page=1&_per_page=20&sortBy=name&sortDir=ASC";
 
 const getToken = localStorage.getItem("authToken");
-try {
+getCategoryData()
+function getCategoryData() {
+   try {
     let categoryOption = document.getElementById("category");
     fetch(`${API}/${endPointCategory}`,{
         method: "GET",
@@ -14,9 +16,7 @@ try {
     .then(res => res.json())
     .then((data) =>{
         const getCategoryItems = data.data.items;
-        console.log(getCategoryItems);
         getCategoryItems.forEach(category => {
-            // console.log(category.id);  
             let options = `
                 <option value="${category.id}">${category.name}</option>
             `;
@@ -27,8 +27,28 @@ try {
     })
 } catch (error) {
     console.error("Data error: ", error.message);   
+} 
 }
+// try {
+//     let thumbnail = document.getElementById("thumbnail").files[0];
 
+//     const formData = new FormData();
+//     formData.append("thumbnail", thumbnail);
+
+//     fetch(`${API}/${endPointThumbnail}`,{
+//         method: "POST",
+//         headers:{"Authorization": `Bearer ${getToken}`},
+//         body: formData
+//     })
+//     .then(res => res.json())
+//     .then(data =>{
+//         console.log(data);
+        
+//     })
+//     .catch(error =>{console.log(error.message ,"Error")})
+// } catch (error) {
+//     console.error("Data error thumbnail: ",error.message); 
+// }
 
 
 function onClickSubmit(){

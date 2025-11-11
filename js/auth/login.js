@@ -56,7 +56,7 @@ function onClickLogin(){
             const token = result.body.data.token;
             localStorage.setItem("authToken", token);
             successMessage.show();
-            window.location.href = "#";
+            window.location.href = "../index.html";
        }else{
             document.querySelector("#errorToast .toast-body").textContent = result.body.message || "Login failed.";
             errorMessage.show();
