@@ -405,3 +405,66 @@ body{
             }
         }
 
+/* profile */
+.profile-card-infor .profile-card {
+  max-width: 900px;
+  margin: 50px auto;
+}
+
+.profile-card-infor .avatar {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #fff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+.profile-card-infor .stats .stat {
+  min-width: 90px;
+}
+/* profile */
+
+/* get article */
+.get-article .card-thumbnail {
+  width: auto;
+  height: 220px;
+  object-fit: cover;
+}
+
+.get-article .image-detail-wrapper .pop-up-id {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background-color: oklch(71.5% 0.143 215.221);
+  padding-inline: 10px;
+}
+
+.get-article .image-detail-wrapper .btn {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+}
+
+.get-article .card-text-clamp {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.get-article .card {
+  overflow: hidden;
+}
+.get-article .card:hover {
+  border: 1px solid green;
+}
+
+.get-article .card > img {
+  transition: 0.4s;
+}
+
+.get-article .card:hover > img {
+  transform: scale(1.02);
+}
+/* get article */
