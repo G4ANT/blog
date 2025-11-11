@@ -1,0 +1,23 @@
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+    .sidebar.show {
+        transform: translateX(0);
+    }
+    .main-content {
+        margin-left: 0;
+    }
+}
+
+/* Responsive: collapse sidebar on small screens */
+@media (max-width: 767.98px) {
+.sidebar {
+    position: relative;
+    height: auto;
+    max-width: 100%;
+}
+.main-content { margin-left: 0; }
+}
+

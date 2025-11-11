@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Profile</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../../css/alert.css">
+    <link rel="stylesheet" href="../../css/bootstrap.css">
+</head>
+
+<body">
+
+    <div class="alert-system">
+        <!-- Alert container -->
+        <div id="alertContainer" class="alert-container"></div>
+    </div>
+    <!-- Card -->
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Update User Info</h5>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="updateFirstName" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="updateFirstName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="updateLastName" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="updateLastName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="updateEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="updateEmail" required>
+                            </div>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+                                <button type="button" class="btn btn-success btn-sm flex-fill me-md-2"
+                                    onclick="updateInformation()">Confirm Update</button>
+                                <button type="button" class="btn btn-light btn-sm flex-fill"
+                                    onclick="location.href='viewProfile.html'">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="../bootstrap/bootstrap.bundle.min.js"></script>
+    <script>
+
+        const URL = 'http://blogs.csm.linkpc.net/api/v1'
+        const params = new URLSearchParams(window.location.search)
+        const id = params.get('id');
+        console.log("ID from URL:", id);
+
+
+        let updateFirstName = document.getElementById('updateFirstName')
+        let updateLastName = document.getElementById('updateLastName')
+        let updateEmail = document.getElementById('updateEmail')
+
+        fetch(`${URL}/auth/profile`, {
+            method: "GET",
+            headers: {
+                'content-type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                updateFirstName.value = data.data.firstName
+                updateLastName.value = data.data.lastName
+                updateEmail.value = data.data.email
+
+
+            })
+            .catch(err => console.log(err))
+
+
+
+        function updateInformation() {
+
+
+            fetch(`${URL}/profile`, {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                },
+                body: JSON.stringify({
+                    firstName: updateFirstName.value,
+                    lastName: updateLastName.value,
+                    email: updateEmail.value
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.result) {
+                        showAlert('error', 'Failed', `${data.message}`);
+                        return;
+                    }
+                    showAlert('success', 'Updated', 'Profile updated successfully.');
+                    setTimeout(() => {
+                        location.href = 'viewProfile.html';
+                    }, 1500);
+
+                })
+                .catch(err => console.log(err))
+        }
+
+    </script>
+    <script src="../alert/alert.js"></script>
+
+</body>
+
+</html>
