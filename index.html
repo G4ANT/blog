@@ -40,13 +40,16 @@
 
                     <img src="" alt="profile-avatar" id="profileAvatar" class="profile-avatar profile-dropdown-toggle">
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                        <li><button class="dropdown-item" onclick="viewProfile()"><i
-                                    class="fa-regular fa-user-vneck me-1"></i>My Profile</button></li>
+                        <li>
+                            <button class="dropdown-item" onclick="viewProfile()"><i
+                            class="fa-regular fa-user-vneck me-1"></i>My Profile</button></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><button class="dropdown-item" onclick="logout()"><i
-                                    class="fa-solid fa-arrow-right-from-bracket me-1"></i>Logout</button></li>
+                        <li>
+                            <button class="dropdown-item" onclick="logout()"><i
+                            class="fa-solid fa-arrow-right-from-bracket me-1"></i>Logout</button>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -95,7 +98,8 @@
             </div>
 
             <!-- Main Content -->
-            <div class="content">
+            <div class="container">
+                <div class="content">
                 <!-- Dashboard Page -->
                 <div id="dashboard" class="page-content active">
                     <div class="page-header">
@@ -104,6 +108,7 @@
                     </div>
                     <!-- ====== All Dashboart ====== -->
                     <!-- article -->
+                    
                     <div class="row g-3" id="showAllCard">
                         <!-- show card here -->
                     </div>
@@ -294,6 +299,7 @@
                     </div>
                 </div>
 
+            </div>
             </div>
 
         </div>
