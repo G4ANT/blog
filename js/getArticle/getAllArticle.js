@@ -1,5 +1,5 @@
-let currentPage = 1;
-const perPage = 8;
+let curPage = 1;
+const pPage = 8;
 const btnLoadMore = document.getElementById('btnLoadMore')
 
 let showAllCard = document.getElementById('showAllCard')
@@ -8,7 +8,7 @@ const URL_GET_ARTICLE = 'http://blogs.csm.linkpc.net/api/v1'
 
 
 function getData(page) {
-    fetch(`${URL_GET_ARTICLE}/articles?search=&_page=${page}&_per_page=${perPage}&sortBy=content&sortDir=asc`, {
+    fetch(`${URL_GET_ARTICLE}/articles?search=&_page=${page}&_per_page=${pPage}&sortBy=content&sortDir=asc`, {
         method: 'GET',
 
 
@@ -93,11 +93,11 @@ function viewDetail(id) {
             showCardDetail.innerHTML = cardDetail
         })
 }
-getData(currentPage)
+getData(curPage)
 
 btnLoadMore.addEventListener('click', () => {
-    currentPage++;
-    getData(currentPage);
+    curPage++;
+    getData(curPage);
 })
 
 function fetchAllArticleOfCreator(id) {

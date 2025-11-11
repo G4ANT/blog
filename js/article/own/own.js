@@ -4,7 +4,9 @@ const endPointCategory = "categories?_page=1&_per_page=20&sortBy=name&sortDir=AS
 const endPointThumbnail = "articles/1/thumbnail";
 
 const getToken = localStorage.getItem("authToken");
-try {
+getCategoryData()
+function getCategoryData() {
+   try {
     let categoryOption = document.getElementById("category");
     fetch(`${API}/${endPointCategory}`,{
         method: "GET",
@@ -15,9 +17,7 @@ try {
     .then(res => res.json())
     .then((data) =>{
         const getCategoryItems = data.data.items;
-        console.log(getCategoryItems);
         getCategoryItems.forEach(category => {
-            console.log(category.id);  
             let options = `
                 <option value="${category.id}">${category.name}</option>
             `;
@@ -28,8 +28,8 @@ try {
     })
 } catch (error) {
     console.error("Data error: ", error.message);   
+} 
 }
-
 // try {
 //     let thumbnail = document.getElementById("thumbnail").files[0];
 
