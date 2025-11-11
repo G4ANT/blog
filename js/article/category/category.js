@@ -1,23 +1,42 @@
 let displayCategory = document.getElementById("displayCategory");
+let paginationContainer = document.getElementById("paginationContainer");
+
+let currentPage = 1;
+let perPage = 10;
 let allCategories = [];
 let editCategoryId = null;
 
-fetch(
-  "http://blogs.csm.linkpc.net/api/v1/categories?_page=1&_per_page=50&sortBy=name&sortDir=ASC"
-)
-  .then((response) => response.json())
-  .then((data) => {
-    allCategories = data.data.items;
-    renderCategories(allCategories);
-  })
-  .catch((error) => console.error("Error fetching categories:", error));
+function fetchCategories(page = 1) {
+  fetch(
+    `http://blogs.csm.linkpc.net/api/v1/categories?_page=${page}&_per_page=${perPage}&sortBy=name&sortDir=ASC`
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("API Response:", data);
+
+      allCategories = data.data?.items || data.data || data.items || [];
+      let total =
+        data.data?.pagination?.total_items ||
+        data.data?.total ||
+        data.total ||
+        0;
+
+      totalPages = total > 0 ? Math.ceil(total / perPage) : 3;
+
+      renderCategories(allCategories);
+      renderPagination();
+    })
+    .catch((error) => console.error("Error fetching categories:", error));
+}
 
 function renderCategories(categories) {
   displayCategory.innerHTML = "";
   if (!categories.length) {
-    displayCategory.innerHTML = `<tr><td colspan="2" class="text-center text-muted">No categories found</td></tr>`;
+    displayCategory.innerHTML = `
+      <tr><td colspan="2" class="text-center text-muted">No categories found</td></tr>`;
     return;
   }
+
   categories.forEach((category) => {
     let row = document.createElement("tr");
     row.innerHTML = `
@@ -43,9 +62,48 @@ function renderCategories(categories) {
   });
 }
 
+function renderPagination() {
+  paginationContainer.innerHTML = `
+    <nav>
+      <ul class="pagination justify-content-center">
+        <li class="page-item ${currentPage === 1 ? "disabled" : ""}">
+          <button class="page-link" onclick="changePage(${
+            currentPage - 1
+          })">Previous</button>
+        </li>
+        ${generatePageNumbers()}
+        <li class="page-item ${currentPage === totalPages ? "disabled" : ""}">
+          <button class="page-link" onclick="changePage(${
+            currentPage + 1
+          })">Next</button>
+        </li>
+      </ul>
+    </nav>
+  `;
+}
+
+function generatePageNumbers() {
+  let pagesHTML = "";
+  for (let i = 1; i <= totalPages; i++) {
+    pagesHTML += `
+      <li class="page-item ${i === currentPage ? "active" : ""}">
+        <button class="page-link" onclick="changePage(${i})">${i}</button>
+      </li>`;
+  }
+  return pagesHTML;
+}
+
+function changePage(page) {
+  if (page < 1 || page > totalPages) return;
+  currentPage = page;
+  fetchCategories(currentPage);
+}
+
+fetchCategories(currentPage);
+
 function handleSearch() {
   const query = document.getElementById("searchInput").value.trim();
-  const token = localStorage.getItem("token");
+  const authToken = localStorage.getItem("authToken");
 
   if (!query) {
     renderCategories(allCategories);
@@ -54,7 +112,7 @@ function handleSearch() {
 
   if (!isNaN(query)) {
     fetch(`http://blogs.csm.linkpc.net/api/v1/categories/${query}`, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${authToken}` },
     })
       .then((response) => response.json())
       .then((data) => {
@@ -78,25 +136,24 @@ function handleSearch() {
 }
 
 function btnCreate() {
-  let token = localStorage.getItem("token");
+  let authToken = localStorage.getItem("authToken");
   let categoryName = document.getElementById("categoryName").value;
   fetch("http://blogs.csm.linkpc.net/api/v1/categories", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${authToken}`,
     },
     body: JSON.stringify({ name: categoryName }),
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log("Category created:", data);
       Swal.fire(
         "Created!",
         "Category has been created successfully.",
         "success"
       ).then(() => {
-        location.reload();
+        fetchCategories(currentPage);
       });
     })
     .catch((error) => {
@@ -112,7 +169,7 @@ function openEditModal(id, name) {
 }
 
 function btnEdit() {
-  let token = localStorage.getItem("token");
+  let authToken = localStorage.getItem("authToken");
   let categoryName = document.getElementById("editCategoryName").value;
 
   if (!editCategoryId) {
@@ -124,19 +181,22 @@ function btnEdit() {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${authToken}`,
     },
     body: JSON.stringify({ name: categoryName }),
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log("Category updated:", data);
+      const editModalEl = document.getElementById("editModal");
+      const modal = bootstrap.Modal.getInstance(editModalEl);
+      modal.hide();
+
       Swal.fire(
         "Updated!",
         "Category has been updated successfully.",
         "success"
       ).then(() => {
-        location.reload();
+        fetchCategories(currentPage);
       });
     })
     .catch((error) => {
@@ -156,12 +216,12 @@ function btnDelete(id) {
     cancelButtonText: "Cancel",
   }).then((result) => {
     if (result.isConfirmed) {
-      let token = localStorage.getItem("token");
+      let authToken = localStorage.getItem("authToken");
 
       fetch(`http://blogs.csm.linkpc.net/api/v1/categories/${id}`, {
         method: "DELETE",
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${authToken}`,
         },
       })
         .then((response) => response.json())
@@ -171,7 +231,7 @@ function btnDelete(id) {
             "Deleted!",
             "The category has been deleted.",
             "success"
-          ).then(() => location.reload());
+          ).then(() => fetchCategories(currentPage));
         })
         .catch((error) => {
           console.error(error);
