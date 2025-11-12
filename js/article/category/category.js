@@ -2,18 +2,18 @@ const API_URL = "http://blogs.csm.linkpc.net/api/v1/categories";
 const tbody = document.getElementById("displayCategory");
 const pagination = document.getElementById("paginationContainer");
 let editCategoryId = null;
-let currentPage = 1;
-const perPage = 10;
+let cPage = 1;
+const pePage = 10;
 
 function fetchCategories(page = 1) {
-  currentPage = page;
+  cPage = page;
 
-  fetch(`${API_URL}?_page=${page}&_per_page=${perPage}&sortBy=name&sortDir=ASC`)
+  fetch(`${API_URL}?_page=${page}&_per_page=${pePage}&sortBy=name&sortDir=ASC`)
     .then((res) => res.json())
     .then((data) => {
       const items = data.data?.items || [];
       const totalItems = data.data?.total || 0;
-      const totalPages = Math.ceil(totalItems / perPage);
+      const totalPages = Math.ceil(totalItems / pePage);
       allCategories = items;
       renderCategories(items);
       renderPagination(totalPages);
@@ -52,11 +52,11 @@ function renderCategories(categories) {
 function renderPagination(totalPages) {
   pagination.innerHTML = "";
 
-  let prevDisabled = currentPage === 1 ? "disabled" : "";
-  let nextDisabled = currentPage === totalPages ? "disabled" : "";
+  let prevDisabled = cPage === 1 ? "disabled" : "";
+  let nextDisabled = cPage === totalPages ? "disabled" : "";
 
-  let start = currentPage - 1;
-  let end = currentPage + 1;
+  let start = cPage - 1;
+  let end = cPage + 1;
 
   if (start < 1) {
     start = 1;
@@ -70,7 +70,7 @@ function renderPagination(totalPages) {
   let html = `
     <li class="page-item ${prevDisabled}">
       <a class="page-link" href="#" aria-label="Previous" onclick="changePage(${
-        currentPage - 1
+        cPage - 1
       })">
         <i class="fa-solid fa-angle-left"></i>
       </a>
@@ -79,7 +79,7 @@ function renderPagination(totalPages) {
 
   for (let i = start; i <= end; i++) {
     html += `
-      <li class="page-item ${i === currentPage ? "active" : ""}">
+      <li class="page-item ${i === cPage ? "active" : ""}">
         <a class="page-link" href="#" onclick="changePage(${i})">${i}</a>
       </li>
     `;
@@ -88,7 +88,7 @@ function renderPagination(totalPages) {
   html += `
     <li class="page-item ${nextDisabled}">
       <a class="page-link" href="#" aria-label="Next" onclick="changePage(${
-        currentPage + 1
+        cPage + 1
       })">
         <i class="fa-solid fa-angle-right"></i>
       </a>
@@ -100,14 +100,14 @@ function renderPagination(totalPages) {
 
 function changePage(page) {
   if (page < 1 || page > 999) return;
-  currentPage = page;
+  cPage = page;
   fetchCategories(page);
 }
 
 function btnDelete(id) {
   if (!confirm("Delete this category?")) return;
   fetch(`${API_URL}/${id}`, { method: "DELETE" })
-    .then(() => fetchCategories(currentPage))
+    .then(() => fetchCategories(cPage))
     .catch((err) => console.error(err));
 }
 
@@ -171,7 +171,7 @@ function btnCreate() {
         "Category has been created successfully.",
         "success"
       ).then(() => {
-        fetchCategories(currentPage);
+        fetchCategories(cPage);
       });
     })
     .catch((error) => {
@@ -219,7 +219,7 @@ function btnEdit() {
         "Updated!",
         "Category has been updated successfully.",
         "success"
-      ).then(() => fetchCategories(currentPage));
+      ).then(() => fetchCategories(cPage));
     })
     .catch((error) => console.error("Error updating category:", error));
 }
@@ -246,12 +246,11 @@ function btnDelete(id) {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
           Swal.fire(
             "Deleted!",
             "The category has been deleted.",
             "success"
-          ).then(() => fetchCategories(currentPage));
+          ).then(() => fetchCategories(cPage));
         })
         .catch((error) => {
           console.error(error);
