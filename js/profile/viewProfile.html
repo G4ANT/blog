@@ -1,175 +1,229 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
+    <link
+      rel="stylesheet"
+      href="../../assets/font/fontawesome-6.2.0/css/all.css"
+    />
+    <link
+      rel="stylesheet"
+      href="../../assets/font/fontawesome-6.2.0/css/sharp-solid.css"
+    />
+    <link rel="stylesheet" href="../../assets/sweetalert/sweetalert.css" />
+    <link rel="stylesheet" href="../../css/bootstrap.css" />
+    <link rel="stylesheet" href="../../css/responsive.css" />
+    <link rel="stylesheet" href="../../css/alert.css" />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <title>Blog Dashboard</title>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../../css/bootstrap.css">
-    <link rel="stylesheet" href="../../css/style.css">
-    <link rel="stylesheet" href="../../css/alert.css">
     <style>
-        body {
-            background-color: #f4f6f9;
-        }
+      .profile-card-infor .profile-card {
+        max-width: 1200px;
+        margin: auto;
+      }
 
-        .profile-card-infor .profile-card {
-            max-width: 900px;
-            margin: 50px auto;
-        }
+      .profile-card-infor .avatar {
+        width: 140px;
+        height: 140px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 4px solid #fff;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+      }
 
-        .profile-card-infor .avatar {
-            width: 140px;
-            height: 140px;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 4px solid #fff;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-        }
-
-        .profile-card-infor .stats .stat {
-            min-width: 90px;
-        }
+      .profile-card-infor .stats .stat {
+        min-width: 90px;
+      }
     </style>
-</head>
+  </head>
 
-<body>
-    <div class="profile-card-infor">
-        <div class="alert-system">
-        <!-- Alert container -->
-        <div id="alertContainer" class="alert-container"></div>
-    </div>
-    <!-- alert  -->
-
-    <div class="container profile-card">
-        <div class="card shadow-sm">
-            <div class="card-body p-4">
-                <div class="row g-3 align-items-center" id="display">
-
-                </div>
-            </div>
+  <body>
+    <header class="main-header">
+      <div class="container-fluid">
+        <div class="header-left">
+          <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+          </button>
+          <a href="#" class="logo">
+            <i class="fas fa-blog"></i>
+            <span>BlogPost</span>
+          </a>
         </div>
-    </div>
+        <div class="header-right">
+          <div class="profile-info" id="profileDisplay" style="cursor: pointer">
+            <!-- show profile -->
+            <div class="profile-details">
+              <p class="mb-0 fw-bold profile-name" id="profileName">
+                User Name
+              </p>
+              <span class="profile-email" id="profileEmail">Email</span>
+            </div>
+
+            <img
+              src=""
+              alt="profile-avatar"
+              id="profileAvatar"
+              class="profile-avatar"
+            />
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="overlay"></div>
+
+    <div class="container-fluid p-0">
+      <div class="row g-0">
+        <!-- Sidebar -->
+        <div class="sidebar">
+          <div class="d-flex flex-column">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link" href="../../index.html#dashboard">
+                  <i class="fa-solid fa-gauge"></i> Dashboard
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a
+                  class="nav-link collapsed"
+                  href="../../index.html#all-articles"
+                >
+                  <i class="fa-regular fa-file-lines"></i> My Articles
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="../../index.html#categoryy">
+                  <i class="fa-solid fa-th-large"></i> Category
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="container">
+          <div class="content">
+            <div class="profile-card-infor">
+              <div class="alert-system">
+                <!-- Alert container -->
+                <div id="alertContainer" class="alert-container"></div>
+              </div>
+
+              <div class="container profile-card">
+                <div class="page-header">
+                  <h2 class="section-title">Profile</h2>
+                  <p class="text-muted">
+                    View and manage your personal information, contact details,
+                    and account settings.
+                  </p>
+                </div>
+                <div class="card shadow-sm">
+                  <div class="card-body p-4">
+                    <div class="row g-3 align-items-center" id="display"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="../bootstrap/bootstrap.bundle.min.js"></script>
+    <!-- Scripts -->
+    <script src="../../js/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="../../assets/sweetalert/sweetalert.js"></script>
+    <script src="viewProfile.js"></script>
+
     <script>
-        const URL = 'http://blogs.csm.linkpc.net/api/v1'
-        let display = document.getElementById('display')
-        getData()
-        function getData() {
-            fetch(`${URL}/auth/profile`, {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-                }
-            })
-                .then(res => res.json())
-                .then(data => {
-                    if (!data || !data.data) {
-                        console.error("User data not found", data);
-                        return;
-                    }
+      // const URL = "http://blogs.csm.linkpc.net/api/v1";
 
-                    const user = data.data; // profile endpoint returns user directly
-                    const avatar = user.avatar || "https://i.ibb.co/Mn13jQQ/empty.png";
+      document.addEventListener("DOMContentLoaded", function () {
+        const mobileMenuBtn = document.querySelector(".mobile-menu-btn");
+        const sidebar = document.querySelector(".sidebar");
+        const overlay = document.querySelector(".overlay");
 
+        // Mobile sidebar toggle
+        mobileMenuBtn.addEventListener("click", function () {
+          sidebar.classList.toggle("show");
+          overlay.classList.toggle("show");
+        });
 
-                    display.innerHTML = `
+        overlay.addEventListener("click", function () {
+          sidebar.classList.remove("show");
+          overlay.classList.remove("show");
+        });
 
-                        <!-- Avatar -->
-                        <div class="col-12 col-md-3 text-center mb-3 mb-md-0">
-                        <img src="${avatar}" alt="avatar" id="avatar"
-                            class="rounded-circle shadow-sm border border-2 border-primary-subtle"
-                            style="width:110px; height:110px; object-fit:cover;">
-                        </div>
-
-                        <!-- User Info -->
-                        <div class="col-12 col-md-9">
-                        <div class="bg-light p-3 rounded-3 shadow-sm h-100 d-flex flex-column justify-content-between">
-                            <div>
-                            <p class="text-secondary mb-1"><strong>ID:</strong> ${user.id}</p>
-                            <h5 class="fw-bold mb-1">${user.firstName} ${user.lastName}</h5>
-                            <p class="text-muted mb-2">${user.email}</p>
-                            </div>
-
-                            <div class="d-flex flex-wrap justify-content-between align-items-center mt-2">
-                            <div class="d-flex flex-wrap gap-2">
-                                <button type="button" class="btn btn-info btn-sm"
-                                        data-bs-toggle="modal" data-bs-target="#updateModal"
-                                        onclick="updateInformation(${user.id})">
-                                Update Information
-                                </button>
-                                <button type="button" class="btn btn-outline-success btn-sm"
-                                        onclick="updateAvatar(${user.id})">
-                                Update Avatar
-                                </button>
-                            </div>
-
-                            <div class="text-end mt-3 mt-md-0">
-                                <small class="text-muted d-block">Joined</small>
-                                <div class="fw-semibold">${new Date(user.registeredAt).toLocaleDateString()}</div>
-                                <br>
-                                <button type="button" class="btn btn-danger btn-sm"
-                                        onclick="logout(${user.id})">
-                                        Log out
-                                </button>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    `;
-                })
-                .catch(err => console.log(err));
-        }
-
-
-        function updateInformation(id) {
-            location.href = `updateProfile.html?id=${id}`
-        }
-
-        function updateAvatar(id) {
-            const input = document.createElement('input')
-            input.type = 'file'
-            input.accept = 'image/*'
-            input.style.display = 'none'
-            document.getElementById('display').appendChild(input)
-
-            input.click()
-
-            input.onchange = () => {
-                const updatedAvatar = input.files[0]
-                let formData = new FormData()
-                formData.append('avatar', updatedAvatar)
-
-                fetch(`${URL}/profile/avatar`, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-                    },
-                    body: formData
-                })
-                    .then(res => res.json())
-                    .then(data => {
-                        showAlert('success', 'Avatar updated', 'Avatar updated successfully')
-                        setTimeout(() => {
-                            getData()
-                        }, 3000)
-                    })
-                    .catch(err => console.log(err))
+        // Sidebar navigation (redirect to index.html tabs)
+        const navLinks = document.querySelectorAll(".nav-link");
+        navLinks.forEach((link) => {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+            const href = this.getAttribute("href");
+            if (href) {
+              window.location.href = href;
             }
+          });
+        });
+
+        // Close sidebar when resizing to desktop
+        window.addEventListener("resize", function () {
+          if (window.innerWidth >= 992) {
+            sidebar.classList.remove("show");
+            overlay.classList.remove("show");
+          }
+        });
+      });
+
+      // Load user profile info
+      showProfile();
+      function showProfile() {
+        const token = localStorage.getItem("authToken");
+        if (!token) {
+          location.href = "../../auth/loginUser.html";
+          return;
         }
 
-        function logout(id) {
-            localStorage.removeItem('authToken')
-            location.href = '../../auth/loginUser.html'
-        }
+        fetch(`${URL}/auth/profile`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (!data?.data) {
+              console.error("User data not found", data);
+              return;
+            }
+
+            const user = data.data;
+            const avatar =
+              user.avatar || "../../assets/images/defaultImage.jpg";
+
+            document.getElementById("profileAvatar").src = avatar;
+            document.getElementById(
+              "profileName"
+            ).textContent = `${user.firstName} ${user.lastName}`;
+            document.getElementById("profileEmail").textContent = user.email;
+          })
+          .catch((err) => console.log("Profile load error:", err));
+      }
+
+      function logout() {
+        localStorage.removeItem("authToken");
+        location.href = "../../auth/loginUser.html";
+      }
+
+      function viewProfile() {
+        location.href = "js/profile/viewProfile.html";
+      }
     </script>
-    <script src="../alert/alert.js"></script>
-</body>
-
+  </body>
 </html>

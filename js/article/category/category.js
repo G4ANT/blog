@@ -1,105 +1,123 @@
-let displayCategory = document.getElementById("displayCategory");
-let paginationContainer = document.getElementById("paginationContainer");
-
-let currentPage = 1;
-let perPage = 10;
-let allCategories = [];
+const API_URL = "http://blogs.csm.linkpc.net/api/v1/categories";
+const tbody = document.getElementById("displayCategory");
+const pagination = document.getElementById("paginationContainer");
 let editCategoryId = null;
+let cPage = 1;
+const pePage = 10;
 
 function fetchCategories(page = 1) {
-  fetch(
-    `http://blogs.csm.linkpc.net/api/v1/categories?_page=${page}&_per_page=${perPage}&sortBy=name&sortDir=ASC`
-  )
-    .then((response) => response.json())
+  cPage = page;
+
+  fetch(`${API_URL}?_page=${page}&_per_page=${pePage}&sortBy=name&sortDir=ASC`)
+    .then((res) => res.json())
     .then((data) => {
-      console.log("API Response:", data);
-
-      allCategories = data.data?.items || data.data || data.items || [];
-      let total =
-        data.data?.pagination?.total_items ||
-        data.data?.total ||
-        data.total ||
-        0;
-
-      totalPages = total > 0 ? Math.ceil(total / perPage) : 3;
-
-      renderCategories(allCategories);
-      renderPagination();
+      const items = data.data?.items || [];
+      const totalItems = data.data?.total || 0;
+      const totalPages = Math.ceil(totalItems / pePage);
+      allCategories = items;
+      renderCategories(items);
+      renderPagination(totalPages);
     })
-    .catch((error) => console.error("Error fetching categories:", error));
+    .catch((err) => console.error(err));
 }
 
 function renderCategories(categories) {
-  displayCategory.innerHTML = "";
+  tbody.innerHTML = "";
   if (!categories.length) {
-    displayCategory.innerHTML = `
-      <tr><td colspan="2" class="text-center text-muted">No categories found</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="2" class="text-center text-muted py-3">No categories found</td></tr>`;
     return;
   }
 
-  categories.forEach((category) => {
-    let row = document.createElement("tr");
+  categories.forEach((cat) => {
+    const row = document.createElement("tr");
     row.innerHTML = `
-      <td>${category.name}</td>
+      <td>${escapeHtml(cat.name)}</td>
       <td class="text-end">
-        <button 
-          class="btn btn-sm btn-outline-secondary"
-          data-bs-toggle="modal"
-          data-bs-target="#editModal"
-          onclick="openEditModal(${category.id}, '${category.name}')"
-        >
+        <button class="btn btn-sm btn-outline-secondary" onclick="openEditModal(${
+          cat.id
+        }, '${escapeHtml(cat.name)}')">
           <i class="fa-solid fa-pen"></i>
         </button>
-        <button 
-          onclick="btnDelete(${category.id})" 
-          class="btn btn-sm btn-outline-danger"
-        >
+        <button class="btn btn-sm btn-outline-danger" onclick="btnDelete(${
+          cat.id
+        })">
           <i class="fa-solid fa-trash"></i>
         </button>
       </td>
     `;
-    displayCategory.appendChild(row);
+    tbody.appendChild(row);
   });
 }
 
-function renderPagination() {
-  paginationContainer.innerHTML = `
-    <nav>
-      <ul class="pagination justify-content-center">
-        <li class="page-item ${currentPage === 1 ? "disabled" : ""}">
-          <button class="page-link" onclick="changePage(${
-            currentPage - 1
-          })">Previous</button>
-        </li>
-        ${generatePageNumbers()}
-        <li class="page-item ${currentPage === totalPages ? "disabled" : ""}">
-          <button class="page-link" onclick="changePage(${
-            currentPage + 1
-          })">Next</button>
-        </li>
-      </ul>
-    </nav>
-  `;
-}
+function renderPagination(totalPages) {
+  pagination.innerHTML = "";
 
-function generatePageNumbers() {
-  let pagesHTML = "";
-  for (let i = 1; i <= totalPages; i++) {
-    pagesHTML += `
-      <li class="page-item ${i === currentPage ? "active" : ""}">
-        <button class="page-link" onclick="changePage(${i})">${i}</button>
-      </li>`;
+  let prevDisabled = cPage === 1 ? "disabled" : "";
+  let nextDisabled = cPage === totalPages ? "disabled" : "";
+
+  let start = cPage - 1;
+  let end = cPage + 1;
+
+  if (start < 1) {
+    start = 1;
+    end = Math.min(3, totalPages);
   }
-  return pagesHTML;
+  if (end > totalPages) {
+    end = totalPages;
+    start = Math.max(1, totalPages - 2);
+  }
+
+  let html = `
+    <li class="page-item ${prevDisabled}">
+      <a class="page-link" href="#" aria-label="Previous" onclick="changePage(${
+        cPage - 1
+      })">
+        <i class="fa-solid fa-angle-left"></i>
+      </a>
+    </li>
+  `;
+
+  for (let i = start; i <= end; i++) {
+    html += `
+      <li class="page-item ${i === cPage ? "active" : ""}">
+        <a class="page-link" href="#" onclick="changePage(${i})">${i}</a>
+      </li>
+    `;
+  }
+
+  html += `
+    <li class="page-item ${nextDisabled}">
+      <a class="page-link" href="#" aria-label="Next" onclick="changePage(${
+        cPage + 1
+      })">
+        <i class="fa-solid fa-angle-right"></i>
+      </a>
+    </li>
+  `;
+
+  pagination.innerHTML = html;
 }
 
 function changePage(page) {
-  if (page < 1 || page > totalPages) return;
-  currentPage = page;
-  fetchCategories(currentPage);
+  if (page < 1 || page > 999) return;
+  cPage = page;
+  fetchCategories(page);
 }
 
-fetchCategories(currentPage);
+function btnDelete(id) {
+  if (!confirm("Delete this category?")) return;
+  fetch(`${API_URL}/${id}`, { method: "DELETE" })
+    .then(() => fetchCategories(cPage))
+    .catch((err) => console.error(err));
+}
+
+function escapeHtml(text) {
+  const div = document.createElement("div");
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+fetchCategories(1);
 
 function handleSearch() {
   const query = document.getElementById("searchInput").value.trim();
@@ -153,7 +171,7 @@ function btnCreate() {
         "Category has been created successfully.",
         "success"
       ).then(() => {
-        fetchCategories(currentPage);
+        fetchCategories(cPage);
       });
     })
     .catch((error) => {
@@ -166,6 +184,11 @@ function btnCreate() {
 function openEditModal(id, name) {
   editCategoryId = id;
   document.getElementById("editCategoryName").value = name;
+
+  // Open modal
+  const editModalEl = document.getElementById("editModal");
+  const modal = new bootstrap.Modal(editModalEl);
+  modal.show();
 }
 
 function btnEdit() {
@@ -177,7 +200,7 @@ function btnEdit() {
     return;
   }
 
-  fetch(`http://blogs.csm.linkpc.net/api/v1/categories/${editCategoryId}`, {
+  fetch(`${API_URL}/${editCategoryId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -188,20 +211,17 @@ function btnEdit() {
     .then((response) => response.json())
     .then((data) => {
       const editModalEl = document.getElementById("editModal");
-      const modal = bootstrap.Modal.getInstance(editModalEl);
+      let modal = bootstrap.Modal.getInstance(editModalEl);
+      if (!modal) modal = new bootstrap.Modal(editModalEl);
       modal.hide();
 
       Swal.fire(
         "Updated!",
         "Category has been updated successfully.",
         "success"
-      ).then(() => {
-        fetchCategories(currentPage);
-      });
+      ).then(() => fetchCategories(cPage));
     })
-    .catch((error) => {
-      console.error("Error updating category:", error);
-    });
+    .catch((error) => console.error("Error updating category:", error));
 }
 
 function btnDelete(id) {
@@ -226,12 +246,11 @@ function btnDelete(id) {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
           Swal.fire(
             "Deleted!",
             "The category has been deleted.",
             "success"
-          ).then(() => fetchCategories(currentPage));
+          ).then(() => fetchCategories(cPage));
         })
         .catch((error) => {
           console.error(error);
