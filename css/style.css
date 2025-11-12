@@ -460,4 +460,9 @@ body {
 .get-article .card:hover > img {
   transform: scale(1.02);
 }
+
+.get-article .profile-creator img:hover{
+  border: 1px solid green;
+  cursor: pointer;
+}
 /* get article */

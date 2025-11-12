@@ -42,13 +42,14 @@
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                         <li>
                             <button class="dropdown-item" onclick="viewProfile()"><i
-                            class="fa-regular fa-user-vneck me-1"></i>My Profile</button></li>
+                                    class="fa-regular fa-user-vneck me-1"></i>My Profile</button>
+                        </li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
                         <li>
                             <button class="dropdown-item" onclick="logout()"><i
-                            class="fa-solid fa-arrow-right-from-bracket me-1"></i>Logout</button>
+                                    class="fa-solid fa-arrow-right-from-bracket me-1"></i>Logout</button>
                         </li>
                     </ul>
                 </div>
@@ -100,212 +101,215 @@
             <!-- Main Content -->
             <div class="container">
                 <div class="content">
-                <!-- Dashboard Page -->
-                <div id="dashboard" class="page-content active">
-                    <div class="page-header">
-                        <h2 class="section-title">Dashboard</h2>
-                        <p class="text-muted">Overview of your blog statistics</p>
-                    </div>
-                    <!-- ====== All Dashboart ====== -->
-                    <!-- article -->
-                    
-                    <div class="row g-3" id="showAllCard">
-                        <!-- show card here -->
-                    </div>
-                    <div class="row g-3" id="showCardDetail">
-                        <!-- show card here -->
-                    </div>
-                    <div class="d-flex justify-content-center align-items-center my-4">
-                        <button type="button" class="btn btn-info" id="btnLoadMore">Load more</button>
-                        <br>
-                        <p class="d-none" id="showNoMoreData">No more data</p>
+                    <!-- Dashboard Page -->
+                    <div id="dashboard" class="page-content active">
+                        <div class="page-header">
+                            <h2 class="section-title">Dashboard</h2>
+                            <p class="text-muted">Overview of your blog statistics</p>
+                        </div>
+                        <!-- ====== All Dashboart ====== -->
+                        <!-- article -->
+
+                        <div class="row g-3" id="showAllCard">
+                            <!-- show card here -->
+                        </div>
+                        <div class="row g-3" id="showCardDetail">
+                            <!-- show card here -->
+                        </div>
+                        <div class="row g-3" id="showArticleOfCreator">
+                            <!-- show all card of a creator here -->
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center my-4">
+                            <button type="button" class="btn btn-info" id="btnLoadMore">Load more</button>
+                            <br>
+                            <p style="display:none" id="showNoMoreData">No more data</p>
+                        </div>
+
                     </div>
 
-                </div>
+                    <!-- All Articles Page -->
+                    <div id="all-articles" class="page-content">
+                        <div class="page-header">
+                            <h2 class="section-title">My Articles</h2>
+                            <p class="text-muted">Create and manage your articles</p>
+                        </div>
+                        <!-- ======= My Articles ====== -->
 
-                <!-- All Articles Page -->
-                <div id="all-articles" class="page-content">
-                    <div class="page-header">
-                        <h2 class="section-title">My Articles</h2>
-                        <p class="text-muted">Create and manage your articles</p>
-                    </div>
-                    <!-- ======= My Articles ====== -->
-
-                </div>
-
-                <!-- Create Article Page -->
-                <div id="create-article" class="page-content">
-                    <div class="page-header">
-                        <h2 class="section-title">Create Article</h2>
-                        <p class="text-muted">Compose a new article and publish it to your platform.</p>
                     </div>
 
-                    <div class="container">
-                        <div class="form-container">
-                            <form id="articleForm">
-                                <!-- Title -->
-                                <div class="mb-3">
-                                    <label for="title" class="form-label">Title <span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="title"
-                                        placeholder="Title of the article" required>
+                    <!-- Create Article Page -->
+                    <div id="create-article" class="page-content">
+                        <div class="page-header">
+                            <h2 class="section-title">Create Article</h2>
+                            <p class="text-muted">Compose a new article and publish it to your platform.</p>
+                        </div>
+
+                        <div class="container">
+                            <div class="form-container">
+                                <form id="articleForm">
+                                    <!-- Title -->
+                                    <div class="mb-3">
+                                        <label for="title" class="form-label">Title <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="title"
+                                            placeholder="Title of the article" required>
+                                    </div>
+
+                                    <!-- Category -->
+                                    <div class="mb-3">
+                                        <label for="category" class="form-label">Category <span
+                                                class="text-danger">*</span></label>
+                                        <select class="form-select" id="category" required>
+                                            <option value="">Select category</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Thumbnail -->
+                                    <div class="mb-3">
+                                        <label for="thumbnail" class="form-label">Thumbnail <span
+                                                class="text-danger">*</span></label>
+                                        <input class="form-control" type="file" id="thumbnail" required>
+                                    </div>
+
+                                    <!-- Content -->
+                                    <div class="mb-3">
+                                        <label for="content" class="form-label">Content <span
+                                                class="text-danger">*</span></label>
+                                        <textarea class="form-control" id="content" placeholder="Write content here..."
+                                            required></textarea>
+                                    </div>
+
+                                    <!-- Footer Buttons -->
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <a href="articles.html" class="back-link">&larr; Back to Articles</a>
+                                        <button type="button" onclick="onClickSubmit()" class="btn btn-primary">
+                                            <i class="bi bi-pencil-square me-1"></i> Publish Now
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+                    <!-- ======== Category ======= -->
+                    <!-- Category Page -->
+                    <div id="categoryy" class="page-content">
+                        <div class="page-header">
+                            <h2 class="section-title">Categories</h2>
+                            <p class="text-muted">
+                                Create and manage categories for different types of article
+                            </p>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="input-group w-50 mb-3">
+                                <span class="input-group-text bg-light">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                </span>
+                                <input type="text" id="searchInput" class="form-control"
+                                    placeholder="Search category..." onkeyup="handleSearch()" />
+                            </div>
+
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+                                <i class="fa-solid fa-plus me-1"></i> Create Category
+                            </button>
+                        </div>
+
+                        <!-- Table -->
+                        <div class="card">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Category Name</th>
+                                            <th class="text-end">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="displayCategory"></tbody>
+                                </table>
+
+                                <ul class="pagination justify-content-center" id="paginationContainer"></ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Create Category Modal -->
+                    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content needs-validation" novalidate>
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="createModalLabel">
+                                        Create New Category
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
-
-                                <!-- Category -->
-                                <div class="mb-3">
-                                    <label for="category" class="form-label">Category <span
-                                            class="text-danger">*</span></label>
-                                    <select class="form-select" id="category" required>
-                                        <option value="">Select category</option>
-                                    </select>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label for="categoryName" class="form-label">Category Name</label>
+                                        <input type="text" class="form-control" id="categoryName"
+                                            placeholder="Enter category name" required />
+                                        <div class="invalid-feedback">
+                                            Please enter a category name.
+                                        </div>
+                                    </div>
                                 </div>
-
-                                <!-- Thumbnail -->
-                                <div class="mb-3">
-                                    <label for="thumbnail" class="form-label">Thumbnail <span
-                                            class="text-danger">*</span></label>
-                                    <input class="form-control" type="file" id="thumbnail" required>
-                                </div>
-
-                                <!-- Content -->
-                                <div class="mb-3">
-                                    <label for="content" class="form-label">Content <span
-                                            class="text-danger">*</span></label>
-                                    <textarea class="form-control" id="content" placeholder="Write content here..."
-                                        required></textarea>
-                                </div>
-
-                                <!-- Footer Buttons -->
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <a href="articles.html" class="back-link">&larr; Back to Articles</a>
-                                    <button type="button" onclick="onClickSubmit()" class="btn btn-primary">
-                                        <i class="bi bi-pencil-square me-1"></i> Publish Now
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                        Cancel
+                                    </button>
+                                    <button onclick="btnCreate()" class="btn btn-primary">
+                                        Create
                                     </button>
                                 </div>
-                            </form>
-                        </div>
-                    </div>
-
-                </div>
-
-
-
-
-                <!-- ======== Category ======= -->
-                <!-- Category Page -->
-                <div id="categoryy" class="page-content">
-                    <div class="page-header">
-                        <h2 class="section-title">Categories</h2>
-                        <p class="text-muted">
-                            Create and manage categories for different types of article
-                        </p>
-                    </div>
-
-                    <!-- Actions -->
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div class="input-group w-50 mb-3">
-                            <span class="input-group-text bg-light">
-                                <i class="fa-solid fa-magnifying-glass"></i>
-                            </span>
-                            <input type="text" id="searchInput" class="form-control" placeholder="Search category..."
-                                onkeyup="handleSearch()" />
-                        </div>
-
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
-                            <i class="fa-solid fa-plus me-1"></i> Create Category
-                        </button>
-                    </div>
-
-                    <!-- Table -->
-                    <div class="card">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Category Name</th>
-                                        <th class="text-end">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="displayCategory"></tbody>
-                            </table>
-
-                            <ul class="pagination justify-content-center" id="paginationContainer"></ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Create Category Modal -->
-                <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content needs-validation" novalidate>
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="createModalLabel">
-                                    Create New Category
-                                </h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
-                            <div class="modal-body">
-                                <div class="mb-3">
-                                    <label for="categoryName" class="form-label">Category Name</label>
-                                    <input type="text" class="form-control" id="categoryName"
-                                        placeholder="Enter category name" required />
-                                    <div class="invalid-feedback">
-                                        Please enter a category name.
+                        </div>
+                    </div>
+
+
+                    <!-- Edit Category Modal -->
+                    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content needs-validation" novalidate>
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editModalLabel">Edit Category</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label for="editCategoryName" class="form-label">Category Name</label>
+                                        <input type="text" class="form-control" id="editCategoryName"
+                                            placeholder="Enter category name" required />
+                                        <div class="invalid-feedback">
+                                            Please enter a category name.
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                                    Cancel
-                                </button>
-                                <button onclick="btnCreate()" class="btn btn-primary">
-                                    Create
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <!-- Edit Category Modal -->
-                <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content needs-validation" novalidate>
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="editModalLabel">Edit Category</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="mb-3">
-                                    <label for="editCategoryName" class="form-label">Category Name</label>
-                                    <input type="text" class="form-control" id="editCategoryName"
-                                        placeholder="Enter category name" required />
-                                    <div class="invalid-feedback">
-                                        Please enter a category name.
-                                    </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                        Cancel
+                                    </button>
+                                    <button onclick="btnEdit()" class="btn btn-primary">
+                                        Save
+                                    </button>
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                                    Cancel
-                                </button>
-                                <button onclick="btnEdit()" class="btn btn-primary">
-                                    Save
-                                </button>
-                            </div>
                         </div>
                     </div>
-                </div>
 
-            </div>
+                </div>
             </div>
 
         </div>
     </div>
 
-
+    <!-- link js file -->
     <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="js/article/own/own.js"></script>
@@ -314,6 +318,11 @@
     <!-- library -->
     <script src="assets/sweetalert/sweetalert.js"></script>
     <script src="js/getArticle/getAllArticle.js"></script>
+
+    <!-- guill delta -->
+    <script src="https://cdn.jsdelivr.net/npm/quill-delta-to-html/dist/browser/QuillDeltaToHtmlConverter.bundle.js"></script>
+
+
     <script>
         const URL = 'http://blogs.csm.linkpc.net/api/v1'
         document.addEventListener('DOMContentLoaded', function () {
