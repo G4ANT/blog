@@ -1,419 +1,459 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <link rel="stylesheet" href="assets/font/fontawesome-6.2.0/css/all.css" />
-    <link rel="stylesheet" href="assets/font/fontawesome-6.2.0/css/sharp-solid.css" />
+    <link
+      rel="stylesheet"
+      href="assets/font/fontawesome-6.2.0/css/sharp-solid.css"
+    />
     <link rel="stylesheet" href="assets/sweetalert/sweetalert.css" />
     <link rel="stylesheet" href="css/bootstrap.css" />
     <link rel="stylesheet" href="css/responsive.css" />
     <link rel="stylesheet" href="css/alert.css" />
     <link rel="stylesheet" href="css/style.css" />
     <title>Blog Dashboard</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <header class="main-header">
-        <div class="container-fluid">
-            <div class="header-left">
-                <button class="mobile-menu-btn">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <a href="#" class="logo">
-                    <i class="fas fa-blog"></i>
-                    <span>BlogPost</span>
-                </a>
-            </div>
-            <div class="header-right">
-                <div class="profile-info" id="profileDisplay" data-bs-toggle="dropdown" aria-expanded="false"
-                    style="cursor: pointer">
-                    <!-- show profile -->
-                    <div class="profile-details">
-                        <p class="mb-0 fw-bold profile-name" id="profileName">
-                            User Name
-                        </p>
-                        <span class="profile-email" id="profileEmail">Email</span>
-                    </div>
-
-                    <img src="" alt="profile-avatar" id="profileAvatar"
-                        class="profile-avatar profile-dropdown-toggle" />
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                        <li>
-                            <button class="dropdown-item" onclick="viewProfile()">
-                                <i class="fa-regular fa-user-vneck me-1"></i>My Profile
-                            </button>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider" />
-                        </li>
-                        <li>
-                            <button class="dropdown-item" onclick="logout()">
-                                <i class="fa-solid fa-arrow-right-from-bracket me-1"></i>Logout
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+      <div class="container-fluid">
+        <div class="header-left">
+          <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+          </button>
+          <a href="#" class="logo">
+            <i class="fas fa-blog"></i>
+            <span>BlogPost</span>
+          </a>
         </div>
+        <div class="header-right">
+          <div
+            class="profile-info"
+            id="profileDisplay"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            style="cursor: pointer"
+          >
+            <!-- show profile -->
+            <div class="profile-details">
+              <p class="mb-0 fw-bold profile-name" id="profileName">
+                User Name
+              </p>
+              <span class="profile-email" id="profileEmail">Email</span>
+            </div>
+
+            <img
+              src=""
+              alt="profile-avatar"
+              id="profileAvatar"
+              class="profile-avatar profile-dropdown-toggle"
+            />
+            <ul
+              class="dropdown-menu dropdown-menu-end"
+              aria-labelledby="profileDropdown"
+            >
+              <li>
+                <button class="dropdown-item" onclick="viewProfile()">
+                  <i class="fa-regular fa-user-vneck me-1"></i>My Profile
+                </button>
+              </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li>
+                <button class="dropdown-item" onclick="logout()">
+                  <i class="fa-solid fa-arrow-right-from-bracket me-1"></i
+                  >Logout
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </header>
 
     <div class="overlay"></div>
 
     <div class="container-fluid p-0">
-        <div class="row g-0">
-            <div class="sidebar">
-                <div class="d-flex flex-column">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#" data-page="dashboard">
-                                <i class="fa-solid fa-gauge"></i> Dashboard
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link collapsed" data-bs-toggle="collapse" href="#myArticlesCollapse"
-                                role="button" aria-expanded="false" aria-controls="myArticlesCollapse">
-                                <i class="fa-regular fa-file-lines"></i> My Articles
-                            </a>
-                            <div class="collapse" id="myArticlesCollapse">
-                                <ul class="nav flex-column">
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#" data-page="all-articles">
-                                            All Articles
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#" data-page="create-article">
-                                            Create Article
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-page="categoryy">
-                                <i class="fa-solid fa-th-large"></i>Category
-                            </a>
-                        </li>
-                    </ul>
+      <div class="row g-0">
+        <div class="sidebar">
+          <div class="d-flex flex-column">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link active" href="#" data-page="dashboard">
+                  <i class="fa-solid fa-gauge"></i> Dashboard
+                </a>
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link collapsed"
+                  data-bs-toggle="collapse"
+                  href="#myArticlesCollapse"
+                  role="button"
+                  aria-expanded="false"
+                  aria-controls="myArticlesCollapse"
+                >
+                  <i class="fa-regular fa-file-lines"></i> My Articles
+                </a>
+                <div class="collapse" id="myArticlesCollapse">
+                  <ul class="nav flex-column">
+                    <li class="nav-item">
+                      <a class="nav-link" href="#" data-page="all-articles">
+                        All Articles
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#" data-page="create-article">
+                        Create Article
+                      </a>
+                    </li>
+                  </ul>
                 </div>
-            </div>
-
-            <!-- Main Content -->
-            <div class="container">
-                <div class="content">
-                    <!-- Dashboard Page -->
-                    <div id="dashboard" class="page-content active">
-                        <div class="page-header">
-                            <h2 class="section-title">Dashboard</h2>
-                            <p class="text-muted">Overview of your blog statistics</p>
-                        </div>
-                        <!-- ====== All Dashboart ====== -->
-                        <!-- article -->
-
-                        <div class="row g-3" id="showAllCard">
-                            <!-- show card here -->
-                        </div>
-                        <div class="row g-3" id="showCardDetail">
-                            <!-- show card here -->
-                        </div>
-                        <div class="row g-3" id="showArticleOfCreator">
-                            <!-- show all card of a creator here -->
-                        </div>
-                        <div class="d-flex justify-content-center align-items-center my-4">
-                            <button type="button" class="btn btn-info" id="btnLoadMore">
-                                Load more
-                            </button>
-                            <br />
-                            <p class="d-none" id="showNoMoreData">No more data</p>
-                        </div>
-                    </div>
-
-                    <!-- All Articles Page -->
-                    <div id="all-articles" class="page-content">
-                        <div class="page-header d-flex justify-content-between align-items-center">
-                        <div>
-                            <h2 class="section-title">My Articles</h2>
-                            <p class="text-muted">Create and manage your articles</p>
-                        </div>
-                        <div>
-                            <a href="create-article.html" class="btn-create">
-                                <i class="fa-regular fa-plus"></i> Create Article
-                            </a>
-                        </div>
-                    </div>
-                        <!-- ======= My Articles ====== -->
-                        <div class="container">
-                            <!-- Search -->
-                            <div class="mb-3" style="width: 30%;">
-                                <input type="text" id="searchInput" class="form-control"
-                                    placeholder="Search article...">
-                            </div>
-                            <div class="card shadow-sm">
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table align-middle">
-                                            <thead>
-                                                <tr>
-                                                    <th>Image</th>
-                                                    <th>Title</th>
-                                                    <th>Category</th>
-                                                    <th>Created At</th>
-                                                    <th class="text-end">Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="articlesTableBody">
-                                                <tr>
-                                                    <td colspan="5" class="text-center text-muted">Loading...</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                    <!-- Pagination -->
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <div class="mb-2 text-muted" id="entryInfo"></div>
-                                        <nav>
-                                            <ul class="pagination " id="pagination"></ul>
-                                        </nav>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                            <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel"
-                                aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header bg-primary text-white">
-                                            <h5 class="modal-title" id="updateModalLabel">Update Article</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form id="updateForm" enctype="multipart/form-data">
-                                                <input type="hidden" id="updateId">
-
-                                                <div class="row g-3">
-                                                    <div class="col-md-8">
-                                                        <div class="mb-3">
-                                                            <label for="updateTitle"
-                                                                class="form-label fw-semibold">Title</label>
-                                                            <input type="text" class="form-control" id="updateTitle"
-                                                                required>
-                                                        </div>
-
-                                                        <div class="mb-3">
-                                                            <label for="updateCategory"
-                                                                class="form-label fw-semibold">Category</label>
-                                                            <input type="text" class="form-control" id="updateCategory"
-                                                                required>
-                                                        </div>
-
-                                                        <div class="mb-3">
-                                                            <label for="updateContent"
-                                                                class="form-label fw-semibold">Content</label>
-                                                            <textarea class="form-control" id="updateContent" rows="5"
-                                                                required></textarea>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-4 text-center">
-                                                        <label class="form-label fw-semibold">Thumbnail</label>
-                                                        <div class="mb-2">
-                                                            <img id="thumbnailPreview"
-                                                                src="https://via.placeholder.com/150x100?text=Preview"
-                                                                alt="Thumbnail Preview" class="rounded shadow-sm mb-2"
-                                                                style="width: 150px; height: 100px; object-fit: cover;">
-                                                        </div>
-                                                        <input type="file" id="updateThumbnail" class="form-control"
-                                                            accept="image/*">
-                                                    </div>
-                                                </div>
-
-                                                <div class="text-end">
-                                                    <button type="submit" class="btn btn-success mt-3">
-                                                        <i class="bi bi-save me-1"></i> Save Changes
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <!-- Create Article Page -->
-                    <div id="create-article" class="page-content">
-                        <div class="page-header">
-                            <h2 class="section-title">Create Article</h2>
-                            <p class="text-muted">
-                                Compose a new article and publish it to your platform.
-                            </p>
-                        </div>
-
-                        <div class="container">
-                            <div class="form-container">
-                                <form id="articleForm">
-                                    <!-- Title -->
-                                    <div class="mb-3">
-                                        <label for="title" class="form-label">Title <span
-                                                class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="title"
-                                            placeholder="Title of the article" required />
-                                    </div>
-
-                                    <!-- Category -->
-                                    <div class="mb-3">
-                                        <label for="category" class="form-label">Category <span
-                                                class="text-danger">*</span></label>
-                                        <select class="form-select" id="category" required>
-                                            <option value="">Select category</option>
-                                        </select>
-                                    </div>
-
-                                    <!-- Thumbnail -->
-                                    <div class="mb-3">
-                                        <label for="thumbnail" class="form-label">Thumbnail <span
-                                                class="text-danger">*</span></label>
-                                        <input class="form-control" type="file" id="thumbnail" required />
-                                    </div>
-
-                                    <!-- Content -->
-                                    <div class="mb-3">
-                                        <label for="content" class="form-label">Content <span
-                                                class="text-danger">*</span></label>
-                                        <textarea class="form-control" id="content" placeholder="Write content here..."
-                                            required></textarea>
-                                    </div>
-
-                                    <!-- Footer Buttons -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <a href="articles.html" class="back-link">&larr; Back to Articles</a>
-                                        <button type="button" onclick="onClickSubmit()" class="btn btn-primary">
-                                            <i class="bi bi-pencil-square me-1"></i> Publish Now
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Category Page -->
-                    <div id="categoryy" class="page-content">
-                        <div class="page-header">
-                            <h2 class="section-title">Categories</h2>
-                            <p class="text-muted">
-                                Create and manage categories for different types of article
-                            </p>
-                        </div>
-
-                        <!-- Actions -->
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div class="input-group w-50 mb-3">
-                                <span class="input-group-text bg-light">
-                                    <i class="fa-solid fa-magnifying-glass"></i>
-                                </span>
-                                <input type="text" id="searchInput" class="form-control"
-                                    placeholder="Search category..." onkeyup="handleSearch()" />
-                            </div>
-
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
-                                <i class="fa-solid fa-plus me-1"></i> Create Category
-                            </button>
-                        </div>
-
-                        <!-- Table -->
-                        <div class="card">
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Category Name</th>
-                                            <th class="text-end">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="displayCategory"></tbody>
-                                </table>
-
-                                <ul class="pagination justify-content-center" id="paginationContainer"></ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Create Category Modal -->
-                    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content needs-validation" novalidate>
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="createModalLabel">
-                                        Create New Category
-                                    </h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="mb-3">
-                                        <label for="categoryName" class="form-label">Category Name</label>
-                                        <input type="text" class="form-control" id="categoryName"
-                                            placeholder="Enter category name" required />
-                                        <div class="invalid-feedback">
-                                            Please enter a category name.
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                                        Cancel
-                                    </button>
-                                    <button onclick="btnCreate()" class="btn btn-primary">
-                                        Create
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Edit Category Modal -->
-                    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content needs-validation" novalidate>
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="editModalLabel">
-                                        Edit Category
-                                    </h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="mb-3">
-                                        <label for="editCategoryName" class="form-label">Category Name</label>
-                                        <input type="text" class="form-control" id="editCategoryName"
-                                            placeholder="Enter category name" required />
-                                        <div class="invalid-feedback">
-                                            Please enter a category name.
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                                        Cancel
-                                    </button>
-                                    <button onclick="btnEdit()" class="btn btn-primary">
-                                        Save
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" data-page="categoryy">
+                  <i class="fa-solid fa-th-large"></i>Category
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
+
+        <!-- Main Content -->
+        <div class="container">
+          <div class="content">
+            <!-- Dashboard Page -->
+            <div id="dashboard" class="page-content active">
+              <div class="page-header">
+                <h2 class="section-title">Dashboard</h2>
+                <p class="text-muted">Overview of your blog statistics</p>
+              </div>
+              <!-- ====== All Dashboart ====== -->
+              <!-- article -->
+
+              <div class="row g-3" id="showAllCard">
+                <!-- show card here -->
+              </div>
+              <div class="row g-3" id="showCardDetail">
+                <!-- show card here -->
+              </div>
+              <div class="row g-3" id="showArticleOfCreator">
+                <!-- show all card of a creator here -->
+              </div>
+              <div
+                class="d-flex justify-content-center align-items-center my-4"
+              >
+                <button type="button" class="btn btn-outline-info" id="btnLoadMore">
+                  Load more
+                </button>
+                <br />
+                <p class="d-none" id="showNoMoreData">No more data</p>
+              </div>
+            </div>
+
+            <!-- All Articles Page -->
+            <div id="all-articles" class="page-content">
+              <div class="page-header">
+                <h2 class="section-title">My Articles</h2>
+                <p class="text-muted">Create and manage your articles</p>
+              </div>
+              <!-- ======= My Articles ====== -->
+              <div class="container">
+                <!-- Search -->
+                <div class="mb-3" style="width: 30%">
+                  <input
+                    type="text"
+                    id="searchInput"
+                    class="form-control"
+                    placeholder="Search article..."
+                  />
+                </div>
+                <div class="card shadow-sm">
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="table align-middle">
+                        <thead>
+                          <tr>
+                            <th>Image</th>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Created At</th>
+                            <th class="text-end">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody id="articlesTableBody">
+                          <tr>
+                            <td colspan="5" class="text-center text-muted">
+                              Loading...
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div
+                      class="d-flex align-items-center justify-content-between"
+                    >
+                      <div class="mb-2 text-muted" id="entryInfo"></div>
+                      <nav>
+                        <ul class="pagination" id="pagination"></ul>
+                      </nav>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Create Article Page -->
+            <div id="create-article" class="page-content">
+              <div class="page-header">
+                <h2 class="section-title">Create Article</h2>
+                <p class="text-muted">
+                  Compose a new article and publish it to your platform.
+                </p>
+              </div>
+
+              <div class="container">
+                <div class="form-container">
+                  <form id="articleForm">
+                    <!-- Title -->
+                    <div class="mb-3">
+                      <label for="title" class="form-label"
+                        >Title <span class="text-danger">*</span></label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="title"
+                        placeholder="Title of the article"
+                        required
+                      />
+                    </div>
+
+                    <!-- Category -->
+                    <div class="mb-3">
+                      <label for="category" class="form-label"
+                        >Category <span class="text-danger">*</span></label
+                      >
+                      <select class="form-select" id="category" required>
+                        <option value="">Select category</option>
+                      </select>
+                    </div>
+
+                    <!-- Thumbnail -->
+                    <div class="mb-3">
+                      <label for="thumbnail" class="form-label"
+                        >Thumbnail <span class="text-danger">*</span></label
+                      >
+                      <input
+                        class="form-control"
+                        type="file"
+                        id="thumbnail"
+                        required
+                      />
+                    </div>
+
+                    <!-- Content -->
+                    <div class="mb-3">
+                      <label for="content" class="form-label"
+                        >Content <span class="text-danger">*</span></label
+                      >
+                      <textarea
+                        class="form-control"
+                        id="content"
+                        placeholder="Write content here..."
+                        required
+                      ></textarea>
+                    </div>
+
+                    <!-- Footer Buttons -->
+                    <div
+                      class="d-flex justify-content-between align-items-center"
+                    >
+                      <a href="articles.html" class="back-link"
+                        >&larr; Back to Articles</a
+                      >
+                      <button
+                        type="button"
+                        onclick="onClickSubmit()"
+                        class="btn btn-primary"
+                      >
+                        <i class="bi bi-pencil-square me-1"></i> Publish Now
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <!-- Category Page -->
+            <div id="categoryy" class="page-content">
+              <div class="page-header">
+                <h2 class="section-title">Categories</h2>
+                <p class="text-muted">
+                  Create and manage categories for different types of article
+                </p>
+              </div>
+
+              <!-- Actions -->
+              <div
+                class="d-flex justify-content-between align-items-center mb-3"
+              >
+                <div class="input-group w-50 mb-3">
+                  <span class="input-group-text bg-light">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                  </span>
+                  <input
+                    type="text"
+                    id="searchCategoryInput"
+                    class="form-control"
+                    placeholder="Search category..."
+                    onkeyup="handleSearch()"
+                  />
+                </div>
+
+                <button
+                  class="btn btn-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#createModal"
+                >
+                  <i class="fa-solid fa-plus me-1"></i> Create Category
+                </button>
+              </div>
+
+              <!-- Table -->
+              <div class="card">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Category Name</th>
+                        <th class="text-end">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="displayCategory"></tbody>
+                  </table>
+
+                  <ul
+                    class="pagination justify-content-center"
+                    id="paginationContainer"
+                  ></ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Create Category Modal -->
+            <div
+              class="modal fade"
+              id="createModal"
+              tabindex="-1"
+              aria-labelledby="createModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content needs-validation" novalidate>
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="createModalLabel">
+                      Create New Category
+                    </h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="mb-3">
+                      <label for="categoryName" class="form-label"
+                        >Category Name</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="categoryName"
+                        placeholder="Enter category name"
+                        required
+                      />
+                      <div class="invalid-feedback">
+                        Please enter a category name.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-outline-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Cancel
+                    </button>
+                    <button onclick="btnCreate()" class="btn btn-primary">
+                      Create
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Edit Category Modal -->
+            <div
+              class="modal fade"
+              id="editModal"
+              tabindex="-1"
+              aria-labelledby="editModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content needs-validation" novalidate>
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">
+                      Edit Category
+                    </h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="mb-3">
+                      <label for="editCategoryName" class="form-label"
+                        >Category Name</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="editCategoryName"
+                        placeholder="Enter category name"
+                        required
+                      />
+                      <div class="invalid-feedback">
+                        Please enter a category name.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-outline-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Cancel
+                    </button>
+                    <button onclick="btnEdit()" class="btn btn-primary">
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
@@ -422,144 +462,144 @@
     <script src="js/article/category/category.js"></script>
 
     <!-- library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
+
     <script src="assets/sweetalert/sweetalert.js"></script>
     <script src="js/getArticle/getAllArticle.js"></script>
 
     <!-- guill delta -->
-    <script
-        src="https://cdn.jsdelivr.net/npm/quill-delta-to-html/dist/browser/QuillDeltaToHtmlConverter.bundle.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/quill-delta-to-html/dist/browser/QuillDeltaToHtmlConverter.bundle.js"></script>
 
     <script>
-        const URL = "http://blogs.csm.linkpc.net/api/v1";
-        document.addEventListener("DOMContentLoaded", function () {
-            const myArticlesCollapse =
-                document.getElementById("myArticlesCollapse");
-            const collapseInstance = new bootstrap.Collapse(myArticlesCollapse, {
-                toggle: false,
-            });
-
-            const navLinks = document.querySelectorAll(".nav-link");
-            const mobileMenuBtn = document.querySelector(".mobile-menu-btn");
-            const sidebar = document.querySelector(".sidebar");
-            const overlay = document.querySelector(".overlay");
-            const profileDropdownToggle = document.querySelector(
-                ".profile-dropdown-toggle"
-            );
-            const profileDropdownMenu = document.querySelector(
-                ".profile-dropdown-menu"
-            );
-
-            // Mobile sidebar toggle
-            mobileMenuBtn.addEventListener("click", function () {
-                sidebar.classList.toggle("show");
-                overlay.classList.toggle("show");
-            });
-
-            overlay.addEventListener("click", function () {
-                sidebar.classList.remove("show");
-                overlay.classList.remove("show");
-            });
-
-            profileDropdownToggle.addEventListener("click", function (e) {
-                e.stopPropagation();
-                profileDropdownMenu.classList.toggle("show");
-            });
-
-            document.addEventListener("click", function () {
-                profileDropdownMenu.classList.remove("show");
-            });
-
-            navLinks.forEach((link) => {
-                link.addEventListener("click", function (e) {
-                    if (
-                        !this.hasAttribute("data-bs-toggle") ||
-                        this.getAttribute("data-bs-toggle") !== "collapse"
-                    ) {
-                        e.preventDefault();
-                        const targetPage = this.getAttribute("data-page");
-
-                        if (targetPage) {
-                            // Hide all pages
-                            document.querySelectorAll(".page-content").forEach((page) => {
-                                page.classList.remove("active");
-                            });
-
-                            // Show target page
-                            document.getElementById(targetPage).classList.add("active");
-
-                            // Update active nav link
-                            document.querySelectorAll(".nav-link").forEach((navLink) => {
-                                navLink.classList.remove("active");
-                            });
-                            this.classList.add("active");
-
-                            // Close submenu if not in My Articles section
-                            if (!this.closest("#myArticlesCollapse")) {
-                                collapseInstance.hide();
-                            }
-
-                            // Close sidebar on mobile after navigation
-                            if (window.innerWidth < 992) {
-                                sidebar.classList.remove("show");
-                                overlay.classList.remove("show");
-                            }
-
-                            // Close profile dropdown
-                            profileDropdownMenu.classList.remove("show");
-                        }
-                    }
-                });
-            });
-
-            // Close sidebar when window is resized to desktop size
-            window.addEventListener("resize", function () {
-                if (window.innerWidth >= 992) {
-                    sidebar.classList.remove("show");
-                    overlay.classList.remove("show");
-                }
-            });
+      const URL = "http://blogs.csm.linkpc.net/api/v1";
+      document.addEventListener("DOMContentLoaded", function () {
+        const myArticlesCollapse =
+          document.getElementById("myArticlesCollapse");
+        const collapseInstance = new bootstrap.Collapse(myArticlesCollapse, {
+          toggle: false,
         });
 
-        // profile
-        showProfile();
-        function showProfile() {
-            fetch(`${URL}/auth/profile`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-                },
-            })
-                .then((res) => res.json())
-                .then((data) => {
-                    if (!data || !data.data) {
-                        console.error("User data not found", data);
-                        return;
-                    }
+        const navLinks = document.querySelectorAll(".nav-link");
+        const mobileMenuBtn = document.querySelector(".mobile-menu-btn");
+        const sidebar = document.querySelector(".sidebar");
+        const overlay = document.querySelector(".overlay");
+        const profileDropdownToggle = document.querySelector(
+          ".profile-dropdown-toggle"
+        );
+        const profileDropdownMenu = document.querySelector(
+          ".profile-dropdown-menu"
+        );
 
-                    const user = data.data;
-                    const avatar = user.avatar || "assets/images/defaultImage.jpg";
+        // Mobile sidebar toggle
+        mobileMenuBtn.addEventListener("click", function () {
+          sidebar.classList.toggle("show");
+          overlay.classList.toggle("show");
+        });
 
-                    document.getElementById("profileAvatar").src = avatar;
-                    document.getElementById(
-                        "profileName"
-                    ).textContent = `${user.firstName} ${user.lastName}`;
-                    document.getElementById(
-                        "profileEmail"
-                    ).textContent = `${user.email}`;
-                })
-                .catch((err) => console.log(err));
-        }
-        function logout() {
-            localStorage.removeItem("authToken");
-            location.href = "auth/loginUser.html";
-        }
+        overlay.addEventListener("click", function () {
+          sidebar.classList.remove("show");
+          overlay.classList.remove("show");
+        });
 
-        function viewProfile() {
-            location.href = "js/profile/viewProfile.html";
-        }
+        profileDropdownToggle.addEventListener("click", function (e) {
+          e.stopPropagation();
+          profileDropdownMenu.classList.toggle("show");
+        });
+
+        document.addEventListener("click", function () {
+          profileDropdownMenu.classList.remove("show");
+        });
+
+        navLinks.forEach((link) => {
+          link.addEventListener("click", function (e) {
+            if (
+              !this.hasAttribute("data-bs-toggle") ||
+              this.getAttribute("data-bs-toggle") !== "collapse"
+            ) {
+              e.preventDefault();
+              const targetPage = this.getAttribute("data-page");
+
+              if (targetPage) {
+                // Hide all pages
+                document.querySelectorAll(".page-content").forEach((page) => {
+                  page.classList.remove("active");
+                });
+
+                // Show target page
+                document.getElementById(targetPage).classList.add("active");
+
+                // Update active nav link
+                document.querySelectorAll(".nav-link").forEach((navLink) => {
+                  navLink.classList.remove("active");
+                });
+                this.classList.add("active");
+
+                // Close submenu if not in My Articles section
+                if (!this.closest("#myArticlesCollapse")) {
+                  collapseInstance.hide();
+                }
+
+                // Close sidebar on mobile after navigation
+                if (window.innerWidth < 992) {
+                  sidebar.classList.remove("show");
+                  overlay.classList.remove("show");
+                }
+
+                // Close profile dropdown
+                profileDropdownMenu.classList.remove("show");
+              }
+            }
+          });
+        });
+
+        // Close sidebar when window is resized to desktop size
+        window.addEventListener("resize", function () {
+          if (window.innerWidth >= 992) {
+            sidebar.classList.remove("show");
+            overlay.classList.remove("show");
+          }
+        });
+      });
+
+      // profile
+      showProfile();
+      function showProfile() {
+        fetch(`${URL}/auth/profile`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (!data || !data.data) {
+              console.error("User data not found", data);
+              return;
+            }
+
+            const user = data.data;
+            const avatar = user.avatar || "assets/images/defaultImage.jpg";
+
+            document.getElementById("profileAvatar").src = avatar;
+            document.getElementById(
+              "profileName"
+            ).textContent = `${user.firstName} ${user.lastName}`;
+            document.getElementById(
+              "profileEmail"
+            ).textContent = `${user.email}`;
+          })
+          .catch((err) => console.log(err));
+      }
+      function logout() {
+        localStorage.removeItem("authToken");
+        location.href = "auth/loginUser.html";
+      }
+
+      function viewProfile() {
+        location.href = "js/profile/viewProfile.html";
+      }
     </script>
-</body>
-
+  </body>
 </html>

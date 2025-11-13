@@ -120,7 +120,7 @@ function escapeHtml(text) {
 fetchCategories(1);
 
 function handleSearch() {
-  const query = document.getElementById("searchInput").value.trim();
+  const query = document.getElementById("searchCategoryInput").value.trim();
   const authToken = localStorage.getItem("authToken");
 
   if (!query) {
