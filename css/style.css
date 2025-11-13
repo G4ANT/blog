@@ -547,3 +547,10 @@ body {
   padding: 4px 8px;
   font-size: 0.85rem;
 }
+#toastContainer {
+  /* position: fixed; */
+  top: 6rem;
+  right: 1rem;
+  z-index: 1080;
+  position: absolute;
+}
