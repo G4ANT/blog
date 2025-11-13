@@ -5,110 +5,192 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Login</title>
     <link href="../css/bootstrap.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../css/style.css" />
-    <link
-      rel="stylesheet"
-      href="../assets/font/fontawesome-6.2.0/css/all.css"
-    />
+    <link rel="stylesheet" href="../css/style.css"/>
+    <link rel="stylesheet" href="../assets/font/fontawesome-6.2.0/css/all.css"/>
     <script src="../js/bootstrap/bootstrap.bundle.min.js"></script>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            display: flex;
+            width: 1100px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            
+        }
+        
+        .login-section {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .login-section h1{
+            text-align: center;
+        }
+        
+        .image-section {
+            flex: 1;
+            background-image: url(loginImage.jpg);
+            background-size: 120% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            color: white;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-weight: 700;
+            font-size: 28px;
+        }
+        .login-button {
+            background-color:  #0d6efd;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(75, 145, 224, 0.233);
+        }
+        
+        .login-button:hover {
+            background-color:  #3c85f4;
+        }
+        
+        hr {
+            border: none;
+            border-top: 1px solid #eee;
+            margin: 25px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                height: auto;
+                width: 100%;
+            }
+            
+            .image-section {
+                /* padding: 30px 20px; */
+                display: none;
+            }
+            
+            .login-section {
+                padding: 30px 20px;
+            }
+        }
+        .border_login{
+            display: flex;
+            margin-top: 10px;
+        }
+        .border_login .border-left{
+            width: 50%;
+            height: 2px;
+            background-color: #3333;
+            margin-top: 20px;
+        }
+        .border_login .border-right{
+            width: 50%;
+            height: 2px;
+            background-color: #3333;
+            margin-top: 20px;
+        }
+        .border_login .text{
+            margin: 0 10px;
+            color: #000;
+            font-size: 14px;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+        .login-section p{
+            text-align: center;
+            margin-top: 10px;
+            font-size: 13px;
+        }
+    </style>
   </head>
   <body class="auth-service">
     <div class="container">
-      <div class="row justify-content-center box-center-auth">
-        <div class="col-md-6 col-lg-5">
-          <div class="card p-4">
-            <div class="card-body">
-              <h3 class="card-title mb-3 text-center fw-bold text-color">
-                Login
-              </h3>
-              <p class="text-center text-muted small">
-                Sign in to your account
-              </p>
-
-              <form id="loginForm" class="needs-validation" novalidate>
+        <div class="image-section"></div>
+        <div class="login-section">
+            <h1>Login</h1>
+            
+            <form id="loginForm" class="needs-validation" navalidate>
                 <div class="mb-3">
-                  <label for="email" class="form-label">Email address</label>
-                  <input
-                    type="email"
-                    class="form-control"
-                    id="email"
-                    placeholder="Enter email"
-                    required
-                  />
+                  <label for="email" class="form-label">Email*</label>
+                  <input type="email" class="form-control py-3" id="email" placeholder="Enter your email" required/>
                   <div class="invalid-feedback">
                     Please enter a valid email.
                   </div>
                 </div>
 
                 <div class="mb-3">
-                  <label for="password" class="form-label">Password</label>
+                  <label for="password" class="form-label">Password*</label>
                   <div class="input-group">
-                    <input
-                      type="password"
-                      class="form-control"
-                      id="password"
-                      placeholder="Enter password"
-                      required
-                    />
-                    <span
-                      class="input-group-text"
-                      id="toggleLoginPwd"
-                      style="cursor: pointer"
-                    >
-                      <i class="fa-thin fa-eye"></i>
-                    </span>
-                  </div>
+                    <input type="password" class="form-control py-3" id="password" placeholder="Enter your password" required/>
+                    <span class="input-group-text" id="toggleLoginPwd" style="cursor: pointer">
+                    <i class="fa-thin fa-eye"></i>
+                  </span>
                   <div class="invalid-feedback">
-                    Please enter your password.
+                  Please enter a valid password.
+                </div>
                   </div>
-                </div>
+                  
+                <div class="mt-4">
 
-                <div class="d-grid">
-                  <button
-                    type="button"
-                    class="btn btn-primary-color btn-hover-primary-color"
-                    onclick="onClickLogin()"
-                  >
-                    Login
-                  </button>
+                  <button type="button" onclick="onClickLogin()" class="login-button">Login</button>
                 </div>
-
-                <p class="text-center mt-3 small text-muted">
-                  Don’t have an account?
-                  <a href="registerUser.html"
-                    ><span class="text-color text-decoration-underline"
-                      >Sign up</span
-                    ></a
-                  >
-                </p>
-              </form>
+            </form>
+            
+            <div class="border_login">
+                <div class="border-left"></div>
+                <div class="text">OR</div>
+                <div class="border-right"></div>
             </div>
-          </div>
+            <p class="fs-6">Don't have an account?<a href="registerUser.html">Register</a></p>
+            
+        
+
         </div>
-      </div>
+        
     </div>
     <!-- Toast Container -->
     <div id="toastContainer">
       <div
-        id="successToast"
-        class="toast align-items-center text-bg-success border-0"
-        role="alert"
-      >
+        id="successToast" class="toast align-items-center text-bg-success border-0" role="alert">
         <div class="d-flex">
           <div class="toast-body">Login successful!</div>
-          <button
-            type="button"
-            class="btn-close btn-close-white me-2 m-auto"
-            data-bs-dismiss="toast"
-          ></button>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
         </div>
       </div>
 
       <div
-        id="errorToast"
-        class="toast align-items-center text-bg-danger border-0"
-        role="alert"
-      >
+        id="errorToast" class="toast align-items-center text-bg-danger border-0"role="alert">
         <div class="d-flex">
           <div class="toast-body">
             Login failed. Please check your credentials.
