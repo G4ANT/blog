@@ -183,6 +183,7 @@
                                 </div>
 
                             </div>
+                            <!-- Update aritcle -->
                             <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel"
                                 aria-hidden="true">
                                 <div class="modal-dialog modal-lg">
@@ -193,30 +194,35 @@
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <form id="updateForm" enctype="multipart/form-data">
+                                            <form id="updateForm" enctype="multipart/form-data" class="needs-validation" novalidate>
                                                 <input type="hidden" id="updateId">
 
                                                 <div class="row g-3">
                                                     <div class="col-md-8">
                                                         <div class="mb-3">
                                                             <label for="updateTitle"
-                                                                class="form-label fw-semibold">Title</label>
-                                                            <input type="text" class="form-control" id="updateTitle"
-                                                                required>
+                                                            class="form-label fw-semibold">Title</label>
+                                                            <input type="text" class="form-control" id="updateTitle"required>
+                                                            <div class="invalid-feedback">
+                                                                Please enter title
+                                                            </div>
                                                         </div>
 
                                                         <div class="mb-3">
-                                                            <label for="updateCategory"
-                                                                class="form-label fw-semibold">Category</label>
-                                                            <input type="text" class="form-control" id="updateCategory"
-                                                                required>
+                                                            <label for="updateCategory" class="form-label fw-semibold">Category</label>
+                                                            <select class="form-select" id="updateCategory" required>
+                                                                <option value="">Select Category</option>
+                                                            </select>
+                                                            <div class="invalid-feedback">Please select a category</div>
                                                         </div>
 
                                                         <div class="mb-3">
                                                             <label for="updateContent"
-                                                                class="form-label fw-semibold">Content</label>
-                                                            <textarea class="form-control" id="updateContent" rows="5"
-                                                                required></textarea>
+                                                            class="form-label fw-semibold">Content</label>
+                                                            <textarea class="form-control" id="updateContent" rows="5"required></textarea>
+                                                            <div class="invalid-feedback">
+                                                                Please enter content
+                                                            </div>
                                                         </div>
                                                     </div>
 
@@ -234,18 +240,14 @@
                                                 </div>
 
                                                 <div class="text-end">
-                                                    <button type="submit" class="btn btn-success mt-3">
-                                                        <i class="bi bi-save me-1"></i> Save Changes
-                                                    </button>
+                                                    <button type="button" class="btn btn-success mt-3" onclick="onClickUpdate()"> Save Changes</button>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
 
                     <!-- Create Article Page -->
@@ -256,16 +258,16 @@
                                 Compose a new article and publish it to your platform.
                             </p>
                         </div>
-
                         <div class="container">
                             <div class="form-container">
-                                <form id="articleForm">
+                                <form id="articleForm" class="needs-validation" novalidate>
                                     <!-- Title -->
                                     <div class="mb-3">
-                                        <label for="title" class="form-label">Title <span
-                                                class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="title"
-                                            placeholder="Title of the article" required />
+                                        <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" value="Teting tille create" id="title" minlength="10" placeholder="Title of the article" required />
+                                        <div class="invalid-feedback">
+                                            Title must be at least 10 characters long.
+                                        </div>
                                     </div>
 
                                     <!-- Category -->
@@ -275,6 +277,9 @@
                                         <select class="form-select" id="category" required>
                                             <option value="">Select category</option>
                                         </select>
+                                        <div class="invalid-feedback">
+                                            Please select category
+                                        </div>
                                     </div>
 
                                     <!-- Thumbnail -->
@@ -282,19 +287,25 @@
                                         <label for="thumbnail" class="form-label">Thumbnail <span
                                                 class="text-danger">*</span></label>
                                         <input class="form-control" type="file" id="thumbnail" required />
+                                        <div class="invalid-feedback">
+                                            Please choose thumbnail
+                                        </div>
                                     </div>
 
                                     <!-- Content -->
                                     <div class="mb-3">
                                         <label for="content" class="form-label">Content <span
                                                 class="text-danger">*</span></label>
-                                        <textarea class="form-control" id="content" placeholder="Write content here..."
-                                            required></textarea>
+                                        <textarea class="form-control" id="content" minlength="10" placeholder="Write content here..."
+                                            required>Teting tille create</textarea>
+                                        <div class="invalid-feedback">
+                                            Content must be at least 10 characters long.
+                                        </div>
                                     </div>
 
                                     <!-- Footer Buttons -->
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <a href="articles.html" class="back-link">&larr; Back to Articles</a>
+                                        <a href="articles.html" class="back-link text-decoration-none">&larr; Back to Articles</a>
                                         <button type="button" onclick="onClickSubmit()" class="btn btn-primary">
                                             <i class="bi bi-pencil-square me-1"></i> Publish Now
                                         </button>
@@ -414,6 +425,26 @@
                 </div>
             </div>
         </div>
+    </div>
+      <!-- Toast Container -->
+    <div id="toastContainer">
+    <div id="successToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+        <div class="toast-body">
+            <!-- Create article success -->
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+
+    <div id="errorToast" class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+        <div class="toast-body">
+            Create article fail
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    </div>
     </div>
 
     <script src="js/bootstrap/bootstrap.bundle.min.js"></script>

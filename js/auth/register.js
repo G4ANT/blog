@@ -87,6 +87,7 @@ function onClickCreate() {
             successToast.show();
             form.reset();
             form.classList.remove('was-validated');
+            location.href = ""
         }else{
             errorBoxMessage.textContent = result.body.message || "Registration failed.";
             errorToast.show();
