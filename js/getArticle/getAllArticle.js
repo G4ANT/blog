@@ -18,6 +18,7 @@ function getData(page) {
             const items = data.data.items;
             if (!items || items.length === 0) {
                 btnLoadMore.style.display = 'none'
+                
                 showNoMoreData.style.display = 'block'
                 // return;
             }
