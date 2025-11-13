@@ -448,9 +448,10 @@ body {
 }
 .get-article .card {
   overflow: hidden;
+  transition: 0.4s;
 }
 .get-article .card:hover {
-  border: 1px solid green;
+  box-shadow: 0 4px 12px rgba(13, 109, 253, 0.300);
 }
 
 .get-article .card > img {

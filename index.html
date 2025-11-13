@@ -122,8 +122,8 @@
                         <div class="row g-3" id="showArticleOfCreator">
                             <!-- show all card of a creator here -->
                         </div>
-                        <div class="d-flex justify-content-center align-items-center my-4">
-                            <button type="button" class="btn btn-info" id="btnLoadMore">
+                        <div class="d-flex justify-content-center align-items-center my-5">
+                            <button type="button" class="btn btn-outline-primary" id="btnLoadMore">
                                 Load more
                             </button>
                             <br />
@@ -134,16 +134,16 @@
                     <!-- All Articles Page -->
                     <div id="all-articles" class="page-content">
                         <div class="page-header d-flex justify-content-between align-items-center">
-                        <div>
-                            <h2 class="section-title">My Articles</h2>
-                            <p class="text-muted">Create and manage your articles</p>
+                            <div>
+                                <h2 class="section-title">My Articles</h2>
+                                <p class="text-muted">Create and manage your articles</p>
+                            </div>
+                            <div>
+                                <a href="create-article.html" class="btn-create">
+                                    <i class="fa-regular fa-plus"></i> Create Article
+                                </a>
+                            </div>
                         </div>
-                        <div>
-                            <a href="create-article.html" class="btn-create">
-                                <i class="fa-regular fa-plus"></i> Create Article
-                            </a>
-                        </div>
-                    </div>
                         <!-- ======= My Articles ====== -->
                         <div class="container">
                             <!-- Search -->
@@ -415,15 +415,21 @@
             </div>
         </div>
     </div>
-
     <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="js/article/own/own.js"></script>
     <script src="js/article/category/category.js"></script>
+    
 
     <!-- library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
+
     <script src="assets/sweetalert/sweetalert.js"></script>
     <script src="js/getArticle/getAllArticle.js"></script>
+    <script src="js/getArticle/getAllArticleOfCreator.js"></script>
+    <script src="js/getArticle/getDetailArticle.js"></script>
 
     <!-- guill delta -->
     <script
@@ -431,6 +437,8 @@
 
 
     <script>
+
+
         const URL = "http://blogs.csm.linkpc.net/api/v1";
         document.addEventListener("DOMContentLoaded", function () {
             const myArticlesCollapse =
