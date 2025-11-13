@@ -295,7 +295,7 @@ function showDataTable() {
                 <td><span class="badge-category">${categoryName}</span></td>
                 <td>${createdAt}</td>
                 <td class="text-end">
-                <button class="btn btn-sm btn-outline-danger"><i class="fa-regular fa-trash"></i></button>
+                <button class="btn btn-sm btn-outline-danger"onclick="btnDeleteArticle(${article.id})" ><i class="fa-regular fa-trash"></i></button>
                 <button class="btn btn-sm btn-outline-secondary me-1" onclick="onClickUpdateArticle(${article.id})"><i class="fa-regular fa-pencil"></i></button>
                 </td>
             </tr>`;
