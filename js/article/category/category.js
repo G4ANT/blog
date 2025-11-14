@@ -5,7 +5,9 @@ const tbody = document.getElementById("displayCategory");
 const pagination = document.getElementById("paginationContainer");
 const gToken = localStorage.getItem("authToken");
 
-let categories = [];
+let editCategoryId = null;
+let categories = []; // currently displayed categories
+let allCategories = []; // full list for search
 let cPage = 1;
 const perrPage = 10;
 
@@ -17,7 +19,9 @@ function fetchCategories() {
   })
     .then((res) => res.json())
     .then((data) => {
-      categories = data?.data?.items || [];
+      allCategories = data?.data?.items || []; // FIXED
+      categories = [...allCategories]; // set for display
+
       renderCategoryTable();
       renderPaginations();
     })
@@ -30,6 +34,7 @@ function fetchCategories() {
 // Show data per page
 function renderCategoryTable() {
   tbody.innerHTML = "";
+
   const totalEntries = categories.length;
   const start = (cPage - 1) * perrPage;
   const end = Math.min(start + perrPage, totalEntries);
@@ -49,19 +54,19 @@ function renderCategoryTable() {
   paginated.forEach((cat) => {
     const row = document.createElement("tr");
     row.innerHTML = `
-          <td>${escapeHtml(cat.name)}</td>
-          <td class="text-end">
-            <button class="btn btn-sm btn-outline-secondary me-1" onclick="openEditModal(${
-              cat.id
-            }, '${escapeHtml(cat.name)}')">
-              <i class="fa-solid fa-pen"></i>
-            </button>
-            <button class="btn btn-sm btn-outline-danger" onclick="btnDelete(${
-              cat.id
-            })">
-              <i class="fa-solid fa-trash"></i>
-            </button>
-          </td>`;
+      <td>${escapeHtml(cat.name)}</td>
+      <td class="text-end">
+        <button class="btn btn-sm btn-outline-secondary me-1" onclick="openEditModal(${
+          cat.id
+        }, '${escapeHtml(cat.name)}')">
+          <i class="fa-solid fa-pen"></i>
+        </button>
+        <button class="btn btn-sm btn-outline-danger" onclick="btnDelete(${
+          cat.id
+        })">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      </td>`;
     tbody.appendChild(row);
   });
 }
@@ -73,27 +78,27 @@ function renderPaginations() {
 
   const prevDisabled = cPage === 1 ? "disabled" : "";
   pagination.innerHTML += `
-        <li class="page-item ${prevDisabled}">
-          <a class="page-link" href="#" data-page="${cPage - 1}">
-            <i class="fa-solid fa-angle-left"></i>
-          </a>
-        </li>`;
+    <li class="page-item ${prevDisabled}">
+      <a class="page-link" href="#" data-page="${cPage - 1}">
+        <i class="fa-solid fa-angle-left"></i>
+      </a>
+    </li>`;
 
   for (let i = 1; i <= totalPage; i++) {
     const active = i === cPage ? "active" : "";
     pagination.innerHTML += `
-          <li class="page-item ${active}">
-            <a class="page-link" href="#" data-page="${i}">${i}</a>
-          </li>`;
+      <li class="page-item ${active}">
+        <a class="page-link" href="#" data-page="${i}">${i}</a>
+      </li>`;
   }
 
   const nextDisabled = cPage === totalPage ? "disabled" : "";
   pagination.innerHTML += `
-        <li class="page-item ${nextDisabled}">
-          <a class="page-link" href="#" data-page="${cPage + 1}">
-            <i class="fa-solid fa-angle-right"></i>
-          </a>
-        </li>`;
+    <li class="page-item ${nextDisabled}">
+      <a class="page-link" href="#" data-page="${cPage + 1}">
+        <i class="fa-solid fa-angle-right"></i>
+      </a>
+    </li>`;
 
   document
     .querySelectorAll("#paginationContainer .page-link")
@@ -127,62 +132,50 @@ function escapeHtml(text) {
   return div.innerHTML;
 }
 
+// Needed for search results
+function renderCategories(list) {
+  categories = list;
+  cPage = 1; // reset to page 1
+  renderCategoryTable();
+  renderPaginations();
+}
+
 fetchCategories();
 
+// SEARCH FIXED
 function handleSearch() {
-  const input = document.getElementById("searchInput");
-  if (!input) {
-    console.error("Search input not found!");
-    return;
-  }
+  const query = document.getElementById("searchCategoryInput").value.trim();
+  const authToken = localStorage.getItem("authToken");
 
-  const query = input.value.trim().toLowerCase();
-
-  // If search is empty, show full list again
   if (!query) {
-    cPage = 1;
-    renderCategoryTable();
-    renderPaginations();
+    renderCategories(allCategories); // reset
     return;
   }
 
-  // Filter categories
-  const filtered = categories.filter((cat) =>
-    cat.name.toLowerCase().includes(query)
+  // Search by ID
+  if (!isNaN(query)) {
+    fetch(`${APII}/categories/${query}`, {
+      headers: { Authorization: `Bearer ${authToken}` },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (!data?.data) {
+          renderCategories([]);
+        } else {
+          const category = Array.isArray(data.data) ? data.data[0] : data.data;
+          renderCategories([category]);
+        }
+      })
+      .catch(() => renderCategories([]));
+    return;
+  }
+
+  // Search by name
+  const filtered = allCategories.filter((cat) =>
+    cat.name.toLowerCase().includes(query.toLowerCase())
   );
 
-  // Render filtered results
-  tbody.innerHTML = "";
-
-  if (filtered.length === 0) {
-    tbody.innerHTML = `
-      <tr>
-        <td colspan="2" class="text-center text-muted py-3">
-          No categories found
-        </td>
-      </tr>`;
-    pagination.innerHTML = ""; // hide pagination when searching
-    return;
-  }
-
-  filtered.forEach((cat) => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td>${escapeHtml(cat.name)}</td>
-      <td class="text-end">
-        <button class="btn btn-sm btn-outline-secondary me-1"
-          onclick="openEditModal(${cat.id}, '${escapeHtml(cat.name)}')">
-          <i class="fa-solid fa-pen"></i>
-        </button>
-        <button class="btn btn-sm btn-outline-danger"
-          onclick="btnDelete(${cat.id})">
-          <i class="fa-solid fa-trash"></i>
-        </button>
-      </td>`;
-    tbody.appendChild(row);
-  });
-
-  pagination.innerHTML = ""; // hide pagination during search
+  renderCategories(filtered);
 }
 
 function btnCreate() {
