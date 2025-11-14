@@ -498,146 +498,151 @@
     <!-- guill delta -->
     <script src="https://cdn.jsdelivr.net/npm/quill-delta-to-html/dist/browser/QuillDeltaToHtmlConverter.bundle.js"></script>
 
-    <script>
-      const URL = "http://blogs.csm.linkpc.net/api/v1";
-      document.addEventListener("DOMContentLoaded", function () {
-        const myArticlesCollapse =
-          document.getElementById("myArticlesCollapse");
-        const collapseInstance = new bootstrap.Collapse(myArticlesCollapse, {
-          toggle: false,
-        });
+   <script>
+  const URL = "http://blogs.csm.linkpc.net/api/v1";
 
-        const navLinks = document.querySelectorAll(".nav-link");
-        const mobileMenuBtn = document.querySelector(".mobile-menu-btn");
-        const sidebar = document.querySelector(".sidebar");
-        const overlay = document.querySelector(".overlay");
-        const profileDropdownToggle = document.querySelector(
-          ".profile-dropdown-toggle"
-        );
-        const profileDropdownMenu = document.querySelector(
-          ".profile-dropdown-menu"
-        );
+  document.addEventListener("DOMContentLoaded", function () {
+    const myArticlesCollapse = document.getElementById("myArticlesCollapse");
+    const collapseInstance = new bootstrap.Collapse(myArticlesCollapse, {
+      toggle: false,
+    });
 
-        // Mobile sidebar toggle
-        mobileMenuBtn.addEventListener("click", function () {
-          sidebar.classList.toggle("show");
-          overlay.classList.toggle("show");
-        });
+    const navLinks = document.querySelectorAll(".nav-link");
+    const mobileMenuBtn = document.querySelector(".mobile-menu-btn");
+    const sidebar = document.querySelector(".sidebar");
+    const overlay = document.querySelector(".overlay");
 
-        overlay.addEventListener("click", function () {
-          sidebar.classList.remove("show");
-          overlay.classList.remove("show");
-        });
+    const profileDropdownToggle = document.querySelector(".profile-dropdown-toggle");
+    const profileDropdownMenu = document.querySelector(".profile-dropdown-menu");
 
+    // Mobile sidebar toggle
+    mobileMenuBtn.addEventListener("click", function () {
+      sidebar.classList.toggle("show");
+      overlay.classList.toggle("show");
+    });
 
-        // ============================
-        profileDropdownToggle.addEventListener("click", function (e) {
-          e.stopPropagation();
-          profileDropdownMenu?.classList.toggle("show");
-        });
+    overlay.addEventListener("click", function () {
+      sidebar.classList.remove("show");
+      overlay.classList.remove("show");
+    });
 
-        // =============================
-        document.addEventListener("click", function () {
-          profileDropdownMenu?.classList.remove("show");
-        });
+    // Profile dropdown
+    profileDropdownToggle?.addEventListener("click", function (e) {
+      e.stopPropagation();
+      profileDropdownMenu?.classList.toggle("show");
+    });
 
+    document.addEventListener("click", function () {
+      profileDropdownMenu?.classList.remove("show");
+    });
 
-        navLinks.forEach((link) => {
-          link.addEventListener("click", function (e) {
-            if (
-              !this.hasAttribute("data-bs-toggle") ||
-              this.getAttribute("data-bs-toggle") !== "collapse"
-            ) {
-              e.preventDefault();
-              const targetPage = this.getAttribute("data-page");
+    // Handle sidebar navigation
+    navLinks.forEach((link) => {
+      link.addEventListener("click", function (e) {
+        if (!this.hasAttribute("data-bs-toggle")) {
+          e.preventDefault();
+          const targetPage = this.getAttribute("data-page");
 
-              if (targetPage) {
-                // Hide all pages
-                document.querySelectorAll(".page-content").forEach((page) => {
-                  page.classList.remove("active");
-                });
+          if (targetPage) {
+            // Hide all pages
+            document.querySelectorAll(".page-content").forEach((page) => {
+              page.classList.remove("active");
+            });
 
-                // Show target page
-                document.getElementById(targetPage).classList.add("active");
+            // Show the selected page
+            document.getElementById(targetPage)?.classList.add("active");
 
-                // Update active nav link
-                document.querySelectorAll(".nav-link").forEach((navLink) => {
-                  navLink.classList.remove("active");
-                });
-                this.classList.add("active");
+            // Update active link
+            document.querySelectorAll(".nav-link").forEach((navLink) => {
+              navLink.classList.remove("active");
+            });
+            this.classList.add("active");
 
-                // Close submenu if not in My Articles section
-                if (!this.closest("#myArticlesCollapse")) {
-                  collapseInstance.hide();
-                }
-
-                // Close sidebar on mobile after navigation
-                if (window.innerWidth < 992) {
-                  sidebar.classList.remove("show");
-                  overlay.classList.remove("show");
-                }
-
-                // Close profile dropdown
-                // profileDropdownMenu.classList.remove("show");
-
-                // ===============================
-                if (profileDropdownMenu) {
-                document.addEventListener("click", function () {
-                  profileDropdownMenu.classList.remove("show");
-                });
-              }
-              }
+            // If link not inside My Articles → close submenu
+            if (!this.closest("#myArticlesCollapse")) {
+              collapseInstance.hide();
             }
-          });
-        });
 
-        // Close sidebar when window is resized to desktop size
-        window.addEventListener("resize", function () {
-          if (window.innerWidth >= 992) {
-            sidebar.classList.remove("show");
-            overlay.classList.remove("show");
+            // Close sidebar on mobile
+            if (window.innerWidth < 992) {
+              sidebar.classList.remove("show");
+              overlay.classList.remove("show");
+            }
+
+            profileDropdownMenu?.classList.remove("show");
           }
-        });
+        }
       });
+    });
 
-      // profile
-      showProfile();
-      function showProfile() {
-        fetch(`${URL}/auth/profile`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (!data || !data.data) {
-              console.error("User data not found", data);
-              return;
-            }
+    // Auto-open tab when coming from viewProfile.html
+    function autoOpenPage() {
+      let targetPage = null;
 
-            const user = data.data;
-            const avatar = user.avatar || "assets/images/defaultImage.jpg";
-
-            document.getElementById("profileAvatar").src = avatar;
-            document.getElementById(
-              "profileName"
-            ).textContent = `${user.firstName} ${user.lastName}`;
-            document.getElementById(
-              "profileEmail"
-            ).textContent = `${user.email}`;
-          })
-          .catch((err) => console.log(err));
-      }
-      function logout() {
-        localStorage.removeItem("authToken");
-        location.href = "auth/loginUser.html";
+      // Check ?page=
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("page")) {
+        targetPage = params.get("page");
       }
 
-      function viewProfile() {
-        location.href = "js/profile/viewProfile.html";
+      // Check #hash
+      if (!targetPage && window.location.hash) {
+        targetPage = window.location.hash.replace("#", "");
       }
-    </script>
+
+      if (targetPage) {
+        const targetLink = document.querySelector(`.nav-link[data-page="${targetPage}"]`);
+        if (targetLink) {
+          targetLink.click();
+        }
+      }
+    }
+
+    autoOpenPage();
+
+    // Close sidebar when resizing to desktop
+    window.addEventListener("resize", function () {
+      if (window.innerWidth >= 992) {
+        sidebar.classList.remove("show");
+        overlay.classList.remove("show");
+      }
+    });
+  });
+
+  // Load profile info
+  showProfile();
+  function showProfile() {
+    fetch(`${URL}/auth/profile`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (!data?.data) return;
+
+        const user = data.data;
+        const avatar = user.avatar || "assets/images/defaultImage.jpg";
+
+        document.getElementById("profileAvatar").src = avatar;
+        document.getElementById("profileName").textContent =
+          `${user.firstName} ${user.lastName}`;
+        document.getElementById("profileEmail").textContent = user.email;
+      })
+      .catch((err) => console.log(err));
+  }
+
+  function logout() {
+    localStorage.removeItem("authToken");
+    location.href = "auth/loginUser.html";
+  }
+
+  function viewProfile() {
+    location.href = "js/profile/viewProfile.html";
+  }
+</script>
+
   </body>
 </html>

@@ -82,7 +82,7 @@
           <div class="d-flex flex-column">
             <ul class="nav flex-column">
               <li class="nav-item">
-                <a class="nav-link" href="../../index.html#dashboard">
+                <a class="nav-link" href="../../index.html?page=dashboard">
                   <i class="fa-solid fa-gauge"></i> Dashboard
                 </a>
               </li>
@@ -90,14 +90,14 @@
               <li class="nav-item">
                 <a
                   class="nav-link collapsed"
-                  href="../../index.html#all-articles"
+                  href="../../index.html?page=all-articles"
                 >
                   <i class="fa-regular fa-file-lines"></i> My Articles
                 </a>
               </li>
 
               <li class="nav-item">
-                <a class="nav-link" href="../../index.html#categoryy">
+                <a class="nav-link" href="../../index.html?page=categoryy">
                   <i class="fa-solid fa-th-large"></i> Category
                 </a>
               </li>
@@ -141,8 +141,6 @@
     <script src="viewProfile.js"></script>
 
     <script>
-      // const URL = "http://blogs.csm.linkpc.net/api/v1";
-
       document.addEventListener("DOMContentLoaded", function () {
         const mobileMenuBtn = document.querySelector(".mobile-menu-btn");
         const sidebar = document.querySelector(".sidebar");
@@ -159,19 +157,21 @@
           overlay.classList.remove("show");
         });
 
-        // Sidebar navigation (redirect to index.html tabs)
+        // Sidebar navigation (supports ?page= tab system)
         const navLinks = document.querySelectorAll(".nav-link");
         navLinks.forEach((link) => {
           link.addEventListener("click", function (e) {
             e.preventDefault();
             const href = this.getAttribute("href");
-            if (href) {
+
+            if (href && href.includes("index.html?page=")) {
+              // Correct redirect to main dashboard
               window.location.href = href;
             }
           });
         });
 
-        // Close sidebar when resizing to desktop
+        // Close sidebar when screen is resized to desktop
         window.addEventListener("resize", function () {
           if (window.innerWidth >= 992) {
             sidebar.classList.remove("show");
