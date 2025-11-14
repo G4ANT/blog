@@ -1,37 +1,12 @@
 const API = "http://blogs.csm.linkpc.net/api/v1";
 const endPointCreateArticle = "articles";
-const endPointCategory =
-  "categories?_page=1&_per_page=20&sortBy=name&sortDir=ASC";
+const endPointCategory = "categories?_page=1&_per_page=20&sortBy=name&sortDir=ASC";
 const endPointOwnArticle = "articles/own?_page=1&_per_page=50";
 
 const getToken = localStorage.getItem("authToken");
+
 //  Get data category item
 getCategoryData()
-// function getCategoryData() {
-//    try {
-//     let categoryOption = document.getElementById("category");
-//     fetch(`${API}/${endPointCategory}`,{
-//         method: "GET",
-//         headers: {
-//             "Authorization": `Bearer ${getToken}`
-//         }
-//     })
-//     .then(res => res.json())
-//     .then((data) =>{
-//         const getCategoryItems = data.data.items;
-//         getCategoryItems.forEach(category => {
-//             let options = `
-//                 <option value="${category.id}">${category.name}</option>
-//             `;
-//                 categoryOption.innerHTML += options; 
-//         }); 
-//     })
-//     .catch(error =>{console.error(error.message, "data error");
-//     })
-// } catch (error) {
-//     console.error("Data error: ", error.message);   
-// } 
-// }
 function getCategoryData(dropdownId = "category", selectedId = null) {
     try {
         const categoryOption = document.getElementById(dropdownId);
@@ -58,12 +33,10 @@ function getCategoryData(dropdownId = "category", selectedId = null) {
         console.error("Data error:", err.message);
     }
 }
-function showToast(type) {
+function createArticleErrorMessage(type) {
   const successToastEl = document.getElementById("successToast");
   const errorToastEl = document.getElementById("errorToast");
-
   let toastEl;
-
   if (type === "success") {
     toastEl = successToastEl;
     toastEl.querySelector(".toast-body").textContent = "Article created successfully!";
@@ -77,66 +50,23 @@ function showToast(type) {
     toast.show();
   }
 }
+function updateArticleErrorMessage(type) {
+  const successToastEl = document.getElementById("successToast");
+  const errorToastEl = document.getElementById("errorToast");
+  let toastEl;
+  if (type === "success") {
+    toastEl = successToastEl;
+    toastEl.querySelector(".toast-body").textContent = "Update created successfully!";
+  } else if (type === "error") {
+    toastEl = errorToastEl;
+    toastEl.querySelector(".toast-body").textContent = "Update article fail";
+  }
 
-// function onClickSubmit(){
-//     let title = document.getElementById("title");
-//     let content = document.getElementById("content");
-//     let category = document.getElementById("category");
-//     let thumbnailFile = document.getElementById("thumbnail").files[0];
-    
-//     try {
-
-//         const articleData ={
-//             title: title.value.trim(),
-//             content: content.value.trim(),
-//             categoryId: Number(category.value)
-//         }
-
-//         fetch(`${API}/${endPointCreateArticle}`,{
-//             method: "POST",
-//             headers: {
-//                 "Content-Type": "application/json",
-//                 "Authorization": `Bearer ${getToken}`
-//             },
-//             body: JSON.stringify(articleData)
-//         })
-//         .then((res) => res.json())
-//         .then((dataArticle) =>{
-//             if (!dataArticle.result || !dataArticle.data.id) {
-//           console.error("Article creation failed:", dataArticle.message);
-//           return;
-//         }
-//             const articleId = dataArticle.data.id;
-
-//             let formData = new FormData();
-//             formData.append("thumbnail", thumbnailFile);
-
-//             return fetch(`${API}/articles/${articleId}/thumbnail`, {
-//                 method: "POST",
-//                 headers: {"Authorization": `Bearer ${getToken}`},
-//                 body: formData
-//             })
-//             .then(res => res.json())
-//             .then(dataThumbnail =>{
-//                 if(!dataThumbnail) return;
-//                  console.log("Thumbnail uploaded:", dataThumbnail);
-//                  if(dataThumbnail.result){
-//                     alert("sucess");
-//                     title.value = ""
-//                     content.value = ""
-//                     category.selectedIndex = 0
-//                    document.getElementById("thumbnail").value = "";
-//                  }else{
-//                     console.log("Create aricle is fail");
-                    
-//                  }
-//             })
-//         })
-//     } catch (error) {
-//         console.error({error: "Data error"});
-        
-//     }
-// }
+  if (toastEl) {
+    const toast = new bootstrap.Toast(toastEl);
+    toast.show();
+  }
+}
 
 // For get all article owner
 function onClickSubmit() {
@@ -150,7 +80,6 @@ function onClickSubmit() {
         formCreateValidation.classList.add("was-validated");
         return;
     }
-
     const articleData = {
         title: title.value.trim(),
         content: content.value.trim(),
@@ -168,7 +97,7 @@ function onClickSubmit() {
     .then(res => res.json())
     .then(dataArticle => {
         if (!dataArticle.result || !dataArticle.data.id) {
-            showToast("error");
+            createArticleErrorMessage("error");
             console.error("Article creation failed:", dataArticle.message);
             return;
         }
@@ -188,8 +117,7 @@ function onClickSubmit() {
         .then(dataThumbnail => {
             if (dataThumbnail.result) {
                 // alert(" Article created successfully!");
-                showToast("success");
-                console.log("1111");
+                createArticleErrorMessage("success");
                 
 
                 // Clear form
@@ -261,11 +189,7 @@ function showDataTable() {
       ? `Showing ${start + 1} to ${end} of ${totalEntries} entries`
       : `Showing 0 enteries`;
 
-  tbody.innerHTML = paginated.length
-    ? ""
-    : `
-        <tr><td colspan="5" class="text-center text-muted">No articles found.</td></tr>
-    `;
+  tbody.innerHTML = paginated.length ? "" : ` <tr><td colspan="5" class="text-center text-muted">No articles found.</td></tr>`;
   paginated.forEach((article) => {
     let createdAt = new Date(article.createdAt).toLocaleString("en-US", {
       day: "2-digit",
@@ -393,28 +317,6 @@ function btnDeleteArticle(id) {
   });
 }
 
-// Update article
-// function onClickUpdateArticle(id) {
-
-//   const article = articles.find(a => a.id === id);
-//   if (!article) {
-//     alert("Article not found!");
-//     return;
-//   }
-
-//   document.getElementById("updateId").value = article.id;
-//   document.getElementById("updateTitle").value = article.title;
-//   document.getElementById("updateContent").value = article.content?.replace(/<[^>]*>/g, "") || "";
-//   document.getElementById("thumbnailPreview").src = article.thumbnail || "https://via.placeholder.com/150x100?text=Preview";
-
-//   // Load dropdown with preselected category
-// //   getCategoryData(article.category ? article.category.id : null);
-//   getCategoryData("updateCategory");
-
-//   // Show modal
-//   const modal = new bootstrap.Modal(document.getElementById("updateModal"));
-//   modal.show();
-// }
 function onClickUpdateArticle(id) {
   const article = articles.find(a => a.id === id);
   if (!article) return alert("Article not found!");
@@ -423,9 +325,9 @@ function onClickUpdateArticle(id) {
   document.getElementById("updateId").value = article.id;
   document.getElementById("updateTitle").value = article.title;
   document.getElementById("updateContent").value = article.content?.replace(/<[^>]*>/g, "") || "";
-  document.getElementById("thumbnailPreview").src = article.thumbnail || "https://via.placeholder.com/150x100?text=Preview";
+  document.getElementById("thumbnailPreview").src = article.thumbnail || "https://placehold.co/400";
 
-  // ✅ Pass category ID so the correct one is selected
+  // Pass category ID so the correct one is selected
   const selectedCategoryId = article.category?.id || article.categoryId || null;
   getCategoryData("updateCategory", selectedCategoryId);
 
@@ -435,8 +337,8 @@ function onClickUpdateArticle(id) {
 
 }
 
-
-async function onClickUpdate() {
+// Update article
+function onClickUpdate() {
     const form = document.getElementById("updateForm");
     if (!form.checkValidity()) {
         form.classList.add("was-validated");
@@ -449,48 +351,51 @@ async function onClickUpdate() {
     const categoryId = Number(document.getElementById("updateCategory").value);
     const thumbnailFile = document.getElementById("updateThumbnail").files[0];
 
-    try {
-        // 1️⃣ Update article text fields
-        const res = await fetch(`${API}/articles/${id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${getToken}`
-            },
-            body: JSON.stringify({ title, content, categoryId })
-        });
-
-        const data = await res.json();
-        if (!res.ok || !data.result) {
+    fetch(`${API}/articles/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${getToken}`
+        },
+        body: JSON.stringify({ title, content, categoryId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (!data.result) {
             console.error("Update failed:", data.message);
-            return;
+            throw new Error(data.message);
         }
 
-        // 2️⃣ Update thumbnail if a new file is selected
         if (thumbnailFile) {
             const formData = new FormData();
             formData.append("thumbnail", thumbnailFile);
 
-            const thumbRes = await fetch(`${API}/articles/${id}/thumbnail`, {
+            return fetch(`${API}/articles/${id}/thumbnail`, {
                 method: "POST",
                 headers: { "Authorization": `Bearer ${getToken}` },
                 body: formData
+            })
+            .then(res => res.json())
+            .then(thumbData => {
+                if (!thumbData.result) {
+                    console.error("Thumbnail upload failed:", thumbData.message);
+                    
+                }
             });
-
-            const thumbData = await thumbRes.json();
-            if (!thumbData.result) {
-                console.error("Thumbnail upload failed:", thumbData.message);
-            }
         }
-
-        alert("✅ Article updated successfully!");
+    })
+    .then(() => {
+        updateArticleErrorMessage("success");
         bootstrap.Modal.getInstance(document.getElementById("updateModal")).hide();
         form.reset();
         form.classList.remove("was-validated");
-        fetchArticles(); // refresh table
-
-    } catch (err) {
-        console.error("Error updating article:", err);
-    }
+        fetchArticles();
+        
+    })
+    .catch(error => {
+        updateArticleErrorMessage("error");
+        console.error("Error updating article:", error);
+    });
 }
+
 

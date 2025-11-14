@@ -51,10 +51,7 @@ function getData(page) {
         })
         .catch(err => console.log(err))
 
-
 }
-
-
 
 getData(curPage)
 

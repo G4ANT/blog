@@ -223,7 +223,7 @@
                                                         <div class="mb-3">
                                                             <label for="updateTitle"
                                                             class="form-label fw-semibold">Title</label>
-                                                            <input type="text" class="form-control" id="updateTitle"required>
+                                                            <input type="text" class="form-control" id="updateTitle" required>
                                                             <div class="invalid-feedback">
                                                                 Please enter title
                                                             </div>
@@ -240,9 +240,9 @@
                                                         <div class="mb-3">
                                                             <label for="updateContent"
                                                             class="form-label fw-semibold">Content</label>
-                                                            <textarea class="form-control" id="updateContent" rows="5"required></textarea>
+                                                            <textarea class="form-control" id="updateContent" minlength="10" rows="5"required></textarea>
                                                             <div class="invalid-feedback">
-                                                                Please enter content
+                                                                Content must be at least 10 characters long.
                                                             </div>
                                                         </div>
                                                     </div>
@@ -317,13 +317,11 @@
                                     <div class="mb-3">
                                         <label for="content" class="form-label">Content <span
                                                 class="text-danger">*</span></label>
-                                        <textarea class="form-control" id="content" minlength="10" placeholder="Write content here..."
-                                            required>Teting tille create</textarea>
+                                        <textarea class="form-control" id="content" minlength="10" placeholder="Write content here..."required>Teting tille create</textarea>
                                         <div class="invalid-feedback">
                                             Content must be at least 10 characters long.
                                         </div>
                                     </div>
-
                                     <!-- Footer Buttons -->
                                     <div class="d-flex justify-content-between align-items-center">
                                         <a href="articles.html" class="back-link text-decoration-none">&larr; Back to Articles</a>
@@ -351,7 +349,7 @@
                                 <span class="input-group-text bg-light">
                                     <i class="fa-solid fa-magnifying-glass"></i>
                                 </span>
-                                <input type="text" id="searchInput" class="form-control"
+                                <input type="text" id="searchCategoryInput" class="form-control"
                                     placeholder="Search category..." onkeyup="handleSearch()" />
                             </div>
 
@@ -364,18 +362,27 @@
                         <div class="card">
                             <div class="table-responsive">
                                 <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Category Name</th>
-                                            <th class="text-end">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="displayCategory"></tbody>
-                                </table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th class="text-end">Actions</th>
+    </tr>
+  </thead>
+  <tbody id="displayCategory"></tbody>
+</table>
 
-                                <ul class="pagination justify-content-center" id="paginationContainer"></ul>
+
+
+<!-- Optional: Entry info text -->
+<div id="entryInfo" class="text-muted mt-2"></div>
+
+<!-- Pagination -->
+<ul id="paginationContainer" class="pagination justify-content-center mt-3"></ul>
+
                             </div>
                         </div>
+                        </div>
+
                     </div>
 
                     <!-- Create Category Modal -->
@@ -474,6 +481,8 @@
     <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="js/article/own/own.js"></script>
+    <script src="/js/RichTextEditer/cdnckeditor.js"></script>
+    <script src="/js/RichTextEditer/ckEditor.js"></script>
     <script src="js/article/category/category.js"></script>
     
 
