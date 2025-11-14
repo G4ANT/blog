@@ -1,13 +1,21 @@
 let showCardDetail = document.getElementById('showCardDetail')
 function viewDetail(id) {
-    $("#element").LoadingOverlay("show", { background: "rgba(165, 190, 100, 0.5)" });
-
+    // Show overlay on target container
+    $("#showCardDetail").LoadingOverlay("show", {
+        // image: "",
+        // fontawesome: "fa fa-spinner fa-spin",
+        // background: "rgba(0, 0, 0, 0.4)",
+        // text: "",
+        // textColor: "#fff",
+    });
 
     showAllCard.style.display = 'none'
     btnLoadMore.style.display = 'none'
     showCardDetail.style.display = 'block'
     showArticleOfCreator.style.display = 'none'
+    console.log(id)
 
+    sessionStorage.setItem('currentArticleId', id)
     fetch(`${URL_GET_ARTICLE}/articles/${id}`, {
         method: 'GET',
         headers: {
@@ -49,6 +57,6 @@ function viewDetail(id) {
         })
         .catch(err => console.log(err))
         .finally(() => {
-            $("#element").LoadingOverlay("hide", true);
+            $("#showCardDetail").LoadingOverlay("hide", true);
         });
 }
