@@ -196,7 +196,7 @@ body {
 
 .sidebar .nav-item .nav-link[data-bs-toggle="collapse"]::after {
   content: "";
-  background-image: url(/blog/assets/images/chevron-right-solid.svg);
+  background-image: url(../assets/images/chevron-right-solid.svg);
   background-repeat: no-repeat;
   background-size: 14px 14px;
   width: 14px;
