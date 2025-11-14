@@ -9,8 +9,10 @@ const errorToast = new bootstrap.Toast(document.getElementById('errorToast'));
 
 let errorBoxMessage = document.querySelector("#errorToast .toast-body");
 
+
 // For when click the toggle password hide/show
 togglePwd.addEventListener('click', () => {
+
   const type = password.type === 'password' ? 'text' : 'password';
   password.type = type;
   toggleIcon.classList.toggle('fa-eye');
@@ -38,6 +40,7 @@ const API = "http://blogs.csm.linkpc.net/api/v1/auth/register";
 
 // Form submission handler
 function onClickCreate() {
+
   let isValid = true;
   const passwordValue = password.value.trim();
   const confirmValue = confirmPassword.value.trim();
@@ -83,10 +86,16 @@ function onClickCreate() {
     .then((res) => res.json().then((data) => ({ ok: res.ok, body: data })))
     .then((result) =>{
         console.log(result.body);
+        window.location.href = "loginUser.html";
         if(result.ok){
-            successToast.show();
+          successToast.show();
             form.reset();
             form.classList.remove('was-validated');
+<<<<<<< HEAD
+            
+=======
+            location.href = ""
+>>>>>>> remotes/origin/Phearaa
         }else{
             errorBoxMessage.textContent = result.body.message || "Registration failed.";
             errorToast.show();
