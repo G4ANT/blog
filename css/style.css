@@ -291,7 +291,7 @@ body {
 /* get article */
 .get-article .card-thumbnail {
   width: auto;
-  height: 220px;
+  height: 160px;
   object-fit: cover;
 }
 
@@ -320,7 +320,7 @@ body {
   overflow: hidden;
 }
 .get-article .card:hover {
-  border: 1px solid green;
+  border: 1px solid #0d6efd;
 }
 
 .get-article .card > img {
@@ -469,7 +469,7 @@ body {
 /* get article */
 .get-article .card-thumbnail {
   width: auto;
-  height: 220px;
+  height: 160px;
   object-fit: cover;
 }
 
@@ -511,7 +511,7 @@ body {
 }
 
 .get-article .profile-creator img:hover{
-  border: 1px solid green;
+  border: 1px solid #0d6efd;
   cursor: pointer;
 }
 /* get article */

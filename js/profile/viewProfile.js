@@ -151,7 +151,7 @@ function getData() {
                             <p class="text-muted mb-2">${user.email}</p>
                             </div><div class="d-flex flex-wrap justify-content-between align-items-center mt-2">
                             <div class="d-flex flex-wrap gap-2">
-                                <button type="button" class="btn btn-info btn-sm"
+                                <button type="button" class="btn btn-primary btn-sm"
                                         data-bs-toggle="modal" data-bs-target="#updateModal"
                                         onclick="updateInformation(${user.id})">
                                 Update Information

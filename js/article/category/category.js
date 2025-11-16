@@ -2,7 +2,7 @@ const APII = "http://blogs.csm.linkpc.net/api/v1";
 const endPointCategoryy =
   "categories?_page=1&_per_page=100&sortBy=name&sortDir=ASC";
 const tbody = document.getElementById("displayCategory");
-const pagination = document.getElementById("paginationContainer");
+const paginationCategory = document.getElementById("paginationContainer");
 const gToken = localStorage.getItem("authToken");
 
 let editCategoryId = null;
@@ -23,7 +23,7 @@ function fetchCategories() {
       categories = [...allCategories]; // set for display
 
       renderCategoryTable();
-      renderPaginations();
+      renderPaginationCategory();
     })
     .catch((err) => {
       console.error("Error fetching categories:", err.message);
@@ -40,11 +40,11 @@ function renderCategoryTable() {
   const end = Math.min(start + perrPage, totalEntries);
   const paginated = categories.slice(start, end);
 
-  const entryInfo = document.getElementById("entryInfo");
-  entryInfo.textContent =
-    totalEntries > 0
-      ? `Showing ${start + 1} to ${end} of ${totalEntries} entries`
-      : `Showing 0 entries`;
+  // const entryInfo = document.getElementById("entryInfo");
+  // entryInfo.textContent =
+  //   totalEntries > 0
+  //     ? `Showing ${start + 1} to ${end} of ${totalEntries} entries`
+  //     : `Showing 0 entries`;
 
   if (!paginated.length) {
     tbody.innerHTML = `<tr><td colspan="2" class="text-center text-muted py-3">No categories found</td></tr>`;
@@ -71,49 +71,97 @@ function renderCategoryTable() {
   });
 }
 
-// Render pagination controls
-function renderPaginations() {
-  const totalPage = Math.ceil(categories.length / perrPage);
-  pagination.innerHTML = "";
+// Render paginationCategory controls
+// function renderPaginationCategory() {
+//   const tPage = Math.ceil(categories.length / perrPage);
+//   paginationCategory.innerHTML = "";
 
-  const prevDisabled = cPage === 1 ? "disabled" : "";
-  pagination.innerHTML += `
-    <li class="page-item ${prevDisabled}">
-      <a class="page-link" href="#" data-page="${cPage - 1}">
-        <i class="fa-solid fa-angle-left"></i>
-      </a>
-    </li>`;
+//   const prevDisabled = cPage === 1 ? "disabled" : "";
+//   paginationCategory.innerHTML += `
+//     <li class="page-item ${prevDisabled}">
+//       <a class="page-link" href="#" data-page="${cPage - 1}">
+//         <i class="fa-solid fa-angle-left"></i>
+//       </a>
+//     </li>`;
 
-  for (let i = 1; i <= totalPage; i++) {
-    const active = i === cPage ? "active" : "";
-    pagination.innerHTML += `
-      <li class="page-item ${active}">
-        <a class="page-link" href="#" data-page="${i}">${i}</a>
-      </li>`;
+//   for (let i = 1; i <= tPage; i++) {
+//     const active = i === cPage ? "active" : "";
+//     paginationCategory.innerHTML += `
+//       <li class="page-item ${active}">
+//         <a class="page-link" href="#" data-page="${i}">${i}</a>
+//       </li>`;
+//   }
+
+//   const nextDisabled = cPage === tPage ? "disabled" : "";
+//   paginationCategory.innerHTML += `
+//     <li class="page-item ${nextDisabled}">
+//       <a class="page-link" href="#" data-page="${cPage + 1}">
+//         <i class="fa-solid fa-angle-right"></i>
+//       </a>
+//     </li>`;
+
+//   document
+//     .querySelectorAll("#paginationContainer .page-link")
+//     .forEach((link) => {
+//       link.addEventListener("click", (e) => {
+//         e.preventDefault();
+//         const page = Number(link.getAttribute("data-page"));
+//         if (page >= 1 && page <= tPage) {
+//           cPage = page;
+//           renderCategoryTable();
+//           renderPaginationCategory();
+//         }
+//       });
+//     });
+// }
+
+function renderPaginationCategory() {
+  const tPage = Math.ceil(categories.length / perrPage);
+  paginationCategory.innerHTML = "";
+
+  const addPage = (p, text = p, active = false, disabled = false) =>
+    (paginationCategory.innerHTML += `
+      <li class="page-item ${active ? "active" : ""} ${disabled ? "disabled" : ""}">
+        <a class="page-link" href="#" data-page="${p}">${text}</a>
+      </li>`);
+
+  // Prev
+  addPage(cPage - 1, "<", false, cPage === 1);
+
+  // First page
+  addPage(1, "1", cPage === 1);
+
+  // Left ellipsis
+  if (cPage > 3) paginationCategory.innerHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+
+  // Middle pages
+  for (let i = Math.max(2, cPage - 1); i <= Math.min(tPage - 1, cPage + 1); i++) {
+    addPage(i, i, i === cPage);
   }
 
-  const nextDisabled = cPage === totalPage ? "disabled" : "";
-  pagination.innerHTML += `
-    <li class="page-item ${nextDisabled}">
-      <a class="page-link" href="#" data-page="${cPage + 1}">
-        <i class="fa-solid fa-angle-right"></i>
-      </a>
-    </li>`;
+  // Right ellipsis
+  if (cPage < tPage - 2) paginationCategory.innerHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
 
-  document
-    .querySelectorAll("#paginationContainer .page-link")
-    .forEach((link) => {
-      link.addEventListener("click", (e) => {
-        e.preventDefault();
-        const page = Number(link.getAttribute("data-page"));
-        if (page >= 1 && page <= totalPage) {
-          cPage = page;
-          renderCategoryTable();
-          renderPaginations();
-        }
-      });
+  // Last page
+  if (tPage > 1) addPage(tPage, tPage, cPage === tPage);
+
+  // Next
+  addPage(cPage + 1, ">", false, cPage === tPage);
+
+  // Click event
+  paginationCategory.querySelectorAll(".page-link").forEach(link => {
+    link.addEventListener("click", e => {
+      e.preventDefault();
+      const page = Number(link.getAttribute("data-page"));
+      if (page >= 1 && page <= tPage) {
+        cPage = page;
+        renderCategoryTable();
+        renderPaginationCategory();
+      }
     });
+  });
 }
+
 
 function btnDelete(id) {
   if (!confirm("Delete this category?")) return;
@@ -137,7 +185,7 @@ function renderCategories(list) {
   categories = list;
   cPage = 1; // reset to page 1
   renderCategoryTable();
-  renderPaginations();
+  renderPaginationCategory();
 }
 
 fetchCategories();
