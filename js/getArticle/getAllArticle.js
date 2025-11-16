@@ -36,9 +36,8 @@ function getData(page) {
                                     <div class="card-body d-flex flex-column">
                                         <h5 class="fw-bold card-title card-text-clamp">${item.title}</h5>
                                         <p class="m-0 card-text-clamp">${previewText}</p>
-                                        
-
                                     </div>
+                                    
                                     <div class="d-flex p-2 align-item-center">
                                         <img src="${item.creator.avatar}" width="20px" height="20px" alt="avatar" class="rounded-5">
                                         <span class="ms-2">${item.creator.firstName} ${item.creator.lastName}</span>

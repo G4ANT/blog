@@ -119,6 +119,13 @@ body {
   font-size: 0.9rem;
   flex-shrink: 0;
   cursor: pointer;
+  transition: .4s;
+  border: 1px solid #ddd;
+  object-fit: cover;
+}
+.main-header .header-right .profile-info .profile-avatar:hover{
+  /* transform: scale(1.1); */
+  border: 1px solid #032e70;
 }
 
 .sidebar {
@@ -245,48 +252,8 @@ body {
   display: block;
 }
 
-.profile-dropdown-menu {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  padding: 10px 0;
-  min-width: 200px;
-  display: none;
-  z-index: 1001;
-  margin-top: 10px;
-}
 
-.profile-dropdown-menu.show {
-  display: block;
-}
-
-.profile-dropdown-item {
-  padding: 8px 15px;
-  display: flex;
-  align-items: center;
-  color: #333;
-  text-decoration: none;
-  border-bottom: 1px solid #f0f0f0;
-  transition: background-color 0.2s;
-}
-
-.profile-dropdown-item:last-child {
-  border-bottom: none;
-}
-
-.profile-dropdown-item:hover {
-  background-color: #f8f9fa;
-  color: var(--primary-color);
-}
-
-.profile-dropdown-item i {
-  width: 20px;
-  margin-right: 10px;
-  text-align: center;
-}
+/* ------------------------- */
 
 /* get article */
 .get-article .card-thumbnail {
@@ -449,8 +416,23 @@ body {
   .profile-email {
     font-size: 0.7rem;
   }
-}
+  .text-muted{
+    display: none;
+  }
+  .search-article{
+    width: 100%;
+  }
 
+  /* #searchInput{
+    width: 100%;
+  } */
+  /* .btn-create{
+    font-size: 10px;
+  } */
+}
+.search-article{
+  width: 300px;
+}
 
 .profile-card-infor .avatar {
   width: 140px;
@@ -556,13 +538,105 @@ body {
   position: absolute;
 }
 
-/* Add validation of rich text editor */
-#editor.is-invalid {
-    border: 1px solid #dc3545;
-    /* border-radius: 0.25rem; */
+
+
+
+.profile-container {
+    position: relative;
+    width: 220px;
 }
 
-#editor.is-invalid ~ .invalid-feedback {
-    display: block;
+.profile-header {
+    text-align: center;
 }
 
+.profile-header .name {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.profile-header .email {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid #ddd;
+    transition: 0.3s;
+}
+
+.avatar:hover {
+    transform: scale(1.05);
+}
+
+/* Dropdown */
+.dropdown-menu {
+    margin-top: 10px;
+    width: 160px;
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 8px 0;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+    border: 1px solid rgba(255,255,255,0.4);
+    /* transform: translateY(50px) !important; */
+    margin-top: 20px !important;
+    margin-right: -15px !important;
+    /* transform: translateX(-20px) !important; */
+}
+
+.dropdown-menu .dropdown-item {
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #333;
+    text-decoration: none;
+    transition: 0.25s;
+    font-size: 17px;
+}
+
+.dropdown-menu .dropdown-item:hover {
+
+    transform: translateX(4px);
+    border-radius: 8px;
+    background-color: transparent;
+
+    /* color:#0d6efd; */
+}
+
+.dropdown-menu .dropdown-item i {
+    font-size: 18px;
+}
+/* Arrow on top */
+.dropdown-menu::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    right: 20px; /* can adjust left/right for arrow position */
+    width: 0;
+    height: 0;
+    border-left: 14px solid transparent;
+    border-right: 14px solid transparent;
+    border-bottom: 14px solid rgba(255, 255 , 255, 0.954);
+    /* border-bottom: 10px solid rgb(28, 19, 148); */
+
+    backdrop-filter: blur(10px);
+}
+.dropdown-menu .dropdown-item:focus{
+  background-color: transparent;
+}
+.dropdown-menu .dropdown-item .hover-myProfile:hover{
+    color: #0d6efd;
+}
+.dropdown-menu .dropdown-item .hover-logout:hover{
+  color: #dc3545;
+
+}

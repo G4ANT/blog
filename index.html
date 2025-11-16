@@ -61,7 +61,8 @@
             >
               <li>
                 <button class="dropdown-item" onclick="viewProfile()">
-                  <i class="fa-regular fa-user-vneck me-1"></i>My Profile
+                  <span class="text-primary"><i class="fa-regular fa-user-vneck me-1"></i></span>
+                  <span class="hover-myProfile">My Profile</span>
                 </button>
               </li>
               <li>
@@ -69,8 +70,8 @@
               </li>
               <li>
                 <button class="dropdown-item" onclick="logout()">
-                  <i class="fa-solid fa-arrow-right-from-bracket me-1"></i
-                  >Logout
+                  <span class="text-danger"><i class="fa-solid fa-arrow-right-from-bracket me-1"></i></span>
+                  <span class="hover-logout">Logout</span>
                 </button>
               </li>
             </ul>
@@ -173,7 +174,7 @@
                         <!-- ======= My Articles ====== -->
                         <div class="container">
                             <!-- Search -->
-                            <div class="mb-3" style="width: 30%;">
+                            <div class="search-article mb-3">
                                 <input type="text" id="searchInput" class="form-control"
                                     placeholder="Search article...">
                             </div>

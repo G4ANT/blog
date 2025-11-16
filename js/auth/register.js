@@ -91,11 +91,7 @@ function onClickCreate() {
           successToast.show();
             form.reset();
             form.classList.remove('was-validated');
-<<<<<<< HEAD
-            
-=======
-            location.href = ""
->>>>>>> remotes/origin/Phearaa
+            window.location.href = "loginUser.html"
         }else{
             errorBoxMessage.textContent = result.body.message || "Registration failed.";
             errorToast.show();

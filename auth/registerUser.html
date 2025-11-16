@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -121,14 +121,15 @@
               <div class="row g-3">
                 <div class="col-md-6">
                   <label for="firstName" class="form-label">First name <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control py-3" id="firstName" name="firstName" required minlength="2" placeholder="Enter Your First Name">
-                  <div class="invalid-feedback">Please enter your first name (min 2 characters).</div>
+                  <input type="text" class="form-control py-3" id="firstName" name="firstName" required minlength="1" placeholder="Enter Your First Name">
+                  <div class="invalid-feedback">Please enter your first name</div>
                 </div>
+
 
                 <div class="col-md-6">
                   <label for="lastName" class="form-label">Last name <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control py-3" id="lastName" name="lastName" required minlength="2" placeholder="Enter Your Last Name">
-                  <div class="invalid-feedback">Please enter your last name (min 2 characters).</div>
+                  <input type="text" class="form-control py-3" id="lastName" name="lastName" required minlength="1" placeholder="Enter Your Last Name">
+                  <div class="invalid-feedback">Please enter your last name </div>
                 </div>
 
                 <div class="col-12">
@@ -140,14 +141,13 @@
                 <div class="col-md-6 position-relative">
                   <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
                   <div class="input-group">
-                    <input type="password" class="form-control py-3" id="password" name="password" required minlength="8" placeholder="At least 8 characters">
+                    <input type="password" class="form-control py-3" id="password" name="password" required minlength="6" placeholder="At least 6 characters">
                     <span class="input-group-text password-toggle" id="togglePwd" style="cursor:pointer;">
                        <i class="fa-thin fa-eye"></i>
                     </span>
                   </div>
-                  <div class="form-text">Use at least 8 characters</div>
                   <div class="mt-2 strength-bar"><i id="strengthFill"></i></div>
-                  <div class="invalid-feedback" id="passwordFeedback">Password must be at least 8 characters and include a special character.</div>
+                  <div class="invalid-feedback" id="passwordFeedback"></div>
                 </div>
 
                 <div class="col-md-6">
