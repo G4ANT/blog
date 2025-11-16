@@ -1,84 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link
-      rel="stylesheet"
-      href="../../assets/font/fontawesome-6.2.0/css/all.css"
-    />
-    <link
-      rel="stylesheet"
-      href="../../assets/font/fontawesome-6.2.0/css/sharp-solid.css"
-    />
-    <link rel="stylesheet" href="../../assets/sweetalert/sweetalert.css" />
-    <link rel="stylesheet" href="../../css/bootstrap.css" />
-    <link rel="stylesheet" href="../../css/responsive.css" />
-    <link rel="stylesheet" href="../../css/alert.css" />
-    <link rel="stylesheet" href="../../css/style.css" />
-    <title>Blog Dashboard</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <style>
-      .profile-card-infor .profile-card {
-        max-width: 1200px;
-        margin: auto;
-      }
+  <link rel="stylesheet" href="../../assets/font/fontawesome-6.2.0/css/all.css" />
+  <link rel="stylesheet" href="../../assets/font/fontawesome-6.2.0/css/sharp-solid.css" />
+  <link rel="stylesheet" href="../../assets/sweetalert/sweetalert.css" />
+  <link rel="stylesheet" href="../../css/bootstrap.css" />
+  <link rel="stylesheet" href="../../css/responsive.css" />
+  <link rel="stylesheet" href="../../css/alert.css" />
+  <link rel="stylesheet" href="../../css/style.css" />
+  <title>Blog Dashboard</title>
 
-      .profile-card-infor .avatar {
-        width: 140px;
-        height: 140px;
-        object-fit: cover;
-        border-radius: 50%;
-        border: 4px solid #fff;
-        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-      }
+  <style>
+    .profile-card-infor .profile-card {
+      max-width: 1200px;
+      margin: auto;
+    }
 
-      .profile-card-infor .stats .stat {
-        min-width: 90px;
-      }
-    </style>
-  </head>
+    .profile-card-infor .avatar {
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid #fff;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    }
 
-  <body>
-    <header class="main-header">
-      <div class="container-fluid">
-        <div class="header-left">
-          <button class="mobile-menu-btn">
-            <i class="fas fa-bars"></i>
-          </button>
-          <a href="#" class="logo">
-            <i class="fas fa-blog"></i>
-            <span>BlogPost</span>
-          </a>
-        </div>
-        <div class="header-right">
-          <div class="profile-info" id="profileDisplay" style="cursor: pointer">
-            <!-- show profile -->
-            <div class="profile-details">
-              <p class="mb-0 fw-bold profile-name" id="profileName">
-                User Name
-              </p>
-              <span class="profile-email" id="profileEmail">Email</span>
-            </div>
+    .profile-card-infor .stats .stat {
+      min-width: 90px;
+    }
 
-            <img
-              src=""
-              alt="profile-avatar"
-              id="profileAvatar"
-              class="profile-avatar"
-            />
+    .sidebar .nav-item .nav-link[data-bs-toggle="collapse"]::after {
+      content: "";
+      background-image: url(/assets/images/chevron-right-solid.svg);
+      background-repeat: no-repeat;
+      background-size: 14px 14px;
+      width: 14px;
+      height: 14px;
+      display: inline-block;
+      margin-left: 40px;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar .nav-item .nav-link[data-bs-toggle="collapse"].collapsed::after {
+      transform: rotate(-90deg);
+    }
+  </style>
+</head>
+
+<body>
+  <header class="main-header">
+    <div class="container-fluid">
+      <div class="header-left">
+        <button class="mobile-menu-btn">
+          <i class="fas fa-bars"></i>
+        </button>
+        <a href="#" class="logo">
+          <i class="fas fa-blog"></i>
+          <span>BlogPost</span>
+        </a>
+      </div>
+      <div class="header-right">
+        <div class="profile-info" id="profileDisplay" style="cursor: pointer">
+          <!-- show profile -->
+          <div class="profile-details">
+            <p class="mb-0 fw-bold profile-name" id="profileName">
+              User Name
+            </p>
+            <span class="profile-email" id="profileEmail">Email</span>
           </div>
+
+          <img src="" alt="profile-avatar" id="profileAvatar" class="profile-avatar" />
         </div>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <div class="overlay"></div>
+  <div class="overlay"></div>
 
-    <div class="container-fluid p-0">
-      <div class="row g-0">
-        <!-- Sidebar -->
-        <div class="sidebar">
+  <div class="container-fluid p-0">
+    <div class="row g-0">
+      <!-- Sidebar -->
+      <!-- <div class="sidebar">
           <div class="d-flex flex-column">
             <ul class="nav flex-column">
               <li class="nav-item">
@@ -103,29 +109,65 @@
               </li>
             </ul>
           </div>
-        </div>
+        </div> -->
 
-        <!-- Main Content -->
-        <div class="container">
-          <div class="content">
-            <div class="profile-card-infor">
-              <div class="alert-system">
-                <!-- Alert container -->
-                <div id="alertContainer" class="alert-container"></div>
+      <div class="sidebar">
+        <div class="d-flex flex-column">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link active" href="../../index.html?page=dashboard" data-page="dashboard">
+                <i class="fa-solid fa-gauge"></i> Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link collapsed" data-bs-toggle="collapse" href="../../index.html?page=all-articles" role="button"
+                aria-expanded="false" aria-controls="myArticlesCollapse">
+                <i class="fa-regular fa-file-lines"></i> My Articles
+              </a>
+              <div class="collapse" id="myArticlesCollapse">
+                <ul class="nav flex-column">
+                  <li class="nav-item">
+                    <a class="nav-link" href="#" data-page="all-articles">
+                      All Articles
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#" data-page="create-article">
+                      Create Article
+                    </a>
+                  </li>
+                </ul>
               </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="../../index.html?page=categoryy" data-page="categoryy">
+                <i class="fa-solid fa-th-large"></i>Category
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
 
-              <div class="container profile-card">
-                <div class="page-header">
-                  <h2 class="section-title">Profile</h2>
-                  <p class="text-muted">
-                    View and manage your personal information, contact details,
-                    and account settings.
-                  </p>
-                </div>
-                <div class="card shadow-sm">
-                  <div class="card-body p-4">
-                    <div class="row g-3 align-items-center" id="display"></div>
-                  </div>
+      <!-- Main Content -->
+      <div class="container">
+        <div class="content">
+          <div class="profile-card-infor">
+            <div class="alert-system">
+              <!-- Alert container -->
+              <div id="alertContainer" class="alert-container"></div>
+            </div>
+
+            <div class="container profile-card">
+              <div class="page-header">
+                <h2 class="section-title">Profile</h2>
+                <p class="text-muted">
+                  View and manage your personal information, contact details,
+                  and account settings.
+                </p>
+              </div>
+              <div class="card shadow-sm">
+                <div class="card-body p-4">
+                  <div class="row g-3 align-items-center" id="display"></div>
                 </div>
               </div>
             </div>
@@ -133,97 +175,102 @@
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Scripts -->
-    <script src="../../js/bootstrap/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-    <script src="../../assets/sweetalert/sweetalert.js"></script>
-    <script src="viewProfile.js"></script>
+  <!-- Scripts -->
+  <script src="../../js/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="../api.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+  <script src="../../assets/sweetalert/sweetalert.js"></script>
+  <script src="../alert/alert.js"></script>
+  <script src="viewProfile.js"></script>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const mobileMenuBtn = document.querySelector(".mobile-menu-btn");
-        const sidebar = document.querySelector(".sidebar");
-        const overlay = document.querySelector(".overlay");
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const mobileMenuBtn = document.querySelector(".mobile-menu-btn");
+      const sidebar = document.querySelector(".sidebar");
+      const overlay = document.querySelector(".overlay");
 
-        // Mobile sidebar toggle
-        mobileMenuBtn.addEventListener("click", function () {
-          sidebar.classList.toggle("show");
-          overlay.classList.toggle("show");
-        });
+      // Mobile sidebar toggle
+      mobileMenuBtn.addEventListener("click", function () {
+        sidebar.classList.toggle("show");
+        overlay.classList.toggle("show");
+      });
 
-        overlay.addEventListener("click", function () {
-          sidebar.classList.remove("show");
-          overlay.classList.remove("show");
-        });
+      overlay.addEventListener("click", function () {
+        sidebar.classList.remove("show");
+        overlay.classList.remove("show");
+      });
 
-        // Sidebar navigation (supports ?page= tab system)
-        const navLinks = document.querySelectorAll(".nav-link");
-        navLinks.forEach((link) => {
-          link.addEventListener("click", function (e) {
-            e.preventDefault();
-            const href = this.getAttribute("href");
+      // Sidebar navigation (supports ?page= tab system)
+      const navLinks = document.querySelectorAll(".nav-link");
+      navLinks.forEach((link) => {
+        link.addEventListener("click", function (e) {
+          e.preventDefault();
+          const href = this.getAttribute("href");
 
-            if (href && href.includes("index.html?page=")) {
-              // Correct redirect to main dashboard
-              window.location.href = href;
-            }
-          });
-        });
-
-        // Close sidebar when screen is resized to desktop
-        window.addEventListener("resize", function () {
-          if (window.innerWidth >= 992) {
-            sidebar.classList.remove("show");
-            overlay.classList.remove("show");
+          if (href && href.includes("index.html?page=")) {
+            // Correct redirect to main dashboard
+            window.location.href = href;
           }
         });
       });
 
-      // Load user profile info
-      showProfile();
-      function showProfile() {
-        const token = localStorage.getItem("authToken");
-        if (!token) {
-          location.href = "../../auth/loginUser.html";
-          return;
+      // Close sidebar when screen is resized to desktop
+      window.addEventListener("resize", function () {
+        if (window.innerWidth >= 992) {
+          sidebar.classList.remove("show");
+          overlay.classList.remove("show");
         }
+      });
+    });
 
-        fetch(`${BASE_URL}/auth/profile`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (!data?.data) {
-              console.error("User data not found", data);
-              return;
-            }
-
-            const user = data.data;
-            const avatar =
-              user.avatar || "../../assets/images/defaultImage.jpg";
-
-            document.getElementById("profileAvatar").src = avatar;
-            document.getElementById(
-              "profileName"
-            ).textContent = `${user.firstName} ${user.lastName}`;
-            document.getElementById("profileEmail").textContent = user.email;
-          })
-          .catch((err) => console.log("Profile load error:", err));
-      }
-
-      function logout() {
-        localStorage.removeItem("authToken");
+    // Load user profile info
+    showProfile();
+    function showProfile() {
+      const token = localStorage.getItem("authToken");
+      if (!token) {
         location.href = "../../auth/loginUser.html";
+        return;
       }
 
-      function viewProfile() {
-        location.href = "js/profile/viewProfile.html";
-      }
-    </script>
-  </body>
+      fetch(`${BASE_URL}/auth/profile`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (!data?.data) {
+            console.error("User data not found", data);
+            return;
+          }
+
+          const user = data.data;
+          const avatar =
+            user.avatar || "../../assets/images/defaultImage.jpg";
+
+          document.getElementById("profileAvatar").src = avatar;
+          document.getElementById(
+            "profileName"
+          ).textContent = `${user.firstName} ${user.lastName}`;
+          document.getElementById("profileEmail").textContent = user.email;
+        })
+        .catch((err) => console.log("Profile load error:", err));
+    }
+
+    function logout() {
+      localStorage.removeItem("authToken");
+      location.href = "../../auth/loginUser.html";
+    }
+
+    function viewProfile() {
+      location.href = "js/profile/viewProfile.html";
+    }
+  </script>
+</body>
+
 </html>
+
