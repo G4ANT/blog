@@ -1,190 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Register</title>
   <link href="/css/bootstrap.css" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
-   <link rel="stylesheet" href="/blog/assets/font/fontawesome-6.2.0/css/all.css">
+  <link rel="stylesheet" href="/blog/assets/font/fontawesome-6.2.0/css/all.css">
   <link rel="stylesheet" href="../css/bootstrap.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
-        @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            font-family: "Poppins", sans-serif;
-        }
-        
-        .container {
-            display: flex;
-            width: 1200px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            padding: 10px 0;
-        }
-        
-        .login-section {
-            flex: 1;
-            padding: 10px 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        .login-section h1{
-            text-align: center;
-        }
-        
-        .image-section {
-            flex: 1;
-            background-image: url(../assets/images/loginImage.jpg);
-            background-size: 120% 90%;
-            background-position: center;
-            background-repeat: no-repeat;
-            display: flex;
-            color: white;
-            text-align: center;
-            padding: 40px;
-        }
-        
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
-            font-weight: 700;
-            font-size: 28px;
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-                height: auto;
-                width: 100%;
-            }
-            
-            .image-section {
-                padding: 30px 20px;
-            }
-            
-            .login-section {
-                padding: 30px 20px;
-            }
-        }
-        .border_login{
-            display: flex;
-            margin-top: 10px;
-        }
-        .border_login .border-left{
-            width: 50%;
-            height: 2px;
-            background-color: #3333;
-            margin-top: 20px;
-        }
-        .border_login .border-right{
-            width: 50%;
-            height: 2px;
-            background-color: #3333;
-            margin-top: 20px;
-        }
-        .border_login .text{
-            margin: 0 10px;
-            color: #000;
-            font-size: 14px;
-            margin-top: 10px;
-            font-weight: 500;
-        }
-        .login-section p{
-            text-align: center;
-            margin-top: 10px;
-            font-size: 13px;
-        }
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: "Poppins", sans-serif;
+    }
+
+    .container {
+      display: flex;
+      width: 1200px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      padding: 10px 0;
+    }
+
+    .login-section {
+      flex: 1;
+      padding: 10px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .login-section h1 {
+      text-align: center;
+    }
+
+    .image-section {
+      flex: 1;
+      background-image: url(../assets/images/loginImage.jpg);
+      background-size: 120% 90%;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      color: white;
+      text-align: center;
+      padding: 40px;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+      font-weight: 700;
+      font-size: 28px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        height: auto;
+        width: 100%;
+      }
+
+      .image-section {
+        padding: 30px 20px;
+      }
+
+      .login-section {
+        padding: 30px 20px;
+      }
+    }
+
+    .border_login {
+      display: flex;
+      margin-top: 10px;
+    }
+
+    .border_login .border-left {
+      width: 50%;
+      height: 2px;
+      background-color: #3333;
+      margin-top: 20px;
+    }
+
+    .border_login .border-right {
+      width: 50%;
+      height: 2px;
+      background-color: #3333;
+      margin-top: 20px;
+    }
+
+    .border_login .text {
+      margin: 0 10px;
+      color: #000;
+      font-size: 14px;
+      margin-top: 10px;
+      font-weight: 500;
+    }
+
+    .login-section p {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 13px;
+    }
   </style>
 </head>
+
 <body class="auth-service">
-    <div class="container">
-        <div class="image-section"></div>
-        <div class="login-section">
-            <h1>Register</h1>
-            
-            <form id="signupForm" class="needs-validation" novalidate>
-              <div class="row g-3">
-                <div class="col-md-6">
-                  <label for="firstName" class="form-label">First name <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control py-3" id="firstName" name="firstName" required minlength="1" placeholder="Enter Your First Name">
-                  <div class="invalid-feedback">Please enter your first name</div>
-                </div>
+  <div class="container">
+    <div class="image-section"></div>
+    <div class="login-section">
+      <h1>Register</h1>
+
+      <form id="signupForm" class="needs-validation" novalidate>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="firstName" class="form-label">First name <span class="text-danger">*</span></label>
+            <input type="text" class="form-control py-3" id="firstName" name="firstName" required minlength="1"
+              placeholder="Enter Your First Name">
+            <div class="invalid-feedback">Please enter your first name</div>
+          </div>
 
 
-                <div class="col-md-6">
-                  <label for="lastName" class="form-label">Last name <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control py-3" id="lastName" name="lastName" required minlength="1" placeholder="Enter Your Last Name">
-                  <div class="invalid-feedback">Please enter your last name </div>
-                </div>
+          <div class="col-md-6">
+            <label for="lastName" class="form-label">Last name <span class="text-danger">*</span></label>
+            <input type="text" class="form-control py-3" id="lastName" name="lastName" required minlength="1"
+              placeholder="Enter Your Last Name">
+            <div class="invalid-feedback">Please enter your last name </div>
+          </div>
 
-                <div class="col-12">
-                  <label for="email" class="form-label" required>Email address <span class="text-danger">*</span></label>
-                  <input type="email" class="form-control py-3" id="email" name="email" required placeholder="Enter your email">
-                  <div class="invalid-feedback">Please provide a valid email address.</div>
-                </div>
+          <div class="col-12">
+            <label for="email" class="form-label" required>Email address <span class="text-danger">*</span></label>
+            <input type="email" class="form-control py-3" id="email" name="email" required
+              placeholder="Enter your email">
+            <div class="invalid-feedback">Please provide a valid email address.</div>
+          </div>
 
-                <div class="col-md-6 position-relative">
-                  <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
-                  <div class="input-group">
-                    <input type="password" class="form-control py-3" id="password" name="password" required minlength="6" placeholder="At least 6 characters">
-                    <span class="input-group-text password-toggle" id="togglePwd" style="cursor:pointer;">
-                       <i class="fa-thin fa-eye"></i>
-                    </span>
-                  </div>
-                  <div class="mt-2 strength-bar"><i id="strengthFill"></i></div>
-                  <div class="invalid-feedback" id="passwordFeedback"></div>
-                </div>
-
-                <div class="col-md-6">
-                  <label for="confirmPassword" class="form-label">Confirm password <span class="text-danger">*</span></label>
-                  <input type="password" class="form-control py-3" id="confirmPassword" name="confirmPassword" required placeholder="Repeat password">
-                  <div class="invalid-feedback" id="confirmFeedback">Passwords must match.</div>
-                </div>
-
-                <div class="col-12 d-grid">
-                  <button class="btn btn-primary py-2  fs-5" type="button" onclick="onClickCreate()">Register</button>
-                </div>
-              </div>
-            </form>
-            
-            <div class="border_login">
-                <div class="border-left"></div>
-                <div class="text">OR</div>
-                <div class="border-right"></div>
+          <div class="col-md-6 position-relative">
+            <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
+            <div class="input-group">
+              <input type="password" class="form-control py-3" id="password" name="password" required minlength="6"
+                placeholder="At least 6 characters">
+              <span class="input-group-text password-toggle" id="togglePwd" style="cursor:pointer;">
+                <i class="fa fa-eye"></i> <!-- Use fa instead of fa-thin -->
+              </span>
             </div>
-            <p class="text-center small text-muted mt-3 fs-6">Already have an account? <a href="loginUser.html">Login</a></p>
-        </div>
-    </div>
+            <!-- Strength bar -->
+            <div class="mt-2 strength-bar" style="height:5px; background:#eee; border-radius:3px;">
+              <div id="strengthFill" style="height:100%; width:0%; background:green; border-radius:3px;"></div>
+            </div>
+            <!-- Invalid feedback -->
+            <div class="invalid-feedback mt-1" id="passwordFeedback">
+              Password must be at least 6 characters and include uppercase, lowercase, number, and special character.
+            </div>
+          </div>
 
-    <!-- Toast Container -->
+
+          <div class="col-md-6">
+            <label for="confirmPassword" class="form-label">Confirm password <span class="text-danger">*</span></label>
+            <input type="password" class="form-control py-3" id="confirmPassword" name="confirmPassword" required
+              placeholder="Repeat password">
+            <div class="invalid-feedback" id="confirmFeedback">Passwords must match.</div>
+          </div>
+
+          <div class="col-12 d-grid">
+            <button class="btn btn-primary py-2  fs-5" type="button" onclick="onClickCreate()">Register</button>
+          </div>
+        </div>
+      </form>
+
+      <div class="border_login">
+        <div class="border-left"></div>
+        <div class="text">OR</div>
+        <div class="border-right"></div>
+      </div>
+      <p class="text-center small text-muted mt-3 fs-6">Already have an account? <a href="loginUser.html">Login</a></p>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
   <div id="toastContainer" class="toast-container position-fixed p-3">
-    <div id="successToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div id="successToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive"
+      aria-atomic="true">
       <div class="d-flex">
         <div class="toast-body">
-            Account created successfully!
+          Account created successfully!
         </div>
-        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+          aria-label="Close"></button>
       </div>
     </div>
   </div>
 
 
   <script src="../js/bootstrap/bootstrap.bundle.min.js"></script>
-<script src="../js/auth/register.js"></script>
+  <script src="../js/auth/register.js"></script>
 </body>
+
 </html>
