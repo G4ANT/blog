@@ -3,7 +3,7 @@ let showCardDetail = document.getElementById('showCardDetail')
 let spinnerArticleDetail = document.getElementById('spinnerArticleDetail')
 
 
-function viewDetail(id) {
+function viewDetail(id, categoryName) {
 
     spinnerArticleDetail.classList.remove('d-none')
     spinnerArticleOfCreator.classList.remove('d-none')
@@ -27,12 +27,16 @@ function viewDetail(id) {
             let itemContent = item.content
             let previewText = parseQuillContent(itemContent)
             const createdAt = moment(item.createdAt).format('MMM D, YYYY');
+            // Compute categoryName from API, fallback to param if needed
+            const category = item.category && item.category.name
+                ? item.category.name
+                : (categoryName ? categoryName : "No category");
             cardDetail = `   
                             <div class="col-12 get-article">
                                 <div class="card border border-0 mb-4">
                                     <div class="position-relative image-detail-wrapper">
                                         <img src="${item.thumbnail}" alt="thumbnail" class="card-img-top object-fit-cover" height="400px">
-                                        <small class="pop-up-id text-white rounded">${item.id}</small>
+                                        <small class="pop-up-id text-white rounded">${category}</small>
                                         <button class="btn btn-info" onclick="location.href='../../index.html'">← Back</button>
 
                                     </div>
@@ -53,7 +57,7 @@ function viewDetail(id) {
             showCardDetail.innerHTML = cardDetail
         })
         .catch(err => console.log(err))
-        // .finally(() => {
-        //     $("#showCardDetail").LoadingOverlay("hide", true);
-        // });
+    // .finally(() => {
+    //     $("#showCardDetail").LoadingOverlay("hide", true);
+    // });
 }

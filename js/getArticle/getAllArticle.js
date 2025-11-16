@@ -5,31 +5,35 @@ const btnLoadMore = document.getElementById('btnLoadMore')
 
 let showAllCard = document.getElementById('showAllCard')
 let card = ''
-let showNoMoreData = document.getElementById('showNoMoreData') 
+let showNoMoreData = document.getElementById('showNoMoreData')
 function getData(page) {
 
-    
+
     return fetch(`${BASE_URL}/articles?search=&_page=${page}&_per_page=${pPage}&sortBy=content&sortDir=asc`, {
         method: 'GET',
     })
         .then(res => res.json())
         .then(data => {
-            const items = data.data.items;
-            if (!items || items.length === 0) {
+            const itemsCard = data.data.items;
+            if (!itemsCard || itemsCard.length === 0) {
                 showNoMoreData.classList.remove('d-none')
                 btnLoadMore.classList.add('d-none')
                 return;
             }
 
-            for (let i = 0; i < items.length; i++) {
-                let item = items[i]
+            for (let i = 0; i < itemsCard.length; i++) {
+                let item = itemsCard[i]
                 let itemContent = item.content
 
                 let previewText = parseQuillContent(itemContent)
+                // Check if category exists
+                let categoryName = item.category && item.category.name ? item.category.name : "No category";
+
+                console.log(categoryName)
 
                 card =
                     `   <div class="col-12 col-md-6 col-lg-4 col-xl-3 get-article">
-                                <div class="card flex-fill rounded-4 h-100" onclick="viewDetail(${item.id})" style="cursor: pointer;">
+                                <div class="card flex-fill rounded-4 h-100" onclick="viewDetail(${item.id}, '${categoryName.replace(/'/g, "\\'")}')" style="cursor: pointer;">
                                     <img src="${item.thumbnail}" alt="thumbnail" class="card-img-top card-thumbnail">
                                     <div class="card-body d-flex flex-column">
                                         <h5 class="fw-bold card-title card-text-clamp">${item.title}</h5>
@@ -61,10 +65,10 @@ getData(curPage)
 btnLoadMore.addEventListener('click', () => {
 
     btnLoadMore.disabled = true;
-    spinner.classList.remove('d-none'); 
+    spinner.classList.remove('d-none');
     spinnerText.textContent = "Loading..."
     curPage++;
-    getData(curPage)        
+    getData(curPage)
 })
 
 

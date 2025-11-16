@@ -34,9 +34,7 @@ function getData() {
                             <p class="text-secondary mb-1"><strong>ID:</strong> ${
                               user.id
                             }</p>
-                            <h5 class="fw-bold mb-1">${user.firstName} ${
-        user.lastName
-      }</h5>
+                            <h5 class="fw-bold mb-1">${user.firstName} ${user.lastName}</h5>
                             <p class="text-muted mb-2">${user.email}</p>
                             </div><div class="d-flex flex-wrap justify-content-between align-items-center mt-2">
                             <div class="d-flex flex-wrap gap-2">
