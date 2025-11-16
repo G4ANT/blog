@@ -422,11 +422,13 @@ body {
   .search-article{
     width: 100%;
   }
-
-  /* #searchInput{
-    width: 100%;
-  } */
-  /* .btn-create{
+  /* table tr th{
+    font-size: 15px;
+  }
+  table tr td{
+    font-size: 15px;
+  }
+  #articlesTableBody{
     font-size: 10px;
   } */
 }
@@ -511,6 +513,16 @@ body {
   background-color: #4338ca;
   color: #fff;
 }
+/* table{
+    min-width: 900px;
+} */
+.table-responsive {
+    overflow-x: auto;
+}
+table {
+    white-space: nowrap;
+    min-width: 600px;
+}
 .table th {
   color: #475569;
   font-weight: 600;
@@ -522,6 +534,7 @@ body {
   height: 40px;
   object-fit: cover;
 }
+
 .badge-category {
   background-color: #eef2ff;
   color: #4f46e5;
