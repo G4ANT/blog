@@ -1,12 +1,18 @@
-const endPointCategoryy =
-  "categories?_page=1&_per_page=100&sortBy=name&sortDir=ASC";
+const baseURL = "categories";
+
+let itemsPerPage = 100; 
+let sortBy = "name";
+let sortDir = "ASC";
+
+// Construct dynamic endpoint
+const endPointCategoryy = `${baseURL}?_page=${currentPage}&_per_page=${itemsPerPage}&sortBy=${sortBy}&sortDir=${sortDir}`;
 const tbody = document.getElementById("displayCategory");
 const paginationCategory = document.getElementById("paginationContainer");
 const gToken = localStorage.getItem("authToken");
 
 let editCategoryId = null;
-let categories = []; // currently displayed categories
-let allCategories = []; // full list for search
+let categories = []; 
+let allCategories = []; 
 let cPage = 1;
 const perrPage = 10;
 
@@ -70,57 +76,15 @@ function renderCategoryTable() {
   });
 }
 
-// Render paginationCategory controls
-// function renderPaginationCategory() {
-//   const tPage = Math.ceil(categories.length / perrPage);
-//   paginationCategory.innerHTML = "";
-
-//   const prevDisabled = cPage === 1 ? "disabled" : "";
-//   paginationCategory.innerHTML += `
-//     <li class="page-item ${prevDisabled}">
-//       <a class="page-link" href="#" data-page="${cPage - 1}">
-//         <i class="fa-solid fa-angle-left"></i>
-//       </a>
-//     </li>`;
-
-//   for (let i = 1; i <= tPage; i++) {
-//     const active = i === cPage ? "active" : "";
-//     paginationCategory.innerHTML += `
-//       <li class="page-item ${active}">
-//         <a class="page-link" href="#" data-page="${i}">${i}</a>
-//       </li>`;
-//   }
-
-//   const nextDisabled = cPage === tPage ? "disabled" : "";
-//   paginationCategory.innerHTML += `
-//     <li class="page-item ${nextDisabled}">
-//       <a class="page-link" href="#" data-page="${cPage + 1}">
-//         <i class="fa-solid fa-angle-right"></i>
-//       </a>
-//     </li>`;
-
-//   document
-//     .querySelectorAll("#paginationContainer .page-link")
-//     .forEach((link) => {
-//       link.addEventListener("click", (e) => {
-//         e.preventDefault();
-//         const page = Number(link.getAttribute("data-page"));
-//         if (page >= 1 && page <= tPage) {
-//           cPage = page;
-//           renderCategoryTable();
-//           renderPaginationCategory();
-//         }
-//       });
-//     });
-// }
-
 function renderPaginationCategory() {
   const tPage = Math.ceil(categories.length / perrPage);
   paginationCategory.innerHTML = "";
 
   const addPage = (p, text = p, active = false, disabled = false) =>
     (paginationCategory.innerHTML += `
-      <li class="page-item ${active ? "active" : ""} ${disabled ? "disabled" : ""}">
+      <li class="page-item ${active ? "active" : ""} ${
+      disabled ? "disabled" : ""
+    }">
         <a class="page-link" href="#" data-page="${p}">${text}</a>
       </li>`);
 
@@ -131,15 +95,21 @@ function renderPaginationCategory() {
   addPage(1, "1", cPage === 1);
 
   // Left ellipsis
-  if (cPage > 3) paginationCategory.innerHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+  if (cPage > 3)
+    paginationCategory.innerHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
 
   // Middle pages
-  for (let i = Math.max(2, cPage - 1); i <= Math.min(tPage - 1, cPage + 1); i++) {
+  for (
+    let i = Math.max(2, cPage - 1);
+    i <= Math.min(tPage - 1, cPage + 1);
+    i++
+  ) {
     addPage(i, i, i === cPage);
   }
 
   // Right ellipsis
-  if (cPage < tPage - 2) paginationCategory.innerHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+  if (cPage < tPage - 2)
+    paginationCategory.innerHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
 
   // Last page
   if (tPage > 1) addPage(tPage, tPage, cPage === tPage);
@@ -148,8 +118,8 @@ function renderPaginationCategory() {
   addPage(cPage + 1, ">", false, cPage === tPage);
 
   // Click event
-  paginationCategory.querySelectorAll(".page-link").forEach(link => {
-    link.addEventListener("click", e => {
+  paginationCategory.querySelectorAll(".page-link").forEach((link) => {
+    link.addEventListener("click", (e) => {
       e.preventDefault();
       const page = Number(link.getAttribute("data-page"));
       if (page >= 1 && page <= tPage) {
@@ -160,7 +130,6 @@ function renderPaginationCategory() {
     });
   });
 }
-
 
 function btnDelete(id) {
   if (!confirm("Delete this category?")) return;
@@ -227,7 +196,12 @@ function handleSearch() {
 
 function btnCreate() {
   let authToken = localStorage.getItem("authToken");
-  let categoryName = document.getElementById("categoryName").value;
+  let categoryName = document.getElementById("categoryName").value.trim();
+
+  if (categoryName === "") {
+    Swal.fire("Warning!", "Category name cannot be empty.", "warning");
+    return;
+  }
 
   fetch(`${BASE_URL}/categories`, {
     method: "POST",
