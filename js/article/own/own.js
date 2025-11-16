@@ -71,18 +71,59 @@ function updateArticleErrorMessage(type) {
 // For get all article owner
 function onClickSubmit() {
     let title = document.getElementById("title");
-    let content = document.getElementById("content");
     let category = document.getElementById("category");
-    let thumbnailFile = document.getElementById("thumbnail").files[0];
+    // let thumbnailFile = document.getElementById("thumbnail").files[0];
+    const thumbnailInput = document.getElementById("thumbnail");
+    const thumbnailFile = thumbnailInput.files[0];
     let formCreateValidation = document.getElementById("articleForm");
+    const editorDiv = document.getElementById("editor");
+    
+    const quillText = quill.getText().trim();
+    const quillContent = quill.root.innerHTML;  // For get value from Rich text editor
+    // Validation for Content [ Rich Text Editor ]
+    if(quillText.length < 10){
+      editorDiv.classList.add("is-invalid");
+      editorDiv.classList.remove("is-valid");
+      formCreateValidation.classList.add("was-validated");
+      // return;
+    }else{
+        editorDiv.classList.remove("is-invalid");
+        editorDiv.classList.add("is-valid");
+    }
 
-    if(!formCreateValidation.checkValidity()){
+    // This code block here for validation of choose the Thumbnail requirement extension Only .jpg, .jpeg, or .png are allowed.
+    const thumbnailFeedback = document.getElementById("thumbnailFeedback");
+
+    if(!thumbnailFile){
+      thumbnailInput.classList.add("is-invalid");
+      thumbnailInput.classList.remove("is-valid");
+      thumbnailFeedback.innerText = "Thumbnail is required!";
+      formCreateValidation.classList.add("was-validated");
+      return
+    }
+
+    const extensionOFThumbnails = ["jpg", "jpeg", "png"];
+
+    // For Get file extensions
+    const fileExtensions = thumbnailFile.name.split(".").pop().toLowerCase();
+    if(!extensionOFThumbnails.includes(fileExtensions)){
+      thumbnailInput.classList.add("is-invalid");
+      thumbnailInput.classList.remove("is-valid")
+
+      thumbnailFeedback.innerText = "Invalid file extension. Only .jpg, .jpeg, or .png are allowed";
+      formCreateValidation.classList.add("was-validated");
+      return; 
+    }else{
+      thumbnailInput.classList.remove("is-invalid");
+      thumbnailInput.classList.add("is-valid");
+    }
+    if (!formCreateValidation.checkValidity()) {
         formCreateValidation.classList.add("was-validated");
         return;
     }
     const articleData = {
         title: title.value.trim(),
-        content: content.value.trim(),
+        content: quillContent,
         categoryId: Number(category.value)
     };
 
@@ -116,18 +157,21 @@ function onClickSubmit() {
         .then(res => res.json())
         .then(dataThumbnail => {
             if (dataThumbnail.result) {
-                // alert(" Article created successfully!");
                 createArticleErrorMessage("success");
-                
+                // editorDiv.classList.remove("is-invalid");
+                // editorDiv.classList.add("is-valid");
 
-                // Clear form
-                // title.value = "";
-                // content.value = "";
-                // category.selectedIndex = 0;
-                // document.getElementById("thumbnail").value = "";
+                // Clear the filed of form
+                document.getElementById("title").value = "";
+                document.getElementById("category").selectedIndex = 0;
+                document.getElementById("thumbnail").value = "";
+                quill.root.innerHTML = "";
+                document.getElementById("editor").classList.remove("is-valid", "is-invalid");
+                document.getElementById("articleForm").classList.remove("was-validated");
 
                 // Add the new article to the top of the articles array
-                fetchArticles(); // Refresh table immediately
+                 document.querySelector('[data-page="all-articles"]').click();
+                fetchArticles();
                 return
             } else {
                 console.error("Thumbnail upload failed");
@@ -137,6 +181,18 @@ function onClickSubmit() {
     })
     .catch(err => console.error("Error creating article:", err));
 }
+// when choose the thumbnail form the files is ready don't show Thumbnail is required!
+document.getElementById("thumbnail").addEventListener("change", function () {
+    const thumbnailInput = this;
+    const thumbnailFile = thumbnailInput.files[0];
+    const thumbnailFeedback = document.getElementById("thumbnailFeedback");
+
+    if (thumbnailFile) {
+        // Remove the error immediately
+        thumbnailInput.classList.remove("is-invalid");
+        thumbnailFeedback.innerText = "";
+    }
+});
 
 
 let articles = []
@@ -317,6 +373,7 @@ function btnDeleteArticle(id) {
   });
 }
 
+// Get value Article by id of table
 function onClickUpdateArticle(id) {
   const article = articles.find(a => a.id === id);
   if (!article) return alert("Article not found!");
@@ -324,7 +381,10 @@ function onClickUpdateArticle(id) {
   // Fill modal form fields
   document.getElementById("updateId").value = article.id;
   document.getElementById("updateTitle").value = article.title;
-  document.getElementById("updateContent").value = article.content?.replace(/<[^>]*>/g, "") || "";
+  // document.getElementById("updateContent").value = article.content?.replace(/<[^>]*>/g, "") || "";
+  // const valueEditor = document.getElementById("editorByClassName").root = article.content
+  quillByclassName.root.innerHTML = article.content || "<p><br></p>";
+  
   document.getElementById("thumbnailPreview").src = article.thumbnail || "https://placehold.co/400";
 
   // Pass category ID so the correct one is selected
@@ -339,17 +399,58 @@ function onClickUpdateArticle(id) {
 
 // Update article
 function onClickUpdate() {
+    const id = document.getElementById("updateId").value;
+    const title = document.getElementById("updateTitle").value.trim();
+    const quillContent = quillByclassName.root.innerHTML; // For get value form Rich Text Editor
+    const categoryId = Number(document.getElementById("updateCategory").value);
+    const thumbnailInput = document.getElementById("updateThumbnail")
+    const thumbnailFile = thumbnailInput.files[0];
+
     const form = document.getElementById("updateForm");
+    const editorDivTages = document.getElementById("editorByClassName");
+    const textEditor = quillByclassName.getText().trim();
+
+
+    if (textEditor.length < 10) {
+      editorDivTages.classList.add("is-invalid");
+      editorDivTages.classList.remove("is-valid");
+      form.classList.add("was-validated");
+    return;
+    } else {
+      editorDivTages.classList.add("is-valid");
+      editorDivTages.classList.remove("is-invalid");
+    }
+
+    // Validation images of extension
+    const thumbnailFeedbackUpload = document.getElementById("thumbnailFeedbackUpload");
+    if(!thumbnailFile){
+      thumbnailInput.classList.add("is-invalid");
+      thumbnailFile.classList.remove("is-valid");
+      thumbnailFeedbackUpload.innerText = "Thumbnail is required!";
+      form.classList.add("was-validated");
+      return;
+    }
+    // Extension files
+    const extensionOFThumbnails = ["jpg", "jpeg", "png"];
+
+    // For Get file extensions
+    const fileExtensions = thumbnailFile.name.split(".").pop().toLowerCase();
+    if(!extensionOFThumbnails.includes(fileExtensions)){
+      thumbnailInput.classList.add("is-invalid");
+      thumbnailInput.classList.remove("is-valid")
+
+      thumbnailFeedbackUpload.innerText = "Invalid file extension. Only .jpg, .jpeg, or .png are allowed";
+      formCreateValidation.classList.add("was-validated");
+      return; 
+    }else{
+      thumbnailInput.classList.remove("is-invalid");
+      thumbnailInput.classList.add("is-valid");
+    }
+
     if (!form.checkValidity()) {
         form.classList.add("was-validated");
         return;
     }
-
-    const id = document.getElementById("updateId").value;
-    const title = document.getElementById("updateTitle").value.trim();
-    const content = document.getElementById("updateContent").value.trim();
-    const categoryId = Number(document.getElementById("updateCategory").value);
-    const thumbnailFile = document.getElementById("updateThumbnail").files[0];
 
     fetch(`${API}/articles/${id}`, {
         method: "PUT",
@@ -357,7 +458,7 @@ function onClickUpdate() {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${getToken}`
         },
-        body: JSON.stringify({ title, content, categoryId })
+        body: JSON.stringify({ title, content: quillContent, categoryId })
     })
     .then(response => response.json())
     .then(data => {
@@ -385,10 +486,12 @@ function onClickUpdate() {
         }
     })
     .then(() => {
-        updateArticleErrorMessage("success");
+      updateArticleErrorMessage("success");
+      editorDivTages.classList.remove("is-invalid");
         bootstrap.Modal.getInstance(document.getElementById("updateModal")).hide();
         form.reset();
         form.classList.remove("was-validated");
+        // editorDivTages.classList.add("is-valid");
         fetchArticles();
         
     })
@@ -397,5 +500,15 @@ function onClickUpdate() {
         console.error("Error updating article:", error);
     });
 }
+document.getElementById("updateThumbnail").addEventListener("change", function () {
+    const thumbnailInput = this;
+    const thumbnailFile = thumbnailInput.files[0];
+    const thumbnailFeedback = document.getElementById("thumbnailFeedbackUpload");
 
+    if (thumbnailFile) {
+        // Remove the error immediately
+        thumbnailInput.classList.remove("is-invalid");
+        thumbnailFeedback.innerText = "";
+    }
+});
 

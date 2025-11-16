@@ -9,6 +9,10 @@
       rel="stylesheet"
       href="assets/font/fontawesome-6.2.0/css/sharp-solid.css"
     />
+    <!-- Link CDN Rich text editor -->
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+
     <link rel="stylesheet" href="assets/sweetalert/sweetalert.css" />
     <link rel="stylesheet" href="css/bootstrap.css" />
     <link rel="stylesheet" href="css/responsive.css" />
@@ -160,9 +164,10 @@
                                 <p class="text-muted">Create and manage your articles</p>
                             </div>
                             <div>
-                                <a href="create-article.html" class="btn-create">
-                                    <i class="fa-regular fa-plus"></i> Create Article
-                                </a>
+                                <button class="btn-create" id="goToCreateArticle">
+                                  <i class="fa-regular fa-plus"></i> Create Article
+                                </button>
+
                             </div>
                         </div>
                         <!-- ======= My Articles ====== -->
@@ -240,7 +245,8 @@
                                                         <div class="mb-3">
                                                             <label for="updateContent"
                                                             class="form-label fw-semibold">Content</label>
-                                                            <textarea class="form-control" id="updateContent" minlength="10" rows="5"required></textarea>
+                                                            <!-- <textarea class="form-control" id="updateContent" minlength="10" rows="5"required></textarea> -->
+                                                             <div id="editorByClassName" class="textContent"></div>
                                                             <div class="invalid-feedback">
                                                                 Content must be at least 10 characters long.
                                                             </div>
@@ -250,13 +256,14 @@
                                                     <div class="col-md-4 text-center">
                                                         <label class="form-label fw-semibold">Thumbnail</label>
                                                         <div class="mb-2">
-                                                            <!-- <img id="thumbnailPreview"
+                                                            <img id="thumbnailPreview"
                                                                 src="https://via.placeholder.com/150x100?text=Preview"
                                                                 alt="Thumbnail Preview" class="rounded shadow-sm mb-2"
-                                                                style="width: 150px; height: 100px; object-fit: cover;"> -->
+                                                                style="width: 150px; height: 100px; object-fit: cover;">
                                                         </div>
                                                         <input type="file" id="updateThumbnail" class="form-control"
                                                             accept="image/*">
+                                                        <div id="thumbnailFeedbackUpload" class="invalid-feedback"> Please upload a valid image. </div>
                                                     </div>
                                                 </div>
 
@@ -285,7 +292,7 @@
                                     <!-- Title -->
                                     <div class="mb-3">
                                         <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" value="Teting tille create" id="title" minlength="10" placeholder="Title of the article" required />
+                                        <input type="text" class="form-control" id="title" minlength="10" placeholder="Title of the article" required />
                                         <div class="invalid-feedback">
                                             Title must be at least 10 characters long.
                                         </div>
@@ -308,23 +315,22 @@
                                         <label for="thumbnail" class="form-label">Thumbnail <span
                                                 class="text-danger">*</span></label>
                                         <input class="form-control" type="file" id="thumbnail" required />
-                                        <div class="invalid-feedback">
-                                            Please choose thumbnail
+                                        <div id="thumbnailFeedback" class="invalid-feedback">
+                                            Please upload a valid image.
                                         </div>
                                     </div>
 
                                     <!-- Content -->
                                     <div class="mb-3">
-                                        <label for="content" class="form-label">Content <span
-                                                class="text-danger">*</span></label>
-                                        <textarea class="form-control" id="content" minlength="10" placeholder="Write content here..."required>Teting tille create</textarea>
+                                        <label for="content" class="form-label">Content <span class="text-danger">*</span></label>
+                                         <div id="editor" class="textContent"></div>
                                         <div class="invalid-feedback">
                                             Content must be at least 10 characters long.
                                         </div>
                                     </div>
                                     <!-- Footer Buttons -->
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <a href="articles.html" class="back-link text-decoration-none">&larr; Back to Articles</a>
+                                      <a href="#" data-page="all-articles" class="back-link text-decoration-none">&larr; Back to Articles</a>
                                         <button type="button" onclick="onClickSubmit()" class="btn btn-primary">
                                             <i class="bi bi-pencil-square me-1"></i> Publish Now
                                         </button>
@@ -481,8 +487,7 @@
     <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="js/article/own/own.js"></script>
-    <script src="/js/RichTextEditer/cdnckeditor.js"></script>
-    <script src="/js/RichTextEditer/ckEditor.js"></script>
+    <script src="/js/RichTextEditer/ QuillEditor.js"></script>
     <script src="js/article/category/category.js"></script>
     
 
@@ -497,10 +502,48 @@
 
     <!-- guill delta -->
     <script src="https://cdn.jsdelivr.net/npm/quill-delta-to-html/dist/browser/QuillDeltaToHtmlConverter.bundle.js"></script>
-
+<!-- 
    <script>
-  const URL = "http://blogs.csm.linkpc.net/api/v1";
+  const URL = "http://blogs.csm.linkpc.net/api/v1"; -->
+    <script>
+      const URL = "http://blogs.csm.linkpc.net/api/v1";
+      // For event creatArticle 
+      document.getElementById("goToCreateArticle").addEventListener("click", function () {
+        document.querySelectorAll(".page-content").forEach(page => {
+            page.classList.remove("active");
+        });
+        document.getElementById("create-article").classList.add("active");
+        document.querySelectorAll(".nav-link").forEach(nav => {
+            nav.classList.remove("active");
+        });
+        document.querySelector('[data-page="create-article"]').classList.add("active");
+    });
+      // event back to article
+      document.addEventListener("click", function (e) {
+      const btn = e.target.closest('[data-page="all-articles"]');
+          if (btn) {
+              e.preventDefault();
+              document.querySelectorAll(".page-content").forEach((page) => {
+                  page.classList.remove("active");
+              });
+              document.getElementById("all-articles").classList.add("active");
+              document.querySelectorAll(".nav-link").forEach((link) => {
+                  link.classList.remove("active");
+              });
+              const sidebarLink = document.querySelector('[data-page="all-articles"].nav-link');
+              if (sidebarLink) sidebarLink.classList.add("active");
+          }
+      });
 
+      document.addEventListener("DOMContentLoaded", function () {
+        const myArticlesCollapse =
+          document.getElementById("myArticlesCollapse");
+        const collapseInstance = new bootstrap.Collapse(myArticlesCollapse, {
+          toggle: false,
+        
+        });
+      });
+      
   document.addEventListener("DOMContentLoaded", function () {
     const myArticlesCollapse = document.getElementById("myArticlesCollapse");
     const collapseInstance = new bootstrap.Collapse(myArticlesCollapse, {
@@ -637,11 +680,13 @@
   function logout() {
     localStorage.removeItem("authToken");
     location.href = "auth/loginUser.html";
+    
   }
 
   function viewProfile() {
     location.href = "js/profile/viewProfile.html";
   }
+
 </script>
 
   </body>
