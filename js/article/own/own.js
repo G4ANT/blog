@@ -1,4 +1,3 @@
-const API = "http://blogs.csm.linkpc.net/api/v1";
 const endPointCreateArticle = "articles";
 const endPointCategory = "categories?_page=1&_per_page=20&sortBy=name&sortDir=ASC";
 const endPointOwnArticle = "articles/own?_page=1&_per_page=50";
@@ -13,7 +12,7 @@ function getCategoryData(dropdownId = "category", selectedId = null) {
         if (!categoryOption) return;
         categoryOption.innerHTML = `<option value="">Select category</option>`;
 
-        fetch(`${API}/${endPointCategory}`, {
+        fetch(`${BASE_URL}/${endPointCategory}`, {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${getToken}`
@@ -127,7 +126,7 @@ function onClickSubmit() {
         categoryId: Number(category.value)
     };
 
-    fetch(`${API}/articles`, {
+    fetch(`${BASE_URL}/articles`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -149,7 +148,7 @@ function onClickSubmit() {
         let formData = new FormData();
         formData.append("thumbnail", thumbnailFile);
 
-        return fetch(`${API}/articles/${articleId}/thumbnail`, {
+        return fetch(`${BASE_URL}/articles/${articleId}/thumbnail`, {
             method: "POST",
             headers: { "Authorization": `Bearer ${getToken}` },
             body: formData
@@ -200,7 +199,7 @@ let currentPage = 1
 const perPage = 5;
 
 function fetchArticles() {
-  fetch(`${API}/${endPointOwnArticle}`, {
+  fetch(`${BASE_URL}/${endPointOwnArticle}`, {
     method: "GET",
     headers: { Authorization: `Bearer ${getToken}` },
   })
@@ -353,7 +352,7 @@ function btnDeleteArticle(id) {
     cancelButtonText: "Cancel",
   }).then((result) => {
     if (result.isConfirmed) {
-      fetch(`${API}/articles/${id}`, {
+      fetch(`${BASE_URL}/articles/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${getToken}` },
       })
@@ -452,7 +451,7 @@ function onClickUpdate() {
         return;
     }
 
-    fetch(`${API}/articles/${id}`, {
+    fetch(`${BASE_URL}/articles/${id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -471,7 +470,7 @@ function onClickUpdate() {
             const formData = new FormData();
             formData.append("thumbnail", thumbnailFile);
 
-            return fetch(`${API}/articles/${id}/thumbnail`, {
+            return fetch(`${BASE_URL}/articles/${id}/thumbnail`, {
                 method: "POST",
                 headers: { "Authorization": `Bearer ${getToken}` },
                 body: formData
@@ -511,4 +510,3 @@ document.getElementById("updateThumbnail").addEventListener("change", function (
         thumbnailFeedback.innerText = "";
     }
 });
-
