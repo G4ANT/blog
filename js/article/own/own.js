@@ -32,6 +32,7 @@ function getCategoryData(dropdownId = "category", selectedId = null) {
         console.error("Data error:", err.message);
     }
 }
+
 function createArticleErrorMessage(type) {
   const successToastEl = document.getElementById("successToast");
   const errorToastEl = document.getElementById("errorToast");
@@ -49,13 +50,14 @@ function createArticleErrorMessage(type) {
     toast.show();
   }
 }
+
 function updateArticleErrorMessage(type) {
   const successToastEl = document.getElementById("successToast");
   const errorToastEl = document.getElementById("errorToast");
   let toastEl;
   if (type === "success") {
     toastEl = successToastEl;
-    toastEl.querySelector(".toast-body").textContent = "Update created successfully!";
+    toastEl.querySelector(".toast-body").textContent = "Update article successfully!";
   } else if (type === "error") {
     toastEl = errorToastEl;
     toastEl.querySelector(".toast-body").textContent = "Update article fail";
@@ -71,26 +73,25 @@ function updateArticleErrorMessage(type) {
 function onClickSubmit() {
     let title = document.getElementById("title");
     let category = document.getElementById("category");
-    // let thumbnailFile = document.getElementById("thumbnail").files[0];
     const thumbnailInput = document.getElementById("thumbnail");
     const thumbnailFile = thumbnailInput.files[0];
     let formCreateValidation = document.getElementById("articleForm");
     const editorDiv = document.getElementById("editor");
     
     const quillText = quill.getText().trim();
-    const quillContent = quill.root.innerHTML;  // For get value from Rich text editor
+    const quillContent = quill.root.innerHTML;
+    
     // Validation for Content [ Rich Text Editor ]
     if(quillText.length < 10){
       editorDiv.classList.add("is-invalid");
       editorDiv.classList.remove("is-valid");
       formCreateValidation.classList.add("was-validated");
-      // return;
     }else{
         editorDiv.classList.remove("is-invalid");
         editorDiv.classList.add("is-valid");
     }
 
-    // This code block here for validation of choose the Thumbnail requirement extension Only .jpg, .jpeg, or .png are allowed.
+    // Thumbnail validation
     const thumbnailFeedback = document.getElementById("thumbnailFeedback");
 
     if(!thumbnailFile){
@@ -102,13 +103,11 @@ function onClickSubmit() {
     }
 
     const extensionOFThumbnails = ["jpg", "jpeg", "png"];
-
-    // For Get file extensions
     const fileExtensions = thumbnailFile.name.split(".").pop().toLowerCase();
+    
     if(!extensionOFThumbnails.includes(fileExtensions)){
       thumbnailInput.classList.add("is-invalid");
       thumbnailInput.classList.remove("is-valid")
-
       thumbnailFeedback.innerText = "Invalid file extension. Only .jpg, .jpeg, or .png are allowed";
       formCreateValidation.classList.add("was-validated");
       return; 
@@ -116,10 +115,12 @@ function onClickSubmit() {
       thumbnailInput.classList.remove("is-invalid");
       thumbnailInput.classList.add("is-valid");
     }
+    
     if (!formCreateValidation.checkValidity()) {
         formCreateValidation.classList.add("was-validated");
         return;
     }
+    
     const articleData = {
         title: title.value.trim(),
         content: quillContent,
@@ -157,10 +158,8 @@ function onClickSubmit() {
         .then(dataThumbnail => {
             if (dataThumbnail.result) {
                 createArticleErrorMessage("success");
-                // editorDiv.classList.remove("is-invalid");
-                // editorDiv.classList.add("is-valid");
 
-                // Clear the filed of form
+                // Clear the form
                 document.getElementById("title").value = "";
                 document.getElementById("category").selectedIndex = 0;
                 document.getElementById("thumbnail").value = "";
@@ -168,31 +167,29 @@ function onClickSubmit() {
                 document.getElementById("editor").classList.remove("is-valid", "is-invalid");
                 document.getElementById("articleForm").classList.remove("was-validated");
 
-                // Add the new article to the top of the articles array
-                 document.querySelector('[data-page="all-articles"]').click();
+                // Refresh articles list
+                document.querySelector('[data-page="all-articles"]').click();
                 fetchArticles();
                 return
             } else {
                 console.error("Thumbnail upload failed");
-                
             }
         });
     })
     .catch(err => console.error("Error creating article:", err));
 }
-// when choose the thumbnail form the files is ready don't show Thumbnail is required!
+
+// When thumbnail is selected, remove error message
 document.getElementById("thumbnail").addEventListener("change", function () {
     const thumbnailInput = this;
     const thumbnailFile = thumbnailInput.files[0];
     const thumbnailFeedback = document.getElementById("thumbnailFeedback");
 
     if (thumbnailFile) {
-        // Remove the error immediately
         thumbnailInput.classList.remove("is-invalid");
         thumbnailFeedback.innerText = "";
     }
 });
-
 
 let articles = []
 let currentPage = 1
@@ -213,11 +210,13 @@ function fetchArticles() {
       console.error("Error fetching articles", error.message);
     });
 }
+
 document.getElementById("searchInput").addEventListener("input", () => {
   currentPage = 1; // Reset to first page when searching
   showDataTable();
   renderPaginations();
 });
+
 fetchArticles();
 
 function showDataTable() {
@@ -232,19 +231,14 @@ function showDataTable() {
   const end = Math.min(start + perPage, totalEntries);
   const paginated = filtered.slice(start, end);
 
-  // For show entry informations
-
-  // let infoString;
-  // if(totalEntries > 0)
-  //     infoString = `Showing ${start + 1} to ${end} of ${totalEntries} entries`
-  // else infoString `Showing 0 enteries`;
-
+  // Show entry information
   document.getElementById("entryInfo").textContent =
     totalEntries > 0
       ? `Showing ${start + 1} to ${end} of ${totalEntries} entries`
-      : `Showing 0 enteries`;
+      : `Showing 0 entries`;
 
-  tbody.innerHTML = paginated.length ? "" : ` <tr><td colspan="5" class="text-center text-muted">No articles found.</td></tr>`;
+  tbody.innerHTML = paginated.length ? "" : `<tr><td colspan="5" class="text-center text-muted">No articles found.</td></tr>`;
+  
   paginated.forEach((article) => {
     let createdAt = new Date(article.createdAt).toLocaleString("en-US", {
       day: "2-digit",
@@ -256,28 +250,20 @@ function showDataTable() {
       timeZone: "Asia/Phnom_Penh",
     });
 
-    // const categoryName = article.category ? article.category.name : "No category";
-
-    let categoryName;
-    if (article.category) {
-      categoryName = article.category.name;
-    } else {
-      categoryName = "No category";
-    }
-    const thumbnailUrl =
-      article.thumbnail || "https://via.placeholder.com/60x40?text=No+Image";
+    let categoryName = article.category ? article.category.name : "No category";
+    const thumbnailUrl = article.thumbnail || "https://via.placeholder.com/60x40?text=No+Image";
 
     tbody.innerHTML += `
-             <tr>
-                <td><img src="${thumbnailUrl}" alt="Thumbnail"></td>
-                <td>${article.title}</td>
-                <td><span class="badge-category">${categoryName}</span></td>
-                <td>${createdAt}</td>
-                <td class="text-end">
-                <button class="btn btn-sm btn-outline-danger"onclick="btnDeleteArticle(${article.id})" ><i class="fa-regular fa-trash"></i></button>
-                <button class="btn btn-sm btn-outline-secondary me-1" onclick="onClickUpdateArticle(${article.id})"><i class="fa-regular fa-pencil"></i></button>
-                </td>
-            </tr>`;
+      <tr>
+        <td><img src="${thumbnailUrl}" alt="Thumbnail"></td>
+        <td>${article.title}</td>
+        <td><span class="badge-category">${categoryName}</span></td>
+        <td>${createdAt}</td>
+        <td class="text-end">
+          <button class="btn btn-sm btn-outline-danger" onclick="btnDeleteArticle(${article.id})"><i class="fa-regular fa-trash"></i></button>
+          <button class="btn btn-sm btn-outline-secondary me-1" onclick="onClickUpdateArticle(${article.id})"><i class="fa-regular fa-pencil"></i></button>
+        </td>
+      </tr>`;
   });
 }
 
@@ -287,45 +273,80 @@ function renderPaginations() {
     article.title.toLowerCase().includes(searchData)
   );
 
-  const totalPage = Math.ceil(filtered.length / perPage);
+  const totalEntries = filtered.length;
+  const totalPage = Math.ceil(totalEntries / perPage);
   const pagination = document.getElementById("pagination");
-  pagination.innerHTML = "";
-
-  //When Prev button of Paginations
-  let prevDisabled = currentPage === 1 ? "disable" : "";
-  pagination.innerHTML += `
-         <li class="page-item ${prevDisabled}">
-            <a class="page-link" href="#" data-page="${
-              currentPage - 1
-            }"><i class="fa-regular fa-arrow-left"></i></a>
-        </li>
-    `;
-
-  // Page numbers
-  for (let i = 1; i <= totalPage; i++) {
-    let active;
-    if (i === currentPage) {
-      active = "active";
-    } else {
-      active = "";
-    }
-    pagination.innerHTML += `
-            <li class="page-item ${active}">
-                <a class="page-link" href="#" data-page="${i}">${i}</a>
-            </li>
-            `;
+  
+  // Hide pagination if no data or only one page
+  if (totalEntries === 0 || totalPage <= 1) {
+    pagination.innerHTML = "";
+    return;
   }
 
-  // For Next button of Paginations
-  let nextDisabled = currentPage === totalPage ? "disable" : "";
-  pagination.innerHTML += `
-        <li class="page-item ${nextDisabled}">
-            <a class="page-link" href="#" data-page="${
-              currentPage + 1
-            }"><i class="fa-regular fa-arrow-right"></i></a>
-        </li>`;
+  pagination.innerHTML = "";
 
-  //Add event click of paginations
+  // Previous button
+  let prevDisabled = currentPage === 1 ? "disabled" : "";
+  pagination.innerHTML += `
+    <li class="page-item ${prevDisabled}">
+      <a class="page-link" href="#" data-page="${currentPage - 1}"><i class="fa-regular fa-arrow-left"></i></a>
+    </li>`;
+
+  // Page numbers with smart ellipsis
+  const maxVisiblePages = 5;
+  let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+  let endPage = Math.min(totalPage, startPage + maxVisiblePages - 1);
+
+  // Adjust start if we're near the end
+  if (endPage - startPage < maxVisiblePages - 1) {
+    startPage = Math.max(1, endPage - maxVisiblePages + 1);
+  }
+
+  // First page + ellipsis
+  if (startPage > 1) {
+    pagination.innerHTML += `
+      <li class="page-item">
+        <a class="page-link" href="#" data-page="1">1</a>
+      </li>`;
+    if (startPage > 2) {
+      pagination.innerHTML += `
+        <li class="page-item disabled">
+          <span class="page-link">...</span>
+        </li>`;
+    }
+  }
+
+  // Page numbers
+  for (let i = startPage; i <= endPage; i++) {
+    let active = i === currentPage ? "active" : "";
+    pagination.innerHTML += `
+      <li class="page-item ${active}">
+        <a class="page-link" href="#" data-page="${i}">${i}</a>
+      </li>`;
+  }
+
+  // Ellipsis + last page
+  if (endPage < totalPage) {
+    if (endPage < totalPage - 1) {
+      pagination.innerHTML += `
+        <li class="page-item disabled">
+          <span class="page-link">...</span>
+        </li>`;
+    }
+    pagination.innerHTML += `
+      <li class="page-item">
+        <a class="page-link" href="#" data-page="${totalPage}">${totalPage}</a>
+      </li>`;
+  }
+
+  // Next button
+  let nextDisabled = currentPage === totalPage ? "disabled" : "";
+  pagination.innerHTML += `
+    <li class="page-item ${nextDisabled}">
+      <a class="page-link" href="#" data-page="${currentPage + 1}"><i class="fa-regular fa-arrow-right"></i></a>
+    </li>`;
+
+  // Add click events
   document.querySelectorAll("#pagination .page-link").forEach((link) => {
     link.addEventListener("click", (e) => {
       e.preventDefault();
@@ -362,7 +383,10 @@ function btnDeleteArticle(id) {
             "Deleted!",
             "The article has been deleted.",
             "success"
-          ).then(() => fetchArticles());
+          ).then(() => {
+            // Adjust current page if needed after deletion
+            fetchArticles();
+          });
         })
         .catch((error) => {
           console.error("Error deleting article:", error);
@@ -372,7 +396,7 @@ function btnDeleteArticle(id) {
   });
 }
 
-// Get value Article by id of table
+// Get article by id and populate update form
 function onClickUpdateArticle(id) {
   const article = articles.find(a => a.id === id);
   if (!article) return alert("Article not found!");
@@ -380,133 +404,123 @@ function onClickUpdateArticle(id) {
   // Fill modal form fields
   document.getElementById("updateId").value = article.id;
   document.getElementById("updateTitle").value = article.title;
-  // document.getElementById("updateContent").value = article.content?.replace(/<[^>]*>/g, "") || "";
-  // const valueEditor = document.getElementById("editorByClassName").root = article.content
   quillByclassName.root.innerHTML = article.content || "<p><br></p>";
   
   document.getElementById("thumbnailPreview").src = article.thumbnail || "https://placehold.co/400";
 
-  // Pass category ID so the correct one is selected
+  // Set selected category
   const selectedCategoryId = article.category?.id || article.categoryId || null;
   getCategoryData("updateCategory", selectedCategoryId);
 
   // Show modal
   const modal = new bootstrap.Modal(document.getElementById("updateModal"));
   modal.show();
-
 }
 
 // Update article
 function onClickUpdate() {
     const id = document.getElementById("updateId").value;
     const title = document.getElementById("updateTitle").value.trim();
-    const quillContent = quillByclassName.root.innerHTML; // For get value form Rich Text Editor
+    const quillContent = quillByclassName.root.innerHTML;
     const categoryId = Number(document.getElementById("updateCategory").value);
     const thumbnailInput = document.getElementById("updateThumbnail")
     const thumbnailFile = thumbnailInput.files[0];
 
     const form = document.getElementById("updateForm");
-    const editorDivTages = document.getElementById("editorByClassName");
+    const editorDivTags = document.getElementById("editorByClassName");
     const textEditor = quillByclassName.getText().trim();
 
-
+    // Validate editor content
     if (textEditor.length < 10) {
-      editorDivTages.classList.add("is-invalid");
-      editorDivTages.classList.remove("is-valid");
-      form.classList.add("was-validated");
-    return;
-    } else {
-      editorDivTages.classList.add("is-valid");
-      editorDivTages.classList.remove("is-invalid");
-    }
-
-    // Validation images of extension
-    const thumbnailFeedbackUpload = document.getElementById("thumbnailFeedbackUpload");
-    if(!thumbnailFile){
-      thumbnailInput.classList.add("is-invalid");
-      thumbnailFile.classList.remove("is-valid");
-      thumbnailFeedbackUpload.innerText = "Thumbnail is required!";
+      editorDivTags.classList.add("is-invalid");
+      editorDivTags.classList.remove("is-valid");
       form.classList.add("was-validated");
       return;
+    } else {
+      editorDivTags.classList.add("is-valid");
+      editorDivTags.classList.remove("is-invalid");
     }
-    // Extension files
-    const extensionOFThumbnails = ["jpg", "jpeg", "png"];
 
-    // For Get file extensions
-    const fileExtensions = thumbnailFile.name.split(".").pop().toLowerCase();
-    if(!extensionOFThumbnails.includes(fileExtensions)){
-      thumbnailInput.classList.add("is-invalid");
-      thumbnailInput.classList.remove("is-valid")
+    // Validate thumbnail if user selected a new one
+    const thumbnailFeedbackUpload = document.getElementById("thumbnailFeedbackUpload");
+    
+    if (!thumbnailFile) {
+      thumbnailInput.classList.remove("is-invalid");
+      thumbnailInput.classList.remove("is-valid");
+    } else {
+      const extensionOFThumbnails = ["jpg", "jpeg", "png"];
+      const fileExtensions = thumbnailFile.name.split(".").pop().toLowerCase();
 
-      thumbnailFeedbackUpload.innerText = "Invalid file extension. Only .jpg, .jpeg, or .png are allowed";
-      formCreateValidation.classList.add("was-validated");
-      return; 
-    }else{
+      if (!extensionOFThumbnails.includes(fileExtensions)) {
+        thumbnailInput.classList.add("is-invalid");
+        thumbnailFeedbackUpload.innerText = "Invalid file extension. Only .jpg, .jpeg, or .png are allowed";
+        return;
+      }
+
       thumbnailInput.classList.remove("is-invalid");
       thumbnailInput.classList.add("is-valid");
     }
 
     if (!form.checkValidity()) {
-        form.classList.add("was-validated");
-        return;
+      form.classList.add("was-validated");
+      return;
     }
 
     fetch(`${BASE_URL}/articles/${id}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${getToken}`
-        },
-        body: JSON.stringify({ title, content: quillContent, categoryId })
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${getToken}`
+      },
+      body: JSON.stringify({ title, content: quillContent, categoryId })
     })
     .then(response => response.json())
     .then(data => {
-        if (!data.result) {
-            console.error("Update failed:", data.message);
-            throw new Error(data.message);
-        }
+      if (!data.result) {
+        console.error("Update failed:", data.message);
+        throw new Error(data.message);
+      }
 
-        if (thumbnailFile) {
-            const formData = new FormData();
-            formData.append("thumbnail", thumbnailFile);
+      if (thumbnailFile) {
+        const formData = new FormData();
+        formData.append("thumbnail", thumbnailFile);
 
-            return fetch(`${BASE_URL}/articles/${id}/thumbnail`, {
-                method: "POST",
-                headers: { "Authorization": `Bearer ${getToken}` },
-                body: formData
-            })
-            .then(res => res.json())
-            .then(thumbData => {
-                if (!thumbData.result) {
-                    console.error("Thumbnail upload failed:", thumbData.message);
-                    
-                }
-            });
-        }
+        return fetch(`${BASE_URL}/articles/${id}/thumbnail`, {
+          method: "POST",
+          headers: { "Authorization": `Bearer ${getToken}` },
+          body: formData
+        })
+        .then(res => res.json())
+        .then(thumbData => {
+          if (!thumbData.result) {
+            console.error("Thumbnail upload failed:", thumbData.message);
+          }
+        });
+      }
     })
     .then(() => {
       updateArticleErrorMessage("success");
-      editorDivTages.classList.remove("is-invalid");
-        bootstrap.Modal.getInstance(document.getElementById("updateModal")).hide();
-        form.reset();
-        form.classList.remove("was-validated");
-        // editorDivTages.classList.add("is-valid");
-        fetchArticles();
-        
+      editorDivTags.classList.remove("is-invalid");
+      bootstrap.Modal.getInstance(document.getElementById("updateModal")).hide();
+      form.reset();
+      form.classList.remove("was-validated");
+      fetchArticles();
     })
     .catch(error => {
-        updateArticleErrorMessage("error");
-        console.error("Error updating article:", error);
+      updateArticleErrorMessage("error");
+      console.error("Error updating article:", error);
     });
 }
-document.getElementById("updateThumbnail").addEventListener("change", function () {
-    const thumbnailInput = this;
-    const thumbnailFile = thumbnailInput.files[0];
-    const thumbnailFeedback = document.getElementById("thumbnailFeedbackUpload");
 
-    if (thumbnailFile) {
-        // Remove the error immediately
-        thumbnailInput.classList.remove("is-invalid");
-        thumbnailFeedback.innerText = "";
+// Preview thumbnail on file selection
+document.getElementById("updateThumbnail").addEventListener("change", function () {
+    const file = this.files[0];
+    const preview = document.getElementById("thumbnailPreview");
+    const feedback = document.getElementById("thumbnailFeedbackUpload");
+
+    if (file) {
+      preview.src = URL.createObjectURL(file);
+      this.classList.remove("is-invalid");
+      feedback.innerText = "";
     }
 });
