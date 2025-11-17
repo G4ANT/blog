@@ -1,6 +1,6 @@
 const baseURL = "categories";
 
-let itemsPerPage = 100; 
+let itemsPerPage = 100;
 let sortBy = "name";
 let sortDir = "ASC";
 
@@ -11,8 +11,8 @@ const paginationCategory = document.getElementById("paginationContainer");
 const gToken = localStorage.getItem("authToken");
 
 let editCategoryId = null;
-let categories = []; 
-let allCategories = []; 
+let categories = [];
+let allCategories = [];
 let cPage = 1;
 const perrPage = 10;
 
