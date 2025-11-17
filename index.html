@@ -497,188 +497,181 @@
   <script
     src="https://cdn.jsdelivr.net/npm/quill-delta-to-html/dist/browser/QuillDeltaToHtmlConverter.bundle.js"></script>
 
-  <script>
-    window.onscroll = function () {
-      const btnBackToTop = document.getElementById('backToTop')
-      if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-        btnBackToTop.classList.remove('d-none')
-      }
-      else {
-        btnBackToTop.classList.add('d-none')
-      }
+<script>
+  // ===========================
+  // Back to top button
+  // ===========================
+  window.onscroll = function () {
+    const btnBackToTop = document.getElementById("backToTop");
+
+    if (document.documentElement.scrollTop > 100) {
+      btnBackToTop.classList.remove("d-none");
+    } else {
+      btnBackToTop.classList.add("d-none");
     }
+  };
 
-    document.getElementById("backToTop").addEventListener('click', function () {
-      window.scrollTo({ top: 0, behavior: "smooth" })
-    })
-    // scroll up by click btn
-    // For event creatArticle 
-    document.getElementById("goToCreateArticle").addEventListener("click", function () {
-      document.querySelectorAll(".page-content").forEach(page => {
-        page.classList.remove("active");
-      });
-      document.getElementById("create-article").classList.add("active");
-      document.querySelectorAll(".nav-link").forEach(nav => {
-        nav.classList.remove("active");
-      });
-      document.querySelector('[data-page="create-article"]').classList.add("active");
+  document.getElementById("backToTop").addEventListener("click", function () {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  // ===========================
+  // Create Article button (outside sidebar)
+  // ===========================
+  const btnGoCreate = document.getElementById("goToCreateArticle");
+  if (btnGoCreate) {
+    btnGoCreate.addEventListener("click", function () {
+      switchPage("create-article");
+      setActiveNav("create-article");
     });
-    // event back to article
-    document.addEventListener("click", function (e) {
-      const btn = e.target.closest('[data-page="all-articles"]');
-      if (btn) {
+  }
+
+  // ===========================
+  // Global function to switch page
+  // ===========================
+  function switchPage(pageId) {
+    document.querySelectorAll(".page-content").forEach((page) => {
+      page.classList.remove("active");
+    });
+    document.getElementById(pageId)?.classList.add("active");
+  }
+
+  // ===========================
+  // Update active nav link
+  // ===========================
+  function setActiveNav(pageName) {
+    document.querySelectorAll(".nav-link").forEach((link) => {
+      link.classList.remove("active");
+    });
+
+    const activeLink = document.querySelector(`.nav-link[data-page="${pageName}"]`);
+    if (activeLink) activeLink.classList.add("active");
+  }
+
+  // ===========================
+  // DOM Loaded
+  // ===========================
+  document.addEventListener("DOMContentLoaded", function () {
+    const myArticlesCollapse = document.getElementById("myArticlesCollapse");
+    const collapseInstance = new bootstrap.Collapse(myArticlesCollapse, { toggle: false });
+
+    const navLinks = document.querySelectorAll(".nav-link");
+    const mobileMenuBtn = document.querySelector(".mobile-menu-btn");
+    const sidebar = document.querySelector(".sidebar");
+    const overlay = document.querySelector(".overlay");
+
+    const profileToggle = document.querySelector(".profile-dropdown-toggle");
+    const profileMenu = document.querySelector(".profile-dropdown-menu");
+
+    // ===========================
+    // Mobile Sidebar Toggle
+    // ===========================
+    mobileMenuBtn?.addEventListener("click", () => {
+      sidebar.classList.toggle("show");
+      overlay.classList.toggle("show");
+    });
+
+    overlay?.addEventListener("click", () => {
+      sidebar.classList.remove("show");
+      overlay.classList.remove("show");
+    });
+
+    // ===========================
+    // Profile Dropdown
+    // ===========================
+    profileToggle?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      profileMenu?.classList.toggle("show");
+    });
+
+    document.addEventListener("click", () => {
+      profileMenu?.classList.remove("show");
+    });
+
+    // ===========================
+    // Sidebar Navigation Clicks
+    // ===========================
+    navLinks.forEach((link) => {
+      link.addEventListener("click", function (e) {
+        if (this.getAttribute("data-bs-toggle") === "collapse") {
+          return; // allow collapse to function
+        }
+
         e.preventDefault();
-        document.querySelectorAll(".page-content").forEach((page) => {
-          page.classList.remove("active");
-        });
-        document.getElementById("all-articles").classList.add("active");
-        document.querySelectorAll(".nav-link").forEach((link) => {
-          link.classList.remove("active");
-        });
-        const sidebarLink = document.querySelector('[data-page="all-articles"].nav-link');
-        if (sidebarLink) sidebarLink.classList.add("active");
-      }
-    });
+        const targetPage = this.getAttribute("data-page");
+        if (!targetPage) return;
 
-    document.addEventListener("DOMContentLoaded", function () {
-      const myArticlesCollapse =
-        document.getElementById("myArticlesCollapse");
-      const collapseInstance = new bootstrap.Collapse(myArticlesCollapse, {
-        toggle: false,
-      });
+        switchPage(targetPage);
+        setActiveNav(targetPage);
 
-      const navLinks = document.querySelectorAll(".nav-link");
-      const mobileMenuBtn = document.querySelector(".mobile-menu-btn");
-      const sidebar = document.querySelector(".sidebar");
-      const overlay = document.querySelector(".overlay");
-      const profileDropdownToggle = document.querySelector(
-        ".profile-dropdown-toggle"
-      );
-      const profileDropdownMenu = document.querySelector(
-        ".profile-dropdown-menu"
-      );
+        // Close submenu if page is not My Articles
+        if (!this.closest("#myArticlesCollapse")) {
+          collapseInstance.hide();
+        }
 
-      // Mobile sidebar toggle
-      mobileMenuBtn.addEventListener("click", function () {
-        sidebar.classList.toggle("show");
-        overlay.classList.toggle("show");
-      });
-
-      overlay.addEventListener("click", function () {
-        sidebar.classList.remove("show");
-        overlay.classList.remove("show");
-      });
-
-
-      // ============================
-      profileDropdownToggle.addEventListener("click", function (e) {
-        e.stopPropagation();
-        profileDropdownMenu?.classList.toggle("show");
-      });
-
-      // =============================
-      document.addEventListener("click", function () {
-        profileDropdownMenu?.classList.remove("show");
-      });
-
-
-      navLinks.forEach((link) => {
-        link.addEventListener("click", function (e) {
-          if (
-            !this.hasAttribute("data-bs-toggle") ||
-            this.getAttribute("data-bs-toggle") !== "collapse"
-          ) {
-            e.preventDefault();
-            const targetPage = this.getAttribute("data-page");
-
-            if (targetPage) {
-              // Hide all pages
-              document.querySelectorAll(".page-content").forEach((page) => {
-                page.classList.remove("active");
-              });
-
-              // Show target page
-              document.getElementById(targetPage).classList.add("active");
-
-              // Update active nav link
-              document.querySelectorAll(".nav-link").forEach((navLink) => {
-                navLink.classList.remove("active");
-              });
-              this.classList.add("active");
-
-              // Close submenu if not in My Articles section
-              if (!this.closest("#myArticlesCollapse")) {
-                collapseInstance.hide();
-              }
-
-              // Close sidebar on mobile after navigation
-              if (window.innerWidth < 992) {
-                sidebar.classList.remove("show");
-                overlay.classList.remove("show");
-              }
-
-              // Close profile dropdown
-              // profileDropdownMenu.classList.remove("show");
-
-              // ===============================
-              if (profileDropdownMenu) {
-                document.addEventListener("click", function () {
-                  profileDropdownMenu.classList.remove("show");
-                });
-              }
-            }
-          }
-        });
-      });
-
-      // Close sidebar when window is resized to desktop size
-      window.addEventListener("resize", function () {
-        if (window.innerWidth >= 992) {
+        // Close mobile sidebar
+        if (window.innerWidth < 992) {
           sidebar.classList.remove("show");
           overlay.classList.remove("show");
         }
       });
     });
 
-    // profile
-    showProfile();
-    function showProfile() {
-      fetch(`${BASE_URL}/auth/profile`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
+    // ===========================
+    // Auto close sidebar on resize
+    // ===========================
+    window.addEventListener("resize", function () {
+      if (window.innerWidth >= 992) {
+        sidebar.classList.remove("show");
+        overlay.classList.remove("show");
+      }
+    });
+  });
+
+  // ===========================
+  // Load Profile
+  // ===========================
+  showProfile();
+
+  function showProfile() {
+    fetch(`${BASE_URL}/auth/profile`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (!data?.data) return;
+
+        const user = data.data;
+        const avatar = user.avatar || "assets/images/defaultImage.jpg";
+
+        document.getElementById("profileAvatar").src = avatar;
+        document.getElementById("profileName").textContent = user.firstName + " " + user.lastName;
+        document.getElementById("profileEmail").textContent = user.email;
       })
-        .then((res) => res.json())
-        .then((data) => {
-          if (!data || !data.data) {
-            console.error("User data not found", data);
-            return;
-          }
+      .catch((err) => console.log(err));
+  }
 
-          const user = data.data;
-          const avatar = user.avatar || "assets/images/defaultImage.jpg";
+  // ===========================
+  // Logout
+  // ===========================
+  function logout() {
+    localStorage.removeItem("authToken");
+    location.href = "auth/loginUser.html";
+  }
 
-          document.getElementById("profileAvatar").src = avatar;
-          document.getElementById(
-            "profileName"
-          ).textContent = `${user.firstName} ${user.lastName}`;
-          document.getElementById(
-            "profileEmail"
-          ).textContent = `${user.email}`;
-        })
-        .catch((err) => console.log(err));
-    }
-    function logout() {
-      localStorage.removeItem("authToken");
-      location.href = "auth/loginUser.html";
-    }
+  // ===========================
+  // View Profile
+  // FIXED PATH
+  // ===========================
+  function viewProfile() {
+    location.href = "js/profile/viewProfile.html";
+  }
+</script>
 
-    function viewProfile() {
-      location.href = "js/profile/viewProfile.html";
-    }
-  </script>
 </body>
 
 </html>
