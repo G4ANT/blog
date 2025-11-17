@@ -89,26 +89,33 @@ function onClickCreate() {
   };
 
   fetch(API, {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(userData)
-  })
-  .then((res) => res.json().then((data) => ({ ok: res.ok, body: data })))
-  .then((result) => {
-    console.log(result.body);
-    if(result.ok){
-      successToast.show();
-      form.reset();
-      form.classList.remove('was-validated');
-      window.location.href = "loginUser.html";
+  method: 'POST',
+  headers: {'Content-Type': 'application/json'},
+  body: JSON.stringify(userData)
+})
+.then((res) => res.json().then((data) => ({ ok: res.ok, body: data })))
+.then((result) => {
+  console.log(result.body);
+  if(result.ok){
+    successToast.show();
+    form.reset();
+    form.classList.remove('was-validated');
+    window.location.href = "loginUser.html";
+  } else {
+    if(result.body.message && result.body.message.toLowerCase().includes("email")) {
+      document.getElementById('email').classList.add('is-invalid');
+      document.getElementById('emailFeedback').innerText = "Email already exists";
     } else {
       errorBoxMessage.textContent = result.body.message || "Registration failed.";
       errorToast.show();
-    }   
-  })
-  .catch((error) => {
-    console.error("Error", error.message);
-    errorBoxMessage.textContent = "Network error, Please try again later";
-    errorToast.show();
-  });
+    }
+  }
+})
+.catch((error) => {
+  console.error("Error", error.message);
+  errorBoxMessage.textContent = "Network error, Please try again later";
+  errorToast.show();
+});
+
+
 }
