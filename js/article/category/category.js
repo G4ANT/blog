@@ -1,19 +1,24 @@
-const APII = "http://blogs.csm.linkpc.net/api/v1";
-const endPointCategoryy =
-  "categories?_page=1&_per_page=100&sortBy=name&sortDir=ASC";
+const baseURL = "categories";
+
+let itemsPerPage = 100; 
+let sortBy = "name";
+let sortDir = "ASC";
+
+// Construct dynamic endpoint
+const endPointCategoryy = `${baseURL}?_page=${currentPage}&_per_page=${itemsPerPage}&sortBy=${sortBy}&sortDir=${sortDir}`;
 const tbody = document.getElementById("displayCategory");
-const pagination = document.getElementById("paginationContainer");
+const paginationCategory = document.getElementById("paginationContainer");
 const gToken = localStorage.getItem("authToken");
 
 let editCategoryId = null;
-let categories = []; // currently displayed categories
-let allCategories = []; // full list for search
+let categories = []; 
+let allCategories = []; 
 let cPage = 1;
 const perrPage = 10;
 
 // Fetch all categories once
 function fetchCategories() {
-  fetch(`${APII}/${endPointCategoryy}`, {
+  fetch(`${BASE_URL}/${endPointCategoryy}`, {
     method: "GET",
     headers: { Authorization: `Bearer ${gToken}` },
   })
@@ -23,7 +28,7 @@ function fetchCategories() {
       categories = [...allCategories]; // set for display
 
       renderCategoryTable();
-      renderPaginations();
+      renderPaginationCategory();
     })
     .catch((err) => {
       console.error("Error fetching categories:", err.message);
@@ -40,11 +45,11 @@ function renderCategoryTable() {
   const end = Math.min(start + perrPage, totalEntries);
   const paginated = categories.slice(start, end);
 
-  const entryInfo = document.getElementById("entryInfo");
-  entryInfo.textContent =
-    totalEntries > 0
-      ? `Showing ${start + 1} to ${end} of ${totalEntries} entries`
-      : `Showing 0 entries`;
+  // const entryInfo = document.getElementById("entryInfo");
+  // entryInfo.textContent =
+  //   totalEntries > 0
+  //     ? `Showing ${start + 1} to ${end} of ${totalEntries} entries`
+  //     : `Showing 0 entries`;
 
   if (!paginated.length) {
     tbody.innerHTML = `<tr><td colspan="2" class="text-center text-muted py-3">No categories found</td></tr>`;
@@ -71,53 +76,64 @@ function renderCategoryTable() {
   });
 }
 
-// Render pagination controls
-function renderPaginations() {
-  const totalPage = Math.ceil(categories.length / perrPage);
-  pagination.innerHTML = "";
+function renderPaginationCategory() {
+  const tPage = Math.ceil(categories.length / perrPage);
+  paginationCategory.innerHTML = "";
 
-  const prevDisabled = cPage === 1 ? "disabled" : "";
-  pagination.innerHTML += `
-    <li class="page-item ${prevDisabled}">
-      <a class="page-link" href="#" data-page="${cPage - 1}">
-        <i class="fa-solid fa-angle-left"></i>
-      </a>
-    </li>`;
+  const addPage = (p, text = p, active = false, disabled = false) =>
+    (paginationCategory.innerHTML += `
+      <li class="page-item ${active ? "active" : ""} ${
+      disabled ? "disabled" : ""
+    }">
+        <a class="page-link" href="#" data-page="${p}">${text}</a>
+      </li>`);
 
-  for (let i = 1; i <= totalPage; i++) {
-    const active = i === cPage ? "active" : "";
-    pagination.innerHTML += `
-      <li class="page-item ${active}">
-        <a class="page-link" href="#" data-page="${i}">${i}</a>
-      </li>`;
+  // Prev
+  addPage(cPage - 1, "<", false, cPage === 1);
+
+  // First page
+  addPage(1, "1", cPage === 1);
+
+  // Left ellipsis
+  if (cPage > 3)
+    paginationCategory.innerHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+
+  // Middle pages
+  for (
+    let i = Math.max(2, cPage - 1);
+    i <= Math.min(tPage - 1, cPage + 1);
+    i++
+  ) {
+    addPage(i, i, i === cPage);
   }
 
-  const nextDisabled = cPage === totalPage ? "disabled" : "";
-  pagination.innerHTML += `
-    <li class="page-item ${nextDisabled}">
-      <a class="page-link" href="#" data-page="${cPage + 1}">
-        <i class="fa-solid fa-angle-right"></i>
-      </a>
-    </li>`;
+  // Right ellipsis
+  if (cPage < tPage - 2)
+    paginationCategory.innerHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
 
-  document
-    .querySelectorAll("#paginationContainer .page-link")
-    .forEach((link) => {
-      link.addEventListener("click", (e) => {
-        e.preventDefault();
-        const page = Number(link.getAttribute("data-page"));
-        if (page >= 1 && page <= totalPage) {
-          cPage = page;
-          renderCategoryTable();
-          renderPaginations();
-        }
-      });
+  // Last page
+  if (tPage > 1) addPage(tPage, tPage, cPage === tPage);
+
+  // Next
+  addPage(cPage + 1, ">", false, cPage === tPage);
+
+  // Click event
+  paginationCategory.querySelectorAll(".page-link").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const page = Number(link.getAttribute("data-page"));
+      if (page >= 1 && page <= tPage) {
+        cPage = page;
+        renderCategoryTable();
+        renderPaginationCategory();
+      }
     });
+  });
 }
 
 function btnDelete(id) {
   if (!confirm("Delete this category?")) return;
-  fetch(`${APII}/categories/${id}`, {
+  fetch(`${BASE_URL}/categories/${id}`, {
     method: "DELETE",
     headers: { Authorization: `Bearer ${gToken}` },
   })
@@ -137,7 +153,7 @@ function renderCategories(list) {
   categories = list;
   cPage = 1; // reset to page 1
   renderCategoryTable();
-  renderPaginations();
+  renderPaginationCategory();
 }
 
 fetchCategories();
@@ -154,7 +170,7 @@ function handleSearch() {
 
   // Search by ID
   if (!isNaN(query)) {
-    fetch(`${APII}/categories/${query}`, {
+    fetch(`${BASE_URL}/categories/${query}`, {
       headers: { Authorization: `Bearer ${authToken}` },
     })
       .then((response) => response.json())
@@ -180,9 +196,14 @@ function handleSearch() {
 
 function btnCreate() {
   let authToken = localStorage.getItem("authToken");
-  let categoryName = document.getElementById("categoryName").value;
+  let categoryName = document.getElementById("categoryName").value.trim();
 
-  fetch(`${APII}/categories`, {
+  if (categoryName === "") {
+    Swal.fire("Warning!", "Category name cannot be empty.", "warning");
+    return;
+  }
+
+  fetch(`${BASE_URL}/categories`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -221,7 +242,7 @@ function btnEdit() {
   if (!editCategoryId)
     return console.error("No category selected for editing.");
 
-  fetch(`${APII}/categories/${editCategoryId}`, {
+  fetch(`${BASE_URL}/categories/${editCategoryId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -256,7 +277,7 @@ function btnDelete(id) {
   }).then((result) => {
     if (result.isConfirmed) {
       const authToken = localStorage.getItem("authToken");
-      fetch(`${APII}/categories/${id}`, {
+      fetch(`${BASE_URL}/categories/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${authToken}`,

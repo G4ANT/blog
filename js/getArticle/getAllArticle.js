@@ -1,46 +1,48 @@
 let curPage = 1;
 const pPage = 8;
+
 const btnLoadMore = document.getElementById('btnLoadMore')
 
 let showAllCard = document.getElementById('showAllCard')
 let card = ''
-const URL_GET_ARTICLE = 'http://blogs.csm.linkpc.net/api/v1'
-
-
+let showNoMoreData = document.getElementById('showNoMoreData')
 function getData(page) {
 
-    return fetch(`${URL_GET_ARTICLE}/articles?search=&_page=${page}&_per_page=${pPage}&sortBy=content&sortDir=asc`, {
+
+    return fetch(`${BASE_URL}/articles?search=&_page=${page}&_per_page=${pPage}&sortBy=content&sortDir=asc`, {
         method: 'GET',
-
-
     })
         .then(res => res.json())
         .then(data => {
-            const items = data.data.items;
-            if (!items || items.length === 0) {
-                btnLoadMore.style.display = 'none'
-
-                showNoMoreData.style.display = 'block'
+            const itemsCard = data.data.items;
+            if (!itemsCard || itemsCard.length === 0) {
+                showNoMoreData.classList.remove('d-none')
+                btnLoadMore.classList.add('d-none')
+                return;
             }
 
-            for (let i = 0; i < items.length; i++) {
-                let item = items[i]
+            for (let i = 0; i < itemsCard.length; i++) {
+                let item = itemsCard[i]
                 let itemContent = item.content
 
                 let previewText = parseQuillContent(itemContent)
+                // Check if category exists
+                let categoryName = item.category && item.category.name ? item.category.name : "No category";
+
+                console.log(categoryName)
 
                 card =
                     `   <div class="col-12 col-md-6 col-lg-4 col-xl-3 get-article">
-                                <div class="card flex-fill" onclick="viewDetail(${item.id})" style="cursor: pointer;">
-                                    <img src="${item.thumbnail}" alt="thumbnail" class="card-img card-thumbnail">
+                                <div class="card flex-fill rounded-4 h-100" onclick="viewDetail(${item.id}, '${categoryName.replace(/'/g, "\\'")}')" style="cursor: pointer;">
+                                    <img src="${item.thumbnail}" alt="thumbnail" class="card-img-top card-thumbnail">
                                     <div class="card-body d-flex flex-column">
                                         <h5 class="fw-bold card-title card-text-clamp">${item.title}</h5>
                                         <p class="m-0 card-text-clamp">${previewText}</p>
                                         
 
                                     </div>
-                                    <div class="d-flex p-2 align-item-center">
-                                        <img src="${item.creator.avatar}" width="20px" height="20px" alt="avatar" class="rounded-5">
+                                    <div class="d-flex p-2 align-items-center">
+                                        <img src="${item.creator.avatar}" width="30" height="30" alt="avatar" class="rounded-5">
                                         <span class="ms-2">${item.creator.firstName} ${item.creator.lastName}</span>
                                     </div>
                                 </div>
@@ -50,25 +52,23 @@ function getData(page) {
             }
         })
         .catch(err => console.log(err))
-
+        .finally(() => {
+            // Restore button text
+            btnLoadMore.disabled = false;
+            spinner.classList.add('d-none')
+            spinnerText.textContent = "Load more"
+        });
 }
 
 getData(curPage)
 
 btnLoadMore.addEventListener('click', () => {
-    // Save original text
-    const originalText = btnLoadMore.textContent;
 
-    // Show loading state
-    btnLoadMore.textContent = "Loading...";
-    btnLoadMore.disabled = true; 
+    btnLoadMore.disabled = true;
+    spinner.classList.remove('d-none');
+    spinnerText.textContent = "Loading..."
     curPage++;
     getData(curPage)
-        .finally(() => {
-            // Restore button text
-            btnLoadMore.textContent = originalText;
-            btnLoadMore.disabled = false;
-        });
 })
 
 
@@ -99,10 +99,18 @@ function parseQuillContent(content) {
     function stripHTML(html) {
         const temp = document.createElement('div');
         temp.innerHTML = html;
-        return temp.textContent || temp.innerText || '';
+        return (temp.textContent || temp.innerText || '')
+            .replace(/[\s\u200B\u200C\u200D\uFEFF]+/g, ' ')
+            .trim()
+
+
+        // stripHTML("<p>Hello <b>World</b></p>")
+        // Hello World
+
+
+        // trim for delete space in all cards
     }
     const previewText = stripHTML(contentHTML);
 
     return previewText
 }
-

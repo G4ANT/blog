@@ -1,22 +1,21 @@
 let showCardDetail = document.getElementById('showCardDetail')
-function viewDetail(id) {
-    // Show overlay on target container
-    $("#showCardDetail").LoadingOverlay("show", {
-        // image: "",
-        // fontawesome: "fa fa-spinner fa-spin",
-        // background: "rgba(0, 0, 0, 0.4)",
-        // text: "",
-        // textColor: "#fff",
-    });
+
+let spinnerArticleDetail = document.getElementById('spinnerArticleDetail')
+
+
+function viewDetail(id, categoryName) {
+
+    spinnerArticleDetail.classList.remove('d-none')
+    spinnerArticleOfCreator.classList.remove('d-none')
 
     showAllCard.style.display = 'none'
+    showNoMoreData.classList.add('d-none')
     btnLoadMore.style.display = 'none'
     showCardDetail.style.display = 'block'
     showArticleOfCreator.style.display = 'none'
-    console.log(id)
 
     sessionStorage.setItem('currentArticleId', id)
-    fetch(`${URL_GET_ARTICLE}/articles/${id}`, {
+    fetch(`${BASE_URL}/articles/${id}`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('authToken')}`
@@ -28,12 +27,16 @@ function viewDetail(id) {
             let itemContent = item.content
             let previewText = parseQuillContent(itemContent)
             const createdAt = moment(item.createdAt).format('MMM D, YYYY');
+            // Compute categoryName from API, fallback to param if needed
+            const category = item.category && item.category.name
+                ? item.category.name
+                : (categoryName ? categoryName : "No category");
             cardDetail = `   
                             <div class="col-12 get-article">
-                                <div class="card mb-4">
+                                <div class="card border border-0 mb-4">
                                     <div class="position-relative image-detail-wrapper">
-                                        <img src="${item.thumbnail}" alt="thumbnail" class="card-img object-fit-cover border rounded" height="500px">
-                                        <small class="pop-up-id text-white rounded">${item.id}</small>
+                                        <img src="${item.thumbnail}" alt="thumbnail" class="card-img-top object-fit-cover" height="400px">
+                                        <small class="pop-up-id text-white rounded">${category}</small>
                                         <button class="btn btn-info" onclick="location.href='../../index.html'">← Back</button>
 
                                     </div>
@@ -47,8 +50,6 @@ function viewDetail(id) {
                                     <div class="card-body p-2">
                                         <h5 class="fw-bold card-title">${item.title}</h5>
                                         <p class="m-0">${previewText}</p>
-                                        <p${item.id}></p$>
-
                                     </div>
                                 </div>
                             </div>
@@ -56,7 +57,7 @@ function viewDetail(id) {
             showCardDetail.innerHTML = cardDetail
         })
         .catch(err => console.log(err))
-        .finally(() => {
-            $("#showCardDetail").LoadingOverlay("hide", true);
-        });
+    // .finally(() => {
+    //     $("#showCardDetail").LoadingOverlay("hide", true);
+    // });
 }

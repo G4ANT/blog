@@ -1,643 +1,684 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="assets/font/fontawesome-6.2.0/css/all.css" />
-    <link
-      rel="stylesheet"
-      href="assets/font/fontawesome-6.2.0/css/sharp-solid.css"
-    />
-    <link rel="stylesheet" href="assets/sweetalert/sweetalert.css" />
-    <link rel="stylesheet" href="css/bootstrap.css" />
-    <link rel="stylesheet" href="css/responsive.css" />
-    <link rel="stylesheet" href="css/alert.css" />
-    <link rel="stylesheet" href="css/style.css" />
-    <title>Blog Dashboard</title>
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <body>
-    <header class="main-header">
-      <div class="container-fluid">
-        <div class="header-left">
-          <button class="mobile-menu-btn">
-            <i class="fas fa-bars"></i>
-          </button>
-          <a href="#" class="logo">
-            <i class="fas fa-blog"></i>
-            <span>BlogPost</span>
-          </a>
-        </div>
-        <div class="header-right">
-          <div
-            class="profile-info"
-            id="profileDisplay"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-            style="cursor: pointer"
-          >
-            <!-- show profile -->
-            <div class="profile-details">
-              <p class="mb-0 fw-bold profile-name" id="profileName">
-                User Name
-              </p>
-              <span class="profile-email" id="profileEmail">Email</span>
-            </div>
+  <link rel="stylesheet" href="assets/font/fontawesome-6.2.0/css/all.css" />
+  <link rel="stylesheet" href="assets/font/fontawesome-6.2.0/css/sharp-solid.css" />
+  <!-- Link CDN Rich text editor -->
+  <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
 
-            <img
-              src=""
-              alt="profile-avatar"
-              id="profileAvatar"
-              class="profile-avatar profile-dropdown-toggle"
-            />
-            <ul
-              class="dropdown-menu dropdown-menu-end"
-              aria-labelledby="profileDropdown"
-            >
-              <li>
-                <button class="dropdown-item" onclick="viewProfile()">
-                  <i class="fa-regular fa-user-vneck me-1"></i>My Profile
-                </button>
-              </li>
-              <li>
-                <hr class="dropdown-divider" />
-              </li>
-              <li>
-                <button class="dropdown-item" onclick="logout()">
-                  <i class="fa-solid fa-arrow-right-from-bracket me-1"></i
-                  >Logout
-                </button>
-              </li>
-            </ul>
+  <link rel="stylesheet" href="assets/sweetalert/sweetalert.css" />
+  <link rel="stylesheet" href="css/bootstrap.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+  <link rel="stylesheet" href="css/alert.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <title>Blog Dashboard</title>
+</head>
+
+<body>
+  <button id="backToTop" class="btn btn-outline-primary position-fixed rounded-5 z-200 d-none"
+    style="bottom: 20px; right: 20px;">
+    <i class="fa-duotone fa-thin fa-up"></i>
+  </button>
+  <header class="main-header">
+    <div class="container-fluid">
+      <div class="header-left">
+        <button class="mobile-menu-btn">
+          <i class="fas fa-bars"></i>
+        </button>
+        <a href="#" class="logo">
+          <i class="fas fa-blog"></i>
+          <span>BlogPost</span>
+        </a>
+      </div>
+      <div class="header-right">
+        <div class="profile-info" id="profileDisplay" data-bs-toggle="dropdown" aria-expanded="false"
+          style="cursor: pointer">
+          <!-- show profile -->
+          <div class="profile-details">
+            <p class="mb-0 fw-bold profile-name" id="profileName">
+              User Name
+            </p>
+            <span class="profile-email" id="profileEmail">Email</span>
           </div>
+
+          <img src="" alt="profile-avatar" id="profileAvatar" class="profile-avatar profile-dropdown-toggle" />
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+            <li>
+              <button class="dropdown-item" onclick="viewProfile()">
+                <span class="text-primary"><i class="fa-regular fa-user-vneck me-1"></i></span>
+                <span class="hover-myProfile">My Profile</span>
+              </button>
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+            <li>
+              <button class="dropdown-item" onclick="logout()">
+                <span class="text-danger"><i class="fa-solid fa-arrow-right-from-bracket me-1"></i></span>
+                <span class="hover-logout">Logout</span>
+              </button>
+            </li>
+          </ul>
         </div>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <div class="overlay"></div>
+  <div class="overlay"></div>
 
-    <div class="container-fluid p-0">
-      <div class="row g-0">
-        <div class="sidebar">
-          <div class="d-flex flex-column">
-            <ul class="nav flex-column">
-              <li class="nav-item">
-                <a class="nav-link active" href="#" data-page="dashboard">
-                  <i class="fa-solid fa-gauge"></i> Dashboard
-                </a>
-              </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link collapsed"
-                  data-bs-toggle="collapse"
-                  href="#myArticlesCollapse"
-                  role="button"
-                  aria-expanded="false"
-                  aria-controls="myArticlesCollapse"
-                >
-                  <i class="fa-regular fa-file-lines"></i> My Articles
-                </a>
-                <div class="collapse" id="myArticlesCollapse">
-                  <ul class="nav flex-column">
-                    <li class="nav-item">
-                      <a class="nav-link" href="#" data-page="all-articles">
-                        All Articles
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="#" data-page="create-article">
-                        Create Article
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#" data-page="categoryy">
-                  <i class="fa-solid fa-th-large"></i>Category
-                </a>
-              </li>
-            </ul>
-          </div>
+  <div class="container-fluid p-0">
+    <div class="row g-0">
+      <div class="sidebar">
+        <div class="d-flex flex-column">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link active" href="#" data-page="dashboard">
+                <i class="fa-solid fa-gauge"></i> Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link collapsed" data-bs-toggle="collapse" href="#myArticlesCollapse" role="button"
+                aria-expanded="false" aria-controls="myArticlesCollapse">
+                <i class="fa-regular fa-file-lines"></i> My Articles
+              </a>
+              <div class="collapse" id="myArticlesCollapse">
+                <ul class="nav flex-column">
+                  <li class="nav-item">
+                    <a class="nav-link" href="#" data-page="all-articles">
+                      All Articles
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#" data-page="create-article">
+                      Create Article
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-page="categoryy">
+                <i class="fa-solid fa-th-large"></i>Category
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="container">
+        <div class="content">
+          <!-- Dashboard Page -->
+          <div id="dashboard" class="page-content active">
+            <div class="page-header">
+              <h2 class="section-title">Dashboard</h2>
+              <p class="text-muted">Overview of your blog statistics</p>
             </div>
+            <!-- ====== All Dashboart ====== -->
+            <!-- article -->
 
-            <!-- Main Content -->
+            <div class="row g-3" id="showAllCard">
+              <!-- show card here -->
+            </div>
+            <div class="row g-3" id="showCardDetail">
+              <!-- show card here -->
+              <div id="spinnerArticleDetail" class="d-none d-flex align-items-center" role="status">
+                <div class="spinner-border text-secondary me-2" role="status"></div>
+                <span>Loading Detail...</span>
+              </div>
+            </div>
+            <div class="row g-3" id="showArticleOfCreator">
+              <!-- show all card of a creator here -->
+              <div id="spinnerArticleOfCreator" class="d-none d-flex align-items-center" role="status">
+                <div class="spinner-border text-secondary me-2" role="status"></div>
+                <span>Loading Article...</span>
+                <button>Hi from india</button>
+              </div>
+            </div>
+            <div class="d-flex justify-content-center align-items-center my-5">
+              <button type="button" class="btn btn-outline-primary" disabled id="btnLoadMore">
+                <span role="status" id="spinnerText">Loading...</span>
+                <span class="spinner-border spinner-border-sm" id="spinner" aria-hidden="true"></span>
+              </button>
+              <br />
+              <p class="d-none text-muted" id="showNoMoreData">No more data</p>
+            </div>
+          </div>
+
+          <!-- All Articles Page -->
+          <div id="all-articles" class="page-content">
+            <div class="page-header d-flex justify-content-between align-items-center">
+              <div>
+                <h2 class="section-title">My Articles</h2>
+                <p class="text-muted">Create and manage your articles</p>
+              </div>
+              <div>
+                <button class="btn-create" id="goToCreateArticle">
+                  <i class="fa-regular fa-plus"></i> Create Article
+                </button>
+
+              </div>
+            </div>
+            <!-- ======= My Articles ====== -->
             <div class="container">
-                <div class="content">
-                    <!-- Dashboard Page -->
-                    <div id="dashboard" class="page-content active">
-                        <div class="page-header">
-                            <h2 class="section-title">Dashboard</h2>
-                            <p class="text-muted">Overview of your blog statistics</p>
-                        </div>
-                        <!-- ====== All Dashboart ====== -->
-                        <!-- article -->
+              <!-- Search -->
+              <div class="search-article mb-3">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search article...">
+              </div>
+              <div class="card shadow-sm">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table align-middle">
+                      <thead>
+                        <tr>
+                          <th>Image</th>
+                          <th>Title</th>
+                          <th>Category</th>
+                          <th>Created At</th>
+                          <th class="text-end">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="articlesTableBody">
+                        <tr>
+                          <td colspan="5" class="text-center text-muted">Loading...</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
 
-                        <div class="row g-3" id="showAllCard">
-                            <!-- show card here -->
-                        </div>
-                        <div class="row g-3" id="showCardDetail">
-                            <!-- show card here -->
-                        </div>
-                        <div class="row g-3" id="showArticleOfCreator">
-                            <!-- show all card of a creator here -->
-                        </div>
-                        <div class="d-flex justify-content-center align-items-center my-5">
-                            <button type="button" class="btn btn-outline-primary" id="btnLoadMore">
-                                Load more
-                            </button>
-                            <br />
-                            <p class="d-none" id="showNoMoreData">No more data</p>
-                        </div>
-                    </div>
+                  <!-- Pagination -->
+                  <div class="d-flex align-items-center justify-content-between">
+                    <div class="mb-2 text-muted" id="entryInfo"></div>
+                    <nav>
+                      <ul class="pagination " id="pagination"></ul>
+                    </nav>
+                  </div>
 
-                    <!-- All Articles Page -->
-                    <div id="all-articles" class="page-content">
-                        <div class="page-header d-flex justify-content-between align-items-center">
-                            <div>
-                                <h2 class="section-title">My Articles</h2>
-                                <p class="text-muted">Create and manage your articles</p>
-                            </div>
-                            <div>
-                                <a href="create-article.html" class="btn-create">
-                                    <i class="fa-regular fa-plus"></i> Create Article
-                                </a>
-                            </div>
-                        </div>
-                        <!-- ======= My Articles ====== -->
-                        <div class="container">
-                            <!-- Search -->
-                            <div class="mb-3" style="width: 30%;">
-                                <input type="text" id="searchInput" class="form-control"
-                                    placeholder="Search article...">
-                            </div>
-                            <div class="card shadow-sm">
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table align-middle">
-                                            <thead>
-                                                <tr>
-                                                    <th>Image</th>
-                                                    <th>Title</th>
-                                                    <th>Category</th>
-                                                    <th>Created At</th>
-                                                    <th class="text-end">Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="articlesTableBody">
-                                                <tr>
-                                                    <td colspan="5" class="text-center text-muted">Loading...</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                    <!-- Pagination -->
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <div class="mb-2 text-muted" id="entryInfo"></div>
-                                        <nav>
-                                            <ul class="pagination " id="pagination"></ul>
-                                        </nav>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                            <!-- Update aritcle -->
-                            <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel"
-                                aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header bg-primary text-white">
-                                            <h5 class="modal-title" id="updateModalLabel">Update Article</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form id="updateForm" enctype="multipart/form-data" class="needs-validation" novalidate>
-                                                <input type="hidden" id="updateId">
-
-                                                <div class="row g-3">
-                                                    <div class="col-md-8">
-                                                        <div class="mb-3">
-                                                            <label for="updateTitle"
-                                                            class="form-label fw-semibold">Title</label>
-                                                            <input type="text" class="form-control" id="updateTitle" required>
-                                                            <div class="invalid-feedback">
-                                                                Please enter title
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="mb-3">
-                                                            <label for="updateCategory" class="form-label fw-semibold">Category</label>
-                                                            <select class="form-select" id="updateCategory" required>
-                                                                <option value="">Select Category</option>
-                                                            </select>
-                                                            <div class="invalid-feedback">Please select a category</div>
-                                                        </div>
-
-                                                        <div class="mb-3">
-                                                            <label for="updateContent"
-                                                            class="form-label fw-semibold">Content</label>
-                                                            <textarea class="form-control" id="updateContent" minlength="10" rows="5"required></textarea>
-                                                            <div class="invalid-feedback">
-                                                                Content must be at least 10 characters long.
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-4 text-center">
-                                                        <label class="form-label fw-semibold">Thumbnail</label>
-                                                        <div class="mb-2">
-                                                            <!-- <img id="thumbnailPreview"
-                                                                src="https://via.placeholder.com/150x100?text=Preview"
-                                                                alt="Thumbnail Preview" class="rounded shadow-sm mb-2"
-                                                                style="width: 150px; height: 100px; object-fit: cover;"> -->
-                                                        </div>
-                                                        <input type="file" id="updateThumbnail" class="form-control"
-                                                            accept="image/*">
-                                                    </div>
-                                                </div>
-
-                                                <div class="text-end">
-                                                    <button type="button" class="btn btn-success mt-3" onclick="onClickUpdate()"> Save Changes</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Create Article Page -->
-                    <div id="create-article" class="page-content">
-                        <div class="page-header">
-                            <h2 class="section-title">Create Article</h2>
-                            <p class="text-muted">
-                                Compose a new article and publish it to your platform.
-                            </p>
-                        </div>
-                        <div class="container">
-                            <div class="form-container">
-                                <form id="articleForm" class="needs-validation" novalidate>
-                                    <!-- Title -->
-                                    <div class="mb-3">
-                                        <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" value="Teting tille create" id="title" minlength="10" placeholder="Title of the article" required />
-                                        <div class="invalid-feedback">
-                                            Title must be at least 10 characters long.
-                                        </div>
-                                    </div>
-
-                                    <!-- Category -->
-                                    <div class="mb-3">
-                                        <label for="category" class="form-label">Category <span
-                                                class="text-danger">*</span></label>
-                                        <select class="form-select" id="category" required>
-                                            <option value="">Select category</option>
-                                        </select>
-                                        <div class="invalid-feedback">
-                                            Please select category
-                                        </div>
-                                    </div>
-
-                                    <!-- Thumbnail -->
-                                    <div class="mb-3">
-                                        <label for="thumbnail" class="form-label">Thumbnail <span
-                                                class="text-danger">*</span></label>
-                                        <input class="form-control" type="file" id="thumbnail" required />
-                                        <div class="invalid-feedback">
-                                            Please choose thumbnail
-                                        </div>
-                                    </div>
-
-                                    <!-- Content -->
-                                    <div class="mb-3">
-                                        <label for="content" class="form-label">Content <span
-                                                class="text-danger">*</span></label>
-                                        <textarea class="form-control" id="content" minlength="10" placeholder="Write content here..."required>Teting tille create</textarea>
-                                        <div class="invalid-feedback">
-                                            Content must be at least 10 characters long.
-                                        </div>
-                                    </div>
-                                    <!-- Footer Buttons -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <a href="articles.html" class="back-link text-decoration-none">&larr; Back to Articles</a>
-                                        <button type="button" onclick="onClickSubmit()" class="btn btn-primary">
-                                            <i class="bi bi-pencil-square me-1"></i> Publish Now
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Category Page -->
-                    <div id="categoryy" class="page-content">
-                        <div class="page-header">
-                            <h2 class="section-title">Categories</h2>
-                            <p class="text-muted">
-                                Create and manage categories for different types of article
-                            </p>
-                        </div>
-
-                        <!-- Actions -->
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div class="input-group w-50 mb-3">
-                                <span class="input-group-text bg-light">
-                                    <i class="fa-solid fa-magnifying-glass"></i>
-                                </span>
-                                <input type="text" id="searchCategoryInput" class="form-control"
-                                    placeholder="Search category..." onkeyup="handleSearch()" />
-                            </div>
-
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
-                                <i class="fa-solid fa-plus me-1"></i> Create Category
-                            </button>
-                        </div>
-
-                        <!-- Table -->
-                        <div class="card">
-                            <div class="table-responsive">
-                                <table class="table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th class="text-end">Actions</th>
-    </tr>
-  </thead>
-  <tbody id="displayCategory"></tbody>
-</table>
-
-
-
-<!-- Optional: Entry info text -->
-<div id="entryInfo" class="text-muted mt-2"></div>
-
-<!-- Pagination -->
-<ul id="paginationContainer" class="pagination justify-content-center mt-3"></ul>
-
-                            </div>
-                        </div>
-                        </div>
-
-                    </div>
-
-                    <!-- Create Category Modal -->
-                    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content needs-validation" novalidate>
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="createModalLabel">
-                                        Create New Category
-                                    </h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="mb-3">
-                                        <label for="categoryName" class="form-label">Category Name</label>
-                                        <input type="text" class="form-control" id="categoryName"
-                                            placeholder="Enter category name" required />
-                                        <div class="invalid-feedback">
-                                            Please enter a category name.
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                                        Cancel
-                                    </button>
-                                    <button onclick="btnCreate()" class="btn btn-primary">
-                                        Create
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Edit Category Modal -->
-                    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content needs-validation" novalidate>
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="editModalLabel">
-                                        Edit Category
-                                    </h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="mb-3">
-                                        <label for="editCategoryName" class="form-label">Category Name</label>
-                                        <input type="text" class="form-control" id="editCategoryName"
-                                            placeholder="Enter category name" required />
-                                        <div class="invalid-feedback">
-                                            Please enter a category name.
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                                        Cancel
-                                    </button>
-                                    <button onclick="btnEdit()" class="btn btn-primary">
-                                        Save
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
+
+              </div>
+              <!-- Update aritcle -->
+              <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                      <h5 class="modal-title" id="updateModalLabel">Update Article</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <form id="updateForm" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        <input type="hidden" id="updateId">
+
+                        <div class="row g-3">
+                          <div class="col-md-8">
+                            <div class="mb-3">
+                              <label for="updateTitle" class="form-label fw-semibold">Title</label>
+                              <input type="text" class="form-control" id="updateTitle" required>
+                              <div class="invalid-feedback">
+                                Please enter title
+                              </div>
+                            </div>
+
+                            <div class="mb-3">
+                              <label for="updateCategory" class="form-label fw-semibold">Category</label>
+                              <select class="form-select" id="updateCategory" required>
+                                <option value="">Select Category</option>
+                              </select>
+                              <div class="invalid-feedback">Please select a category</div>
+                            </div>
+
+                            <div class="mb-3">
+                              <label for="updateContent" class="form-label fw-semibold">Content</label>
+                              <!-- <textarea class="form-control" id="updateContent" minlength="10" rows="5"required></textarea> -->
+                              <div id="editorByClassName" class="textContent"></div>
+                              <div class="invalid-feedback">
+                                Content must be at least 10 characters long.
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-4 text-center">
+                            <label class="form-label fw-semibold">Thumbnail</label>
+                            <div class="mb-2">
+                              <img id="thumbnailPreview" src="https://via.placeholder.com/150x100?text=Preview"
+                                alt="Thumbnail Preview" class="rounded shadow-sm mb-2"
+                                style="width: 150px; height: 100px; object-fit: cover;">
+                            </div>
+                            <input type="file" id="updateThumbnail" class="form-control" accept="image/*">
+                            <div id="thumbnailFeedbackUpload" class="invalid-feedback"> Please upload a valid image.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="text-end">
+                          <button type="button" class="btn btn-success mt-3" onclick="onClickUpdate()"> Save
+                            Changes</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
+
+          <!-- Create Article Page -->
+          <div id="create-article" class="page-content">
+            <div class="page-header">
+              <h2 class="section-title">Create Article</h2>
+              <p class="text-muted">
+                Compose a new article and publish it to your platform.
+              </p>
+            </div>
+            <div class="container">
+              <div class="form-container">
+                <form id="articleForm" class="needs-validation" novalidate>
+                  <!-- Title -->
+                  <div class="mb-3">
+                    <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="title" minlength="10" placeholder="Title of the article"
+                      required />
+                    <div class="invalid-feedback">
+                      Title must be at least 10 characters long.
+                    </div>
+                  </div>
+
+                  <!-- Category -->
+                  <div class="mb-3">
+                    <label for="category" class="form-label">Category <span class="text-danger">*</span></label>
+                    <select class="form-select" id="category" required>
+                      <option value="">Select category</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      Please select category
+                    </div>
+                  </div>
+
+                  <!-- Thumbnail -->
+                  <div class="mb-3">
+                    <label for="thumbnail" class="form-label">Thumbnail <span class="text-danger">*</span></label>
+                    <input class="form-control" type="file" id="thumbnail" required />
+                    <div id="thumbnailFeedback" class="invalid-feedback">
+                      Please upload a valid image.
+                    </div>
+                  </div>
+
+                  <!-- Content -->
+                  <div class="mb-3">
+                    <label for="content" class="form-label">Content <span class="text-danger">*</span></label>
+                    <div id="editor" class="textContent"></div>
+                    <div class="invalid-feedback">
+                      Content must be at least 10 characters long.
+                    </div>
+                  </div>
+                  <!-- Footer Buttons -->
+                  <div class="d-flex justify-content-between align-items-center">
+                    <a href="#" data-page="all-articles" class="back-link text-decoration-none">&larr; Back to
+                      Articles</a>
+                    <button type="button" onclick="onClickSubmit()" class="btn btn-primary">
+                      <i class="bi bi-pencil-square me-1"></i> Publish Now
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category Page -->
+          <div id="categoryy" class="page-content">
+            <div class="page-header">
+              <h2 class="section-title">Categories</h2>
+              <p class="text-muted">
+                Create and manage categories for different types of article
+              </p>
+            </div>
+
+            <!-- Actions -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="input-group w-50 mb-3">
+                <span class="input-group-text bg-light">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+                <input type="text" id="searchCategoryInput" class="form-control" placeholder="Search category..."
+                  onkeyup="handleSearch()" />
+              </div>
+
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+                <i class="fa-solid fa-plus me-1"></i> Create Category
+              </button>
+            </div>
+
+            <!-- Table -->
+            <div class="card">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th class="text-end">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="displayCategory"></tbody>
+                </table>
+
+
+
+                <!-- Optional: Entry info text -->
+                <div id="entryInfo" class="text-muted mt-2"></div>
+
+                <!-- Pagination -->
+                <ul id="paginationContainer" class="pagination justify-content-center mt-3"></ul>
+
+              </div>
+            </div>
+          </div>
+
         </div>
 
-        <!-- Main Content -->
-       
+        <!-- Create Category Modal -->
+        <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content needs-validation" novalidate>
+              <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">
+                  Create New Category
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                <div class="mb-3">
+                  <label for="categoryName" class="form-label">Category Name</label>
+                  <input type="text" class="form-control" id="categoryName" placeholder="Enter category name"
+                    required />
+                  <div class="invalid-feedback">
+                    Please enter a category name.
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                  Cancel
+                </button>
+                <button onclick="btnCreate()" class="btn btn-primary">
+                  Create
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Edit Category Modal -->
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content needs-validation" novalidate>
+              <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">
+                  Edit Category
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                <div class="mb-3">
+                  <label for="editCategoryName" class="form-label">Category Name</label>
+                  <input type="text" class="form-control" id="editCategoryName" placeholder="Enter category name"
+                    required />
+                  <div class="invalid-feedback">
+                    Please enter a category name.
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                  Cancel
+                </button>
+                <button onclick="btnEdit()" class="btn btn-primary">
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-      <!-- Toast Container -->
-    <div id="toastContainer">
-    <div id="successToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="d-flex">
+  </div>
+
+  <!-- Main Content -->
+
+  </div>
+  </div>
+  <!-- Toast Container -->
+  <div id="toastContainer">
+    <div id="successToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive"
+      aria-atomic="true">
+      <div class="d-flex">
         <div class="toast-body">
-            <!-- Create article success -->
+          <!-- Create article success -->
         </div>
-        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+          aria-label="Close"></button>
+      </div>
     </div>
 
-    <div id="errorToast" class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="d-flex">
+    <div id="errorToast" class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive"
+      aria-atomic="true">
+      <div class="d-flex">
         <div class="toast-body">
-            Create article fail
+          Create article fail
         </div>
         <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-        </div>
+      </div>
     </div>
-    </div>
-    <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-    <script src="js/article/own/own.js"></script>
-    <script src="/js/RichTextEditer/cdnckeditor.js"></script>
-    <script src="/js/RichTextEditer/ckEditor.js"></script>
-    <script src="js/article/category/category.js"></script>
-    
+  </div>
+  <script src="js/api.js"></script>
+  <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+  <script src="js/article/own/own.js"></script>
+  <script src="/js/RichTextEditer/ QuillEditor.js"></script>
+  <script src="js/article/category/category.js"></script>
 
-    <!-- library -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 
-    <script src="assets/sweetalert/sweetalert.js"></script>
-    <script src="js/getArticle/getAllArticle.js"></script>
-    <script src="js/getArticle/getAllArticleOfCreator.js"></script>
-    <script src="js/getArticle/getDetailArticle.js"></script>
+  <!-- library -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 
-    <!-- guill delta -->
-    <script src="https://cdn.jsdelivr.net/npm/quill-delta-to-html/dist/browser/QuillDeltaToHtmlConverter.bundle.js"></script>
+  <script src="assets/sweetalert/sweetalert.js"></script>
+  <script src="js/getArticle/getAllArticle.js"></script>
+  <script src="js/getArticle/getAllArticleOfCreator.js"></script>
+  <script src="js/getArticle/getDetailArticle.js"></script>
 
-    <script>
-      const URL = "http://blogs.csm.linkpc.net/api/v1";
-      document.addEventListener("DOMContentLoaded", function () {
-        const myArticlesCollapse =
-          document.getElementById("myArticlesCollapse");
-        const collapseInstance = new bootstrap.Collapse(myArticlesCollapse, {
-          toggle: false,
+  <!-- guill delta -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/quill-delta-to-html/dist/browser/QuillDeltaToHtmlConverter.bundle.js"></script>
+
+  <script>
+    window.onscroll = function () {
+      const btnBackToTop = document.getElementById('backToTop')
+      if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+        btnBackToTop.classList.remove('d-none')
+      }
+      else {
+        btnBackToTop.classList.add('d-none')
+      }
+    }
+
+    document.getElementById("backToTop").addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: "smooth" })
+    })
+    // scroll up by click btn
+    // For event creatArticle 
+    document.getElementById("goToCreateArticle").addEventListener("click", function () {
+      document.querySelectorAll(".page-content").forEach(page => {
+        page.classList.remove("active");
+      });
+      document.getElementById("create-article").classList.add("active");
+      document.querySelectorAll(".nav-link").forEach(nav => {
+        nav.classList.remove("active");
+      });
+      document.querySelector('[data-page="create-article"]').classList.add("active");
+    });
+    // event back to article
+    document.addEventListener("click", function (e) {
+      const btn = e.target.closest('[data-page="all-articles"]');
+      if (btn) {
+        e.preventDefault();
+        document.querySelectorAll(".page-content").forEach((page) => {
+          page.classList.remove("active");
         });
-
-        const navLinks = document.querySelectorAll(".nav-link");
-        const mobileMenuBtn = document.querySelector(".mobile-menu-btn");
-        const sidebar = document.querySelector(".sidebar");
-        const overlay = document.querySelector(".overlay");
-        const profileDropdownToggle = document.querySelector(
-          ".profile-dropdown-toggle"
-        );
-        const profileDropdownMenu = document.querySelector(
-          ".profile-dropdown-menu"
-        );
-
-        // Mobile sidebar toggle
-        mobileMenuBtn.addEventListener("click", function () {
-          sidebar.classList.toggle("show");
-          overlay.classList.toggle("show");
+        document.getElementById("all-articles").classList.add("active");
+        document.querySelectorAll(".nav-link").forEach((link) => {
+          link.classList.remove("active");
         });
+        const sidebarLink = document.querySelector('[data-page="all-articles"].nav-link');
+        if (sidebarLink) sidebarLink.classList.add("active");
+      }
+    });
 
-        overlay.addEventListener("click", function () {
-          sidebar.classList.remove("show");
-          overlay.classList.remove("show");
-        });
+    document.addEventListener("DOMContentLoaded", function () {
+      const myArticlesCollapse =
+        document.getElementById("myArticlesCollapse");
+      const collapseInstance = new bootstrap.Collapse(myArticlesCollapse, {
+        toggle: false,
+      });
+
+      const navLinks = document.querySelectorAll(".nav-link");
+      const mobileMenuBtn = document.querySelector(".mobile-menu-btn");
+      const sidebar = document.querySelector(".sidebar");
+      const overlay = document.querySelector(".overlay");
+      const profileDropdownToggle = document.querySelector(
+        ".profile-dropdown-toggle"
+      );
+      const profileDropdownMenu = document.querySelector(
+        ".profile-dropdown-menu"
+      );
+
+      // Mobile sidebar toggle
+      mobileMenuBtn.addEventListener("click", function () {
+        sidebar.classList.toggle("show");
+        overlay.classList.toggle("show");
+      });
+
+      overlay.addEventListener("click", function () {
+        sidebar.classList.remove("show");
+        overlay.classList.remove("show");
+      });
 
 
-        // ============================
-        profileDropdownToggle.addEventListener("click", function (e) {
-          e.stopPropagation();
-          profileDropdownMenu?.classList.toggle("show");
-        });
+      // ============================
+      profileDropdownToggle.addEventListener("click", function (e) {
+        e.stopPropagation();
+        profileDropdownMenu?.classList.toggle("show");
+      });
 
-        // =============================
-        document.addEventListener("click", function () {
-          profileDropdownMenu?.classList.remove("show");
-        });
+      // =============================
+      document.addEventListener("click", function () {
+        profileDropdownMenu?.classList.remove("show");
+      });
 
 
-        navLinks.forEach((link) => {
-          link.addEventListener("click", function (e) {
-            if (
-              !this.hasAttribute("data-bs-toggle") ||
-              this.getAttribute("data-bs-toggle") !== "collapse"
-            ) {
-              e.preventDefault();
-              const targetPage = this.getAttribute("data-page");
+      navLinks.forEach((link) => {
+        link.addEventListener("click", function (e) {
+          if (
+            !this.hasAttribute("data-bs-toggle") ||
+            this.getAttribute("data-bs-toggle") !== "collapse"
+          ) {
+            e.preventDefault();
+            const targetPage = this.getAttribute("data-page");
 
-              if (targetPage) {
-                // Hide all pages
-                document.querySelectorAll(".page-content").forEach((page) => {
-                  page.classList.remove("active");
-                });
+            if (targetPage) {
+              // Hide all pages
+              document.querySelectorAll(".page-content").forEach((page) => {
+                page.classList.remove("active");
+              });
 
-                // Show target page
-                document.getElementById(targetPage).classList.add("active");
+              // Show target page
+              document.getElementById(targetPage).classList.add("active");
 
-                // Update active nav link
-                document.querySelectorAll(".nav-link").forEach((navLink) => {
-                  navLink.classList.remove("active");
-                });
-                this.classList.add("active");
+              // Update active nav link
+              document.querySelectorAll(".nav-link").forEach((navLink) => {
+                navLink.classList.remove("active");
+              });
+              this.classList.add("active");
 
-                // Close submenu if not in My Articles section
-                if (!this.closest("#myArticlesCollapse")) {
-                  collapseInstance.hide();
-                }
+              // Close submenu if not in My Articles section
+              if (!this.closest("#myArticlesCollapse")) {
+                collapseInstance.hide();
+              }
 
-                // Close sidebar on mobile after navigation
-                if (window.innerWidth < 992) {
-                  sidebar.classList.remove("show");
-                  overlay.classList.remove("show");
-                }
+              // Close sidebar on mobile after navigation
+              if (window.innerWidth < 992) {
+                sidebar.classList.remove("show");
+                overlay.classList.remove("show");
+              }
 
-                // Close profile dropdown
-                // profileDropdownMenu.classList.remove("show");
+              // Close profile dropdown
+              // profileDropdownMenu.classList.remove("show");
 
-                // ===============================
-                if (profileDropdownMenu) {
+              // ===============================
+              if (profileDropdownMenu) {
                 document.addEventListener("click", function () {
                   profileDropdownMenu.classList.remove("show");
                 });
               }
-              }
             }
-          });
-        });
-
-        // Close sidebar when window is resized to desktop size
-        window.addEventListener("resize", function () {
-          if (window.innerWidth >= 992) {
-            sidebar.classList.remove("show");
-            overlay.classList.remove("show");
           }
         });
       });
 
-      // profile
-      showProfile();
-      function showProfile() {
-        fetch(`${URL}/auth/profile`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
+      // Close sidebar when window is resized to desktop size
+      window.addEventListener("resize", function () {
+        if (window.innerWidth >= 992) {
+          sidebar.classList.remove("show");
+          overlay.classList.remove("show");
+        }
+      });
+    });
+
+    // profile
+    showProfile();
+    function showProfile() {
+      fetch(`${BASE_URL}/auth/profile`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (!data || !data.data) {
+            console.error("User data not found", data);
+            return;
+          }
+
+          const user = data.data;
+          const avatar = user.avatar || "assets/images/defaultImage.jpg";
+
+          document.getElementById("profileAvatar").src = avatar;
+          document.getElementById(
+            "profileName"
+          ).textContent = `${user.firstName} ${user.lastName}`;
+          document.getElementById(
+            "profileEmail"
+          ).textContent = `${user.email}`;
         })
-          .then((res) => res.json())
-          .then((data) => {
-            if (!data || !data.data) {
-              console.error("User data not found", data);
-              return;
-            }
+        .catch((err) => console.log(err));
+    }
+    function logout() {
+      localStorage.removeItem("authToken");
+      location.href = "auth/loginUser.html";
+    }
 
-            const user = data.data;
-            const avatar = user.avatar || "assets/images/defaultImage.jpg";
+    function viewProfile() {
+      location.href = "js/profile/viewProfile.html";
+    }
+  </script>
+</body>
 
-            document.getElementById("profileAvatar").src = avatar;
-            document.getElementById(
-              "profileName"
-            ).textContent = `${user.firstName} ${user.lastName}`;
-            document.getElementById(
-              "profileEmail"
-            ).textContent = `${user.email}`;
-          })
-          .catch((err) => console.log(err));
-      }
-      function logout() {
-        localStorage.removeItem("authToken");
-        location.href = "auth/loginUser.html";
-      }
-
-      function viewProfile() {
-        location.href = "js/profile/viewProfile.html";
-      }
-    </script>
-  </body>
 </html>

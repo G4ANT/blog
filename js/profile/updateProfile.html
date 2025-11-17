@@ -53,19 +53,19 @@
 
 
     <script src="../bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="../api.js"></script>
     <script>
 
-        const URL = 'http://blogs.csm.linkpc.net/api/v1'
         const params = new URLSearchParams(window.location.search)
         const id = params.get('id');
-        console.log("ID from URL:", id);
+        console.log("ID from API:", id);
 
 
         let updateFirstName = document.getElementById('updateFirstName')
         let updateLastName = document.getElementById('updateLastName')
         let updateEmail = document.getElementById('updateEmail')
 
-        fetch(`${URL}/auth/profile`, {
+        fetch(`${BASE_URL}/auth/profile`, {
             method: "GET",
             headers: {
                 'content-type': 'application/json',
@@ -87,7 +87,7 @@
         function updateInformation() {
 
 
-            fetch(`${URL}/profile`, {
+            fetch(`${BASE_URL}/profile`, {
                 method: "PUT",
                 headers: {
                     'Content-Type': 'application/json',
@@ -116,6 +116,7 @@
 
     </script>
     <script src="../alert/alert.js"></script>
+    <script src="../api.js"></script>
 
 </body>
 
