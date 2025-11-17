@@ -215,7 +215,6 @@
         const sidebar = document.querySelector(".sidebar");
         const overlay = document.querySelector(".overlay");
 
-        // Mobile sidebar toggle
         mobileMenuBtn.addEventListener("click", function () {
           sidebar.classList.toggle("show");
           overlay.classList.toggle("show");
@@ -226,7 +225,6 @@
           overlay.classList.remove("show");
         });
 
-        // Sidebar navigation (supports ?page= tab system)
         const navLinks = document.querySelectorAll(".nav-link");
         navLinks.forEach((link) => {
           link.addEventListener("click", function (e) {
@@ -234,13 +232,11 @@
             const href = this.getAttribute("href");
 
             if (href && href.includes("index.html?page=")) {
-              // Correct redirect to main dashboard
               window.location.href = href;
             }
           });
         });
 
-        // Close sidebar when screen is resized to desktop
         window.addEventListener("resize", function () {
           if (window.innerWidth >= 992) {
             sidebar.classList.remove("show");
@@ -249,7 +245,14 @@
         });
       });
 
-      // Load user profile info
+      function goToTab(tabName) {
+        location.href = `../../index.html?page=${tabName}`;
+      }
+
+      function viewProfile() {
+        goToTab("profile");
+      }
+
       showProfile();
       function showProfile() {
         const token = localStorage.getItem("authToken");
@@ -267,10 +270,7 @@
         })
           .then((res) => res.json())
           .then((data) => {
-            if (!data?.data) {
-              console.error("User data not found", data);
-              return;
-            }
+            if (!data?.data) return;
 
             const user = data.data;
             const avatar =

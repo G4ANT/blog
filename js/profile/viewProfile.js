@@ -15,7 +15,7 @@ function getData() {
         return;
       }
 
-      const user = data.data; // profile endpoint returns user directly
+      const user = data.data; 
       const avatar = user.avatar || "https://i.ibb.co/Mn13jQQ/empty.png";
 
       display.innerHTML = `
