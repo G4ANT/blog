@@ -1,6 +1,7 @@
 const endPointCreateArticle = "articles";
 const endPointCategory = "categories?_page=1&_per_page=20&sortBy=name&sortDir=ASC";
-const endPointOwnArticle = "articles/own?_page=1&_per_page=50";
+// Make endpoint dynamic
+const endPointOwnArticle = (page, perPage) => `articles/own?_page=${page}&_per_page=${perPage}`;
 
 const getToken = localStorage.getItem("authToken");
 
@@ -195,8 +196,9 @@ let articles = []
 let currentPage = 1
 const perPage = 5;
 
-function fetchArticles() {
-  fetch(`${BASE_URL}/${endPointOwnArticle}`, {
+// Updated fetchArticles to use dynamic endpoint
+function fetchArticles(page = 1, itemsPerPage = 100) {
+  fetch(`${BASE_URL}/${endPointOwnArticle(page, itemsPerPage)}`, {
     method: "GET",
     headers: { Authorization: `Bearer ${getToken}` },
   })
@@ -217,7 +219,8 @@ document.getElementById("searchInput").addEventListener("input", () => {
   renderPaginations();
 });
 
-fetchArticles();
+// Initial fetch with default values
+fetchArticles(1, 100);
 
 function showDataTable() {
   let tbody = document.getElementById("articlesTableBody");
