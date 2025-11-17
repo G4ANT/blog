@@ -117,6 +117,9 @@
       margin-top: 10px;
       font-size: 13px;
     }
+    input.is-invalid {
+      border-color: red !important;
+    }
   </style>
 </head>
 
@@ -147,7 +150,7 @@
             <label for="email" class="form-label" required>Email address <span class="text-danger">*</span></label>
             <input type="email" class="form-control py-3" id="email" name="email" required
               placeholder="Enter your email">
-            <div class="invalid-feedback">Please provide a valid email address.</div>
+            <div id="emailFeedback" class="invalid-feedback">Please provide a valid email address.</div>
           </div>
 
           <div class="col-md-6 position-relative">
