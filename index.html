@@ -282,10 +282,10 @@
                   <!-- Title -->
                   <div class="mb-3">
                     <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="title" placeholder="Title of the article"
+                    <input type="text" class="form-control" id="title" minlength="10" placeholder="Title of the article"
                       required />
                     <div class="invalid-feedback">
-                      Please input title
+                      Title must be at least 10 characters long.
                     </div>
                   </div>
 
@@ -498,12 +498,9 @@
     src="https://cdn.jsdelivr.net/npm/quill-delta-to-html/dist/browser/QuillDeltaToHtmlConverter.bundle.js"></script>
 
 <script>
-  // ===========================
-  // Back to top button
-  // ===========================
+
   window.onscroll = function () {
     const btnBackToTop = document.getElementById("backToTop");
-
     if (document.documentElement.scrollTop > 100) {
       btnBackToTop.classList.remove("d-none");
     } else {
@@ -515,9 +512,6 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 
-  // ===========================
-  // Create Article button (outside sidebar)
-  // ===========================
   const btnGoCreate = document.getElementById("goToCreateArticle");
   if (btnGoCreate) {
     btnGoCreate.addEventListener("click", function () {
@@ -526,31 +520,17 @@
     });
   }
 
-  // ===========================
-  // Global function to switch page
-  // ===========================
   function switchPage(pageId) {
-    document.querySelectorAll(".page-content").forEach((page) => {
-      page.classList.remove("active");
-    });
+    document.querySelectorAll(".page-content").forEach((page) => page.classList.remove("active"));
     document.getElementById(pageId)?.classList.add("active");
   }
 
-  // ===========================
-  // Update active nav link
-  // ===========================
   function setActiveNav(pageName) {
-    document.querySelectorAll(".nav-link").forEach((link) => {
-      link.classList.remove("active");
-    });
-
+    document.querySelectorAll(".nav-link").forEach((link) => link.classList.remove("active"));
     const activeLink = document.querySelector(`.nav-link[data-page="${pageName}"]`);
     if (activeLink) activeLink.classList.add("active");
   }
 
-  // ===========================
-  // DOM Loaded
-  // ===========================
   document.addEventListener("DOMContentLoaded", function () {
     const myArticlesCollapse = document.getElementById("myArticlesCollapse");
     const collapseInstance = new bootstrap.Collapse(myArticlesCollapse, { toggle: false });
@@ -563,9 +543,6 @@
     const profileToggle = document.querySelector(".profile-dropdown-toggle");
     const profileMenu = document.querySelector(".profile-dropdown-menu");
 
-    // ===========================
-    // Mobile Sidebar Toggle
-    // ===========================
     mobileMenuBtn?.addEventListener("click", () => {
       sidebar.classList.toggle("show");
       overlay.classList.toggle("show");
@@ -576,9 +553,6 @@
       overlay.classList.remove("show");
     });
 
-    // ===========================
-    // Profile Dropdown
-    // ===========================
     profileToggle?.addEventListener("click", (e) => {
       e.stopPropagation();
       profileMenu?.classList.toggle("show");
@@ -588,14 +562,9 @@
       profileMenu?.classList.remove("show");
     });
 
-    // ===========================
-    // Sidebar Navigation Clicks
-    // ===========================
     navLinks.forEach((link) => {
       link.addEventListener("click", function (e) {
-        if (this.getAttribute("data-bs-toggle") === "collapse") {
-          return; // allow collapse to function
-        }
+        if (this.getAttribute("data-bs-toggle") === "collapse") return;
 
         e.preventDefault();
         const targetPage = this.getAttribute("data-page");
@@ -604,34 +573,30 @@
         switchPage(targetPage);
         setActiveNav(targetPage);
 
-        // Close submenu if page is not My Articles
-        if (!this.closest("#myArticlesCollapse")) {
-          collapseInstance.hide();
-        }
-
-        // Close mobile sidebar
+        if (!this.closest("#myArticlesCollapse")) collapseInstance.hide();
         if (window.innerWidth < 992) {
           sidebar.classList.remove("show");
           overlay.classList.remove("show");
         }
+
+        profileMenu?.classList.remove("show");
       });
     });
 
-    // ===========================
-    // Auto close sidebar on resize
-    // ===========================
-    window.addEventListener("resize", function () {
+    const params = new URLSearchParams(window.location.search);
+    const targetPage = params.get("page") || window.location.hash.replace("#", "");
+    if (targetPage) {
+      const targetLink = document.querySelector(`.nav-link[data-page="${targetPage}"]`);
+      targetLink?.click();
+    }
+
+    window.addEventListener("resize", () => {
       if (window.innerWidth >= 992) {
         sidebar.classList.remove("show");
         overlay.classList.remove("show");
       }
     });
   });
-
-  // ===========================
-  // Load Profile
-  // ===========================
-  showProfile();
 
   function showProfile() {
     fetch(`${BASE_URL}/auth/profile`, {
@@ -644,33 +609,27 @@
       .then((res) => res.json())
       .then((data) => {
         if (!data?.data) return;
-
         const user = data.data;
         const avatar = user.avatar || "assets/images/defaultImage.jpg";
-
         document.getElementById("profileAvatar").src = avatar;
-        document.getElementById("profileName").textContent = user.firstName + " " + user.lastName;
+        document.getElementById("profileName").textContent = `${user.firstName} ${user.lastName}`;
         document.getElementById("profileEmail").textContent = user.email;
       })
       .catch((err) => console.log(err));
   }
 
-  // ===========================
-  // Logout
-  // ===========================
+  showProfile();
+
   function logout() {
     localStorage.removeItem("authToken");
     location.href = "auth/loginUser.html";
   }
 
-  // ===========================
-  // View Profile
-  // FIXED PATH
-  // ===========================
   function viewProfile() {
     location.href = "js/profile/viewProfile.html";
   }
 </script>
+
 
 </body>
 
