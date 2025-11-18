@@ -610,7 +610,7 @@
       .then((data) => {
         if (!data?.data) return;
         const user = data.data;
-        const avatar = user.avatar || "assets/images/defaultImage.jpg";
+        const avatar = user.avatar || "assets/images/defaultThumbnail.png";
         document.getElementById("profileAvatar").src = avatar;
         document.getElementById("profileName").textContent = `${user.firstName} ${user.lastName}`;
         document.getElementById("profileEmail").textContent = user.email;
