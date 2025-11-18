@@ -87,6 +87,7 @@ function onClickSubmit() {
       editorDiv.classList.add("is-invalid");
       editorDiv.classList.remove("is-valid");
       formCreateValidation.classList.add("was-validated");
+      return
     }else{
         editorDiv.classList.remove("is-invalid");
         editorDiv.classList.add("is-valid");
