@@ -15,8 +15,8 @@ function getData() {
         return;
       }
 
-      const user = data.data; 
-      const avatar = user.avatar || "https://i.ibb.co/Mn13jQQ/empty.png";
+      const user = data.data;
+      const avatar = user.avatar || "assets/images/defaultThumbnail.pbg";
 
       display.innerHTML = `
 
@@ -26,7 +26,7 @@ function getData() {
                               <img src="${avatar}" alt="avatar" id="avatar"
                               class="rounded-circle shadow-sm border border-2 border-primary-subtle"
                               style="width:110px; height:110px; object-fit:cover;">
-                              <button class="btn btn-danger btn-sm mt-2 w-50" onclick="deleteAvatar(${user.id})">Delete profile</button>
+                              <button class="btn btn-danger btn-sm mt-2 w-50" onclick="deleteAvatar()">Delete profile</button>
 
                             </div>
                         </div>
@@ -35,9 +35,8 @@ function getData() {
                         <div class="col-12 col-md-9">
                         <div class="bg-light p-3 rounded-3 shadow-sm h-100 d-flex flex-column justify-content-between">
                             <div>
-                            <p class="text-secondary mb-1"><strong>ID:</strong> ${
-                              user.id
-                            }</p>
+                            <p class="text-secondary mb-1"><strong>ID:</strong> ${user.id
+        }</p>
                             <h5 class="fw-bold mb-1">${user.firstName} ${user.lastName}</h5>
                             <p class="text-muted mb-2">${user.email}</p>
                             </div><div class="d-flex flex-wrap justify-content-between align-items-center mt-2">
@@ -56,8 +55,9 @@ function getData() {
                             <div class="text-end mt-3 mt-md-0">
                                 <small class="text-muted d-block">Joined</small>
                                 <div class="fw-semibold">${new Date(
-                                  user.registeredAt
-                                ).toLocaleDateString()}</div>
+                                              user.registeredAt
+                                            ).toLocaleDateString()}
+                                </div>
                                 <br>
                                 <button type="button" class="btn btn-danger btn-sm"
                                         onclick="logout(${user.id})">
@@ -108,23 +108,69 @@ function updateAvatar(id) {
   };
 }
 
-function deleteAvatar(id){
-  fetch(`${BASE_URL}/profile/avatar`, {
-    method: "DELETE",
-    headers:{
-      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-    }
+function deleteAvatar() {
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!",
+    cancelButtonText: "Cancel",
   })
-  .then((res)=> res.json())
-  .then((data)=>{
-    showAlert("success", "Avatar delete", "Avatar deleted successfully");
-        setTimeout(() => {
-          getData();
-        }, 3000);
-  })
+    .then((result) => {
+      if (result.isConfirmed) {
+
+        fetch(`${BASE_URL}/profile/avatar`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          }
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            showAlert("success", "Avatar delete", "Avatar deleted successfully");
+
+            Swal.fire(
+              "Deleted",
+              "The profile is deleted!",
+              "success"
+            ).then(() => {
+              getData();
+
+            })
+          })
+          .catch((err) => {
+            console.error("Error deleting profile:", err);
+            Swal.fire("Error!", "Something went wrong while deleting.", "error");
+          })
+      }
+    })
 }
 
-function logout(id) {
-  localStorage.removeItem("authToken");
-  location.href = "../../auth/loginUser.html";
+function logout() {
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You will be logged out!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, log me out!",
+    cancelButtonText: "Cancel",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // After confirmation, show success message
+      Swal.fire({
+        title: "Logged out",
+        text: "You have been successfully logged out.",
+        icon: "success",
+        confirmButtonText: "OK",
+      }).then(() => {
+        localStorage.removeItem("authToken");
+        location.href = "../../auth/loginUser.html";
+      });
+    }
+  });
 }
