@@ -159,8 +159,7 @@
                 <div class="page-header">
                   <h2 class="section-title">Profile</h2>
                   <p class="text-muted">
-                    View and manage your personal information, contact details,
-                    and account settings.
+                    View and manage your personal information
                   </p>
                 </div>
                 <div class="card shadow-sm">
@@ -259,10 +258,6 @@
           .catch((err) => console.log("Profile load error:", err));
       }
 
-      function logout() {
-        localStorage.removeItem("authToken");
-        location.href = "../../auth/loginUser.html";
-      }
 
       function viewProfile() {
         location.href = "../../js/profile/viewProfile.html";
