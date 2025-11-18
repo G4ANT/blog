@@ -94,33 +94,7 @@
     <div class="container-fluid p-0">
       <div class="row g-0">
         <!-- Sidebar -->
-        <!-- <div class="sidebar">
-          <div class="d-flex flex-column">
-            <ul class="nav flex-column">
-              <li class="nav-item">
-                <a class="nav-link" href="../../index.html?page=dashboard">
-                  <i class="fa-solid fa-gauge"></i> Dashboard
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a
-                  class="nav-link collapsed"
-                  href="../../index.html?page=all-articles"
-                >
-                  <i class="fa-regular fa-file-lines"></i> My Articles
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a class="nav-link" href="../../index.html?page=categoryy">
-                  <i class="fa-solid fa-th-large"></i> Category
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div> -->
-
+         
         <div class="sidebar">
           <div class="d-flex flex-column">
             <ul class="nav flex-column">
@@ -274,7 +248,7 @@
 
             const user = data.data;
             const avatar =
-              user.avatar || "../../assets/images/defaultImage.jpg";
+              user.avatar || "../../assets/images/defaultThumbnail.png";
 
             document.getElementById("profileAvatar").src = avatar;
             document.getElementById(

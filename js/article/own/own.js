@@ -382,6 +382,8 @@ function btnDeleteArticle(id) {
       })
         .then((res) => res.json())
         .then((data) => {
+          console.log(data);
+          
           Swal.fire(
             "Deleted!",
             "The article has been deleted.",
@@ -527,3 +529,43 @@ document.getElementById("updateThumbnail").addEventListener("change", function (
       feedback.innerText = "";
     }
 });
+
+//  Function for delete Thumbnail
+function onClickDeleteThumbnail(id){
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!",
+    cancelButtonText: "Cancel",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      fetch(`${BASE_URL}/articles/${id}/thumbnail`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${getToken}` },
+      })
+      .then((res) => res.json())
+      .then((data) => {
+
+        // Thumbnail chnage of assets
+        document.getElementById("thumbnailPreview").src = "assets/images/defaultThumbnail.png";
+        document.getElementById("updateThumbnail").value = "";
+
+        Swal.fire(
+          "Deleted!",
+          "The thumbnail has been removed.",
+          "success"
+        ).then(() => {
+          fetchArticles();
+        });
+      })
+      .catch((error) => {
+        console.error("Error deleting thumbnail:", error);
+        Swal.fire("Error!", "Something went wrong while deleting.", "error");
+      });
+    }
+  });
+}

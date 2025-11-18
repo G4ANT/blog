@@ -246,13 +246,13 @@
                           <div class="col-md-4 text-center">
                             <label class="form-label fw-semibold">Thumbnail</label>
                             <div class="mb-2">
-                              <img id="thumbnailPreview" src="https://via.placeholder.com/150x100?text=Preview"
+                              <img id="thumbnailPreview" src="/assets/images/defaultThumbnail.png"
                                 alt="Thumbnail Preview" class="rounded shadow-sm mb-2"
                                 style="width: 150px; height: 100px; object-fit: cover;">
                             </div>
                             <input type="file" id="updateThumbnail" class="form-control" accept="image/*">
-                            <div id="thumbnailFeedbackUpload" class="invalid-feedback"> Please upload a valid image.
-                            </div>
+                            <div id="thumbnailFeedbackUpload" class="invalid-feedback"> Please upload a valid image.</div>
+                            <button type="button" class="btn btn-danger mt-2" onclick="onClickDeleteThumbnail(document.getElementById('updateId').value)">Delete Thumbnail</button>
                           </div>
                         </div>
 
@@ -610,7 +610,7 @@
       .then((data) => {
         if (!data?.data) return;
         const user = data.data;
-        const avatar = user.avatar || "assets/images/defaultImage.jpg";
+        const avatar = user.avatar || "assets/images/defaultThumbnail.png";
         document.getElementById("profileAvatar").src = avatar;
         document.getElementById("profileName").textContent = `${user.firstName} ${user.lastName}`;
         document.getElementById("profileEmail").textContent = user.email;
