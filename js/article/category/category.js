@@ -1,22 +1,20 @@
 const baseURL = "categories";
 
-let itemsPerPage = 100; 
+let itemsPerPage = 100;
 let sortBy = "name";
 let sortDir = "ASC";
 
-// Construct dynamic endpoint
 const endPointCategoryy = `${baseURL}?_page=${currentPage}&_per_page=${itemsPerPage}&sortBy=${sortBy}&sortDir=${sortDir}`;
 const tbody = document.getElementById("displayCategory");
 const paginationCategory = document.getElementById("paginationContainer");
 const gToken = localStorage.getItem("authToken");
 
 let editCategoryId = null;
-let categories = []; 
-let allCategories = []; 
+let categories = [];
+let allCategories = [];
 let cPage = 1;
 const perrPage = 10;
 
-// Fetch all categories once
 function fetchCategories() {
   fetch(`${BASE_URL}/${endPointCategoryy}`, {
     method: "GET",
@@ -24,8 +22,8 @@ function fetchCategories() {
   })
     .then((res) => res.json())
     .then((data) => {
-      allCategories = data?.data?.items || []; // FIXED
-      categories = [...allCategories]; // set for display
+      allCategories = data?.data?.items || [];
+      categories = [...allCategories];
 
       renderCategoryTable();
       renderPaginationCategory();
@@ -36,7 +34,6 @@ function fetchCategories() {
     });
 }
 
-// Show data per page
 function renderCategoryTable() {
   tbody.innerHTML = "";
 
@@ -88,17 +85,13 @@ function renderPaginationCategory() {
         <a class="page-link" href="#" data-page="${p}">${text}</a>
       </li>`);
 
-  // Prev
   addPage(cPage - 1, "<", false, cPage === 1);
 
-  // First page
   addPage(1, "1", cPage === 1);
 
-  // Left ellipsis
   if (cPage > 3)
     paginationCategory.innerHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
 
-  // Middle pages
   for (
     let i = Math.max(2, cPage - 1);
     i <= Math.min(tPage - 1, cPage + 1);
@@ -107,17 +100,13 @@ function renderPaginationCategory() {
     addPage(i, i, i === cPage);
   }
 
-  // Right ellipsis
   if (cPage < tPage - 2)
     paginationCategory.innerHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
 
-  // Last page
   if (tPage > 1) addPage(tPage, tPage, cPage === tPage);
 
-  // Next
   addPage(cPage + 1, ">", false, cPage === tPage);
 
-  // Click event
   paginationCategory.querySelectorAll(".page-link").forEach((link) => {
     link.addEventListener("click", (e) => {
       e.preventDefault();
@@ -148,27 +137,24 @@ function escapeHtml(text) {
   return div.innerHTML;
 }
 
-// Needed for search results
 function renderCategories(list) {
   categories = list;
-  cPage = 1; // reset to page 1
+  cPage = 1;
   renderCategoryTable();
   renderPaginationCategory();
 }
 
 fetchCategories();
 
-// SEARCH FIXED
 function handleSearch() {
   const query = document.getElementById("searchCategoryInput").value.trim();
   const authToken = localStorage.getItem("authToken");
 
   if (!query) {
-    renderCategories(allCategories); // reset
+    renderCategories(allCategories);
     return;
   }
 
-  // Search by ID
   if (!isNaN(query)) {
     fetch(`${BASE_URL}/categories/${query}`, {
       headers: { Authorization: `Bearer ${authToken}` },
@@ -186,7 +172,6 @@ function handleSearch() {
     return;
   }
 
-  // Search by name
   const filtered = allCategories.filter((cat) =>
     cat.name.toLowerCase().includes(query.toLowerCase())
   );
@@ -229,7 +214,6 @@ function openEditModal(id, name) {
   editCategoryId = id;
   document.getElementById("editCategoryName").value = name;
 
-  // Open modal
   const editModalEl = document.getElementById("editModal");
   const modal = new bootstrap.Modal(editModalEl);
   modal.show();
