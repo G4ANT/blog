@@ -151,26 +151,15 @@ function deleteAvatar() {
 
 function logout() {
   Swal.fire({
-    title: "Are you sure?",
-    text: "You will be logged out!",
+    title: "Are you sure you want to log out?",
     icon: "warning",
     showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Yes, log me out!",
+    confirmButtonText: "Yes, log me out",
     cancelButtonText: "Cancel",
   }).then((result) => {
     if (result.isConfirmed) {
-      // After confirmation, show success message
-      Swal.fire({
-        title: "Logged out",
-        text: "You have been successfully logged out.",
-        icon: "success",
-        confirmButtonText: "OK",
-      }).then(() => {
-        localStorage.removeItem("authToken");
-        location.href = "../../auth/loginUser.html";
-      });
+      localStorage.removeItem("authToken");
+      location.href = "../../auth/loginUser.html";
     }
   });
 }
