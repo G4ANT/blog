@@ -22,7 +22,7 @@ function getData() {
 
                         <!-- Avatar -->
                         <div class="col-12 col-md-3 text-center mb-3 mb-md-0">
-                            <div class="d-flex flex-column justify-content-between">
+                            <div class="d-flex flex-column justify-content-between align-items-center">
                               <img src="${avatar}" alt="avatar" id="avatar"
                               class="rounded-circle shadow-sm border border-2 border-primary-subtle"
                               style="width:110px; height:110px; object-fit:cover;">
