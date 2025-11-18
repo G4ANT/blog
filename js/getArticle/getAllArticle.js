@@ -75,19 +75,15 @@ btnLoadMore.addEventListener('click', () => {
 function parseQuillContent(content) {
     let contentDelta;
 
-    // If item.content is a string, try parsing as JSON
     if (typeof content === 'string') {
         try {
             contentDelta = JSON.parse(content); // might be a delta
         } catch (e) {
-            // plain text fallback → wrap in a delta
             contentDelta = { ops: [{ insert: content + "\n" }] };
         }
     } else if (content && content.ops) {
-        // already a delta object
         contentDelta = content;
     } else {
-        // empty or unknown format
         contentDelta = { ops: [{ insert: "" }] };
     }
 
@@ -103,12 +99,6 @@ function parseQuillContent(content) {
             .replace(/[\s\u200B\u200C\u200D\uFEFF]+/g, ' ')
             .trim()
 
-
-        // stripHTML("<p>Hello <b>World</b></p>")
-        // Hello World
-
-
-        // trim for delete space in all cards
     }
     const previewText = stripHTML(contentHTML);
 

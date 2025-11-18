@@ -57,7 +57,4 @@ function viewDetail(id, categoryName) {
             showCardDetail.innerHTML = cardDetail
         })
         .catch(err => console.log(err))
-    // .finally(() => {
-    //     $("#showCardDetail").LoadingOverlay("hide", true);
-    // });
 }
