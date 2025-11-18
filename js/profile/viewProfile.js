@@ -22,9 +22,13 @@ function getData() {
 
                         <!-- Avatar -->
                         <div class="col-12 col-md-3 text-center mb-3 mb-md-0">
-                        <img src="${avatar}" alt="avatar" id="avatar"
-                            class="rounded-circle shadow-sm border border-2 border-primary-subtle"
-                            style="width:110px; height:110px; object-fit:cover;">
+                            <div class="d-flex flex-column justify-content-between">
+                              <img src="${avatar}" alt="avatar" id="avatar"
+                              class="rounded-circle shadow-sm border border-2 border-primary-subtle"
+                              style="width:110px; height:110px; object-fit:cover;">
+                              <button class="btn btn-danger btn-sm mt-2 w-50" onclick="deleteAvatar(${user.id})">Delete profile</button>
+
+                            </div>
                         </div>
 
                         <!-- User Info -->
@@ -102,6 +106,22 @@ function updateAvatar(id) {
       })
       .catch((err) => console.log(err));
   };
+}
+
+function deleteAvatar(id){
+  fetch(`${BASE_URL}/profile/avatar`, {
+    method: "DELETE",
+    headers:{
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+    }
+  })
+  .then((res)=> res.json())
+  .then((data)=>{
+    showAlert("success", "Avatar delete", "Avatar deleted successfully");
+        setTimeout(() => {
+          getData();
+        }, 3000);
+  })
 }
 
 function logout(id) {

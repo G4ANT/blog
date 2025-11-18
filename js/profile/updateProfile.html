@@ -102,7 +102,7 @@
                 .then(res => res.json())
                 .then(data => {
                     if (!data.result) {
-                        showAlert('error', 'Failed', `${data.message}`);
+                        showAlert('error', 'Failed', 'Update Invalid');
                         return;
                     }
                     showAlert('success', 'Updated', 'Profile updated successfully.');
