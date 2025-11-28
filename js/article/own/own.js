@@ -565,7 +565,7 @@ function onClickDeleteThumbnail(id){
       })
       .catch((error) => {
         console.error("Error deleting thumbnail:", error);
-        Swal.fire("Error!", "Something went wrong while deleting.", "error");
+        Swal.fire("Error hz!", "Something went wrong while deleting.", "error");
       });
     }
   });
